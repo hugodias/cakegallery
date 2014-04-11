@@ -115,17 +115,8 @@
       var myDropzone = new Dropzone("#drop");
 
       myDropzone.on("sending", function (file, xhr, formData) {
-          var title = $('#FolderTitle').val();
           var folder_id = $('#FolderId').val();
-          var width = $('#FolderWidth').val();
-          var height = $('#FolderHeight').val();
-          var acao = $('#acao').val();
-
-          formData.append("title", title);
           formData.append("folder_id", folder_id);
-          formData.append("width", width);
-          formData.append("height", height);
-          formData.append("acao", acao);
       });
 
 		 <?php foreach($files as $f){ ?>
