@@ -96,3 +96,12 @@ table tr[data-href] {
 .dropzone{
     min-height: 750px;
 }
+
+.manipulation label{
+    margin-top: 13px;
+}
+.manipulation input[type=radio],
+.manipulation input[type=checkbox]{
+    float: left;
+    width: 20px;
+}

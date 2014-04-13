@@ -14,7 +14,12 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	<?php echo $this->Html->css(array('Gallery.bootstrap.min', 'Gallery.dropzone', 'Gallery.style')); ?>
+	<?php echo $this->Html->css(
+		array(
+			'Gallery.themes/' . Configure::read('GalleryOptions.App.theme') . '.min',
+			'Gallery.dropzone',
+			'Gallery.style')
+	); ?>
 	<?php echo $this->Html->script('Gallery.lib/modernizr') ?>
 </head>
 <body class="<?php echo $this->params->params['controller'] . '_' . $this->params->params['action'] ?>"

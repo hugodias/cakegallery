@@ -1,14 +1,12 @@
 <?php
-/**
-*
-*/
-class Record extends GalleryAppModel
-{
-  public $name = 'Record';
-  public $belongsTo = array('Gallery.Folder');
+class Record extends GalleryAppModel {
+	public $name = 'Record';
+	public $tablePrefix = 'gallery_';
+	public $belongsTo = array('Gallery.Folder');
 
-	public function getNextNumber($folder_id){
-		return (int) $this->find('count', array('conditions' => array('Record.folder_id' => $folder_id))) + 1;
+	public function getNextNumber($folder_id) {
+		return (int)$this->find('count', array('conditions' => array('Record.folder_id' => $folder_id))) + 1;
 	}
 }
+
 ?>

@@ -61,10 +61,21 @@ class FoldersController extends GalleryAppController {
 			'Folder' => array(
 				'model' => $model,
 				'model_id' => $model_id,
-				'title' => 'Random Folder - ' . rand(111, 999)
+				'title' => $this->_generateFolderName($model, $model_id)
 			)
 		));
 		return $this->Folder->read(null);
+	}
+
+
+	private function _generateFolderName($model = null, $model_id = null){
+		$name = 'Gallery - ' . rand(111,999);
+
+		if($model && $model_id){
+			$name = Inflector::humanize('Gallery ' . $model . ' - ' . $model_id);
+		}
+
+		return $name;
 	}
 }
 

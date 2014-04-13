@@ -2,6 +2,7 @@
 
 class Folder extends GalleryAppModel {
 	public $name = 'Folder';
+	public $tablePrefix = 'gallery_';
 	public $order = 'Folder.id DESC';
 	public $hasMany = array('Gallery.Record');
 

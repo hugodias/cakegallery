@@ -1,23 +1,28 @@
 <?php
+App::uses('Controller', 'Controller');
 
-/**
- * @var $this View
- */
 class GalleryAppController extends AppController {
 
 	public function beforeFilter() {
-		$this->_checkRequeriments();
+		if (!$this->_checkConfigFile()) {
+			# Set default theme for app
+			$default_options = array(
+				'App' => array(
+					'theme' => 'superhero'
+				)
+			);
+			Configure::write('GalleryOptions', $default_options);
+
+			$this->render('Gallery.Install/config');
+		}
 	}
 
-	private function _checkRequeriments() {
-		$files_path = WWW_ROOT . 'files/';
-		if (!file_exists($files_path)) {
-			mkdir($files_path, 0755);
-		}
-		$galleries_path = $files_path . 'gallery/';
-		if (!file_exists($galleries_path)) {
-			mkdir($galleries_path, 0755);
-		}
+	/**
+	 * Check if plugin config file exists
+	 * @return bool
+	 */
+	private function _checkConfigFile() {
+		return !!file_exists(App::pluginPath('Gallery') . 'Config' . DS . 'config.php');
 	}
 
 } 
