@@ -1,11 +1,15 @@
 <div class="row">
+	<div class="col-md-12">
+		<div id="folderStatus" class="alert alert-success hide">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		</div>
+	</div>
+</div>
+<div class="row">
 	<div class="col-lg-3">
 		<h3><i class="fa fa-folder"></i> <?php echo !empty($folder) ? $folder['Folder']['title'] : 'New gallery' ?></h3>
 		<hr/>
 
-		<div id="folderStatus" class="alert alert-success hide">
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		</div>
 
 		<?php
 		$data = $this->Js->get('#FolderUpdateForm')->serializeForm(array('isForm' => true, 'inline' => true));
@@ -101,11 +105,10 @@
 				</div>
 			</div>
 			<div class="panel-footer">
-				<button class="btn btn-success">
+				<button class="btn btn-success btn-block">
 					<i class="fa fa-check"></i>
-					Save
+					Save preferences
 				</button>
-				<input type="button" value="Close configuration" class="btn close-config"/>
 			</div>
 		</div>
 		</form>
@@ -119,8 +122,9 @@
 		</h3>
 
 		<hr/>
-		<?php echo $this->Html->link('<i class="fa fa-trash-o"></i> Delete all', '', array('escape' => false, 'class' => 'btn btn-danger btn-sm', 'style' => 'margin-left: 10px')) ?>
-		<?php echo $this->Html->link('<i class="fa fa-cloud-download"></i> Download zip', '', array('escape' => false, 'class' => 'btn btn-info btn-sm')) ?>
+		<?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> Galeries', array('controller' => 'gallery', 'action' => 'index'), array('class' => 'btn btn-default btn-sm pull-left', 'escape' => false))?>
+		<?php echo $this->Html->link('<i class="fa fa-trash-o"></i> Delete all', '', array('escape' => false, 'class' => 'btn btn-danger btn-sm pull-right', 'style' => 'margin-left: 10px')) ?>
+		<?php echo $this->Html->link('<i class="fa fa-cloud-download"></i> Download zip', '', array('escape' => false, 'class' => 'btn btn-info btn-sm pull-right')) ?>
 		<div class="clearfix"></div>
 		<hr/>
 		<?php echo $this->Form->create(null, array(

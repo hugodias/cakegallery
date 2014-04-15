@@ -35,14 +35,41 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <?php echo $this->Html->script(array('Gallery.lib/dropzone.min.js', 'Gallery.scripts.js')); ?>
 
-<div class="container-fluid">
+<div class="container">
+	<div class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Gallery Plugin</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li>
+						<?php echo $this->Html->link('Galeries', array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery'))?>
+					</li>
+					<li>
+						<?php echo $this->Html->link('Documentation', array('controller' => 'gallery', 'action' => 'docs', 'plugin' => 'gallery'))?>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<?php echo $this->Html->link('<i class="fa fa-plus"></i> New Gallery (standalone)', array('controller' => 'folders', 'action' => 'upload', 'plugin' => 'gallery'), array('escape' => false))?>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
 	<?php echo $this->Session->flash(); ?>
 	<?php echo $this->fetch('content'); ?>
 </div>
 
 
-
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
 	var _gaq = [
 		['_setAccount', 'UA-XXXXX-X'],

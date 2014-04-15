@@ -5,5 +5,6 @@ class GalleryController extends GalleryAppController{
 
 	}
 
+	public function docs(){}
 
 } 

@@ -1,12 +1,29 @@
 <?php
 
+
+
+# Documentation
+Router::connect('/gallery/docs',
+	array(
+		'controller' => 'gallery',
+		'action' => 'docs',
+		'plugin' => 'gallery'
+	));
+
+Router::connect('/gallery/install/configure',
+	array(
+	'controller' => 'install',
+	'action' => 'configure',
+	'plugin' => 'gallery'
+));
+
 # Standalone Gallery
 Router::connect('/gallery/upload',
 	array(
-	'controller' => 'folders',
-	'action' => 'upload',
-	'plugin' => 'gallery'
-));
+		'controller' => 'folders',
+		'action' => 'upload',
+		'plugin' => 'gallery'
+	));
 
 # Model attached Gallery
 Router::connect(
