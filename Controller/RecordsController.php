@@ -34,28 +34,7 @@ class RecordsController extends GalleryAppController {
 
 				# Generate a thumbnail
 				if (!empty($th_width) && !empty($th_height)) {
-					$th_folder_path = WWW_ROOT . 'files/gallery/' . $folder_id . '/TH/';
-
-					if (!file_exists($th_folder_path)) {
-						mkdir($th_folder_path, 0755);
-					}
-
-					# TH path for upload
-					$path_th = $th_folder_path . $title;
-
-					# Save the thumbnail_path
-					$thumbnail_path = $path_th;
-
-					# Upload thumbnail
-					$this->_upload_file(
-						$path_th,
-						$folder_id,
-						$title,
-						$file['size'],
-						$file['tmp_name'],
-						$th_width,
-						$th_height,
-						'crop');
+					$thumbnail_path = $this->_generate_thumbnail($th_width,$th_height, $folder_id, $title, $file);
 				}
 
 				# Upload file
@@ -75,6 +54,34 @@ class RecordsController extends GalleryAppController {
 		}
 
 		$this->render(false, false);
+	}
+
+
+	private function _generate_thumbnail($th_width, $th_height, $folder_id, $title, $file){
+		$th_folder_path = WWW_ROOT . 'files/gallery/' . $folder_id . '/TH/';
+
+		if (!file_exists($th_folder_path)) {
+			mkdir($th_folder_path, 0755);
+		}
+
+		# TH path for upload
+		$path_th = $th_folder_path . $title;
+
+		# Save the thumbnail_path
+		$thumbnail_path = $path_th;
+
+		# Upload thumbnail
+		$this->_upload_file(
+			$path_th,
+			$folder_id,
+			$title,
+			$file['size'],
+			$file['tmp_name'],
+			$th_width,
+			$th_height,
+			'crop');
+
+		return $thumbnail_path;
 	}
 
 	private function _upload_file($path, $folder_id, $filename, $filesize, $tmp_name, $width, $height, $action, $thumbnail_path = null, $save = false) {
