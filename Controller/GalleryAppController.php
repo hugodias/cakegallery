@@ -3,6 +3,8 @@ App::uses('Controller', 'Controller');
 
 class GalleryAppController extends AppController {
 
+	public $helpers = array('Gallery.Gallery', 'Form' => array('className' => 'Gallery.CakePHPFTPForm'));
+
 	public function beforeFilter() {
 		if (!$this->_checkConfigFile()) {
 			# Set default theme for app
@@ -25,4 +27,4 @@ class GalleryAppController extends AppController {
 		return !!file_exists(App::pluginPath('Gallery') . 'Config' . DS . 'config.php');
 	}
 
-} 
+}

@@ -56,7 +56,15 @@ class RecordsController extends GalleryAppController {
 		$this->render(false, false);
 	}
 
-
+	/**
+	 * Generate a thumbnail for the picture
+	 * @param $th_width
+	 * @param $th_height
+	 * @param $folder_id
+	 * @param $title
+	 * @param $file
+	 * @return string
+	 */
 	private function _generate_thumbnail($th_width, $th_height, $folder_id, $title, $file){
 		$th_folder_path = WWW_ROOT . 'files/gallery/' . $folder_id . '/TH/';
 
