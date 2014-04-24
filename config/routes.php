@@ -20,7 +20,7 @@ Router::connect('/gallery/install/configure',
 # Standalone Gallery
 Router::connect('/gallery/upload',
 	array(
-		'controller' => 'folders',
+		'controller' => 'albums',
 		'action' => 'upload',
 		'plugin' => 'gallery'
 	));
@@ -29,7 +29,7 @@ Router::connect('/gallery/upload',
 Router::connect(
 	'/gallery/upload/:model/:model_id',
 	array(
-		'controller' => 'folders',
+		'controller' => 'albums',
 		'action' => 'upload',
 		'plugin' => 'gallery'
 	),

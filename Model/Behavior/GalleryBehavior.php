@@ -1,7 +1,7 @@
 <?php
 App::uses('ModelBehavior', 'Model');
-App::uses('Gallery.Folder', 'Model');
-App::uses('Gallery.Record', 'Model');
+App::uses('Gallery.Gallery', 'Model');
+App::uses('Gallery.Picture', 'Model');
 
 class GalleryBehavior extends ModelBehavior {
 
@@ -24,8 +24,8 @@ class GalleryBehavior extends ModelBehavior {
 	 * @return mixed
 	 */
 	public function getGallery(Model $Model){
-		$Folder = new Folder();
-		return $Folder->find('first', array(
+		$Gallery = new Gallery();
+		return $Gallery->find('first', array(
 			'conditions' => array(
 				'model' => $Model->alias,
 				'model_id' => $Model->id

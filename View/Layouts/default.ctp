@@ -58,7 +58,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<?php echo $this->Html->link('<i class="fa fa-plus"></i> New Gallery (standalone)', array('controller' => 'folders', 'action' => 'upload', 'plugin' => 'gallery'), array('escape' => false))?>
+						<?php echo $this->Html->link('<i class="fa fa-plus"></i> New Gallery (standalone)', array('controller' => 'galleries', 'action' => 'upload', 'plugin' => 'gallery'), array('escape' => false))?>
 					</li>
 				</ul>
 			</div>

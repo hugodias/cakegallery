@@ -35,7 +35,7 @@ Dropzone.options.drop = {
 
 
                 $.ajax({
-                    url: baseuri + "records/delete/",
+                    url: baseuri + "pictures/delete/",
                     context: document.body
                 }).done(function () {
                         $(this).addClass("done");

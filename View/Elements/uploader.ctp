@@ -7,13 +7,13 @@
 </div>
 <div class="row">
   <div class="col-lg-3">
-    <h3><i class="fa fa-folder"></i> <?php echo !empty($folder) ? $folder['Folder']['title'] : 'New gallery' ?></h3>
+    <h3><i class="fa fa-folder"></i> <?php echo !empty($folder) ? $folder['Gallery']['title'] : 'New gallery' ?></h3>
     <hr/>
 
 
     <?php
-    $data = $this->Js->get('#FolderUpdateForm')->serializeForm(array('isForm' => true, 'inline' => true));
-    $this->Js->get('#FolderUpdateForm')->event(
+    $data = $this->Js->get('#GalleryUpdateForm')->serializeForm(array('isForm' => true, 'inline' => true));
+    $this->Js->get('#GalleryUpdateForm')->event(
       'submit',
       $this->Js->request(
         array('action' => 'update'),
@@ -27,7 +27,7 @@
         )
       )
     );
-    echo $this->Form->create('Gallery.Folder', array('action' => 'update', 'default' => false));
+    echo $this->Form->create('Gallery.Gallery', array('action' => 'update', 'default' => false));
     ?>
     <div class="panel panel-success">
       <div class="panel-heading">
@@ -38,26 +38,26 @@
       </div>
       <div class="panel-body">
         <?php if (!empty($folder)) { ?>
-          <?php echo $this->Form->input('id', array('value' => $folder['Folder']['id'])) ?>
+          <?php echo $this->Form->input('id', array('value' => $folder['Gallery']['id'])) ?>
         <?php } ?>
 
-        <?php echo $this->Form->input('title', array('type' => 'hidden', 'value' => !empty($folder['Folder']['title']) ? $folder['Folder']['title'] : '')) ?>
+        <?php echo $this->Form->input('title', array('type' => 'hidden', 'value' => !empty($folder['Gallery']['title']) ? $folder['Gallery']['title'] : '')) ?>
         <div class="row">
           <div class="col-lg-12">
             <?php echo $this->Form->input(
               'default_name',
               array(
-                'value' => !empty($folder) ? $folder['Folder']['default_name'] : '',
+                'value' => !empty($folder) ? $folder['Gallery']['default_name'] : '',
                 'label' => 'New base name for all images',
                 'placeholder' => 'Ex: xbox-360')) ?>
 
             <?php echo $this->Form->input('width', array(
-              'value' => !empty($folder) ? $folder['Folder']['width'] : '',
+              'value' => !empty($folder) ? $folder['Gallery']['width'] : '',
               'label' => 'Width (only numbers)',
               'placeholder' => 'Ex: 800')) ?>
 
             <?php echo $this->Form->input('height', array(
-              'value' => !empty($folder) ? $folder['Folder']['height'] : '',
+              'value' => !empty($folder) ? $folder['Gallery']['height'] : '',
               'label' => 'Height (only numbers)',
               'placeholder' => 'Ex: 600')) ?>
             <hr/>
@@ -69,7 +69,7 @@
               'action',
               array(
                 'type' => 'radio',
-                'value' => !empty($folder) ? $folder['Folder']['action'] : 'proportional_resize',
+                'value' => !empty($folder) ? $folder['Gallery']['action'] : 'proportional_resize',
                 'legend' => false,
                 'separator' => '<div class="clearfix"></div>',
                 'options' => array(
@@ -87,17 +87,17 @@
               <?php echo $this->Form->input('th', array(
                 'type' => 'checkbox',
                 'value' => 'Y',
-                'checked' => !empty($folder['Folder']['th']) && $folder['Folder']['th'] == 'Y' ? true : false,
+                'checked' => !empty($folder['Gallery']['th']) && $folder['Gallery']['th'] == 'Y' ? true : false,
                 'label' => 'Generate Thumbnail'))?>
             </div>
 
 
             <?php echo $this->Form->input('th_width', array(
-              'value' => !empty($folder) ? $folder['Folder']['th_width'] : '',
+              'value' => !empty($folder) ? $folder['Gallery']['th_width'] : '',
               'label' => 'Thumbnail width (only numbers)',
               'placeholder' => 'Ex: 180')) ?>
             <?php echo $this->Form->input('th_height', array(
-              'value' => !empty($folder) ? $folder['Folder']['th_height'] : '',
+              'value' => !empty($folder) ? $folder['Gallery']['th_height'] : '',
               'label' => 'Thumbnail height (only numbers)',
               'placeholder' => 'Ex: 180'
             )) ?>
@@ -130,7 +130,7 @@
     <?php echo $this->Form->create(null, array(
       'url' => array(
         'plugin' => 'gallery',
-        'controller' => 'records',
+        'controller' => 'pictures',
         'action' => 'add'),
       'class' => 'dropzone',
       'id' => 'drop'
@@ -143,7 +143,7 @@
 
 
 <div id="folderinfo"
-     data-public-folder-path="<?php echo $this->params->webroot . "files/gallery/" . $folder['Folder']['id'] . "/" ?>"></div>
+     data-public-folder-path="<?php echo $this->params->webroot . "files/gallery/" . $folder['Gallery']['id'] . "/" ?>"></div>
 
 <script>
 
@@ -152,14 +152,14 @@
     var myDropzone = new Dropzone("#drop");
 
     myDropzone.on("sending", function (file, xhr, formData) {
-      var folder_id = $('#FolderId').val();
-      formData.append("folder_id", folder_id);
+      var album_id = $('#GalleryId').val();
+      formData.append("album_id", album_id);
     });
 
     <?php foreach($files as $f){ ?>
     var mockFile = { name: "<?php echo $f['name']?>", size: <?php echo $f['size']?> };
     myDropzone.emit("addedfile", mockFile);
-    myDropzone.emit("thumbnail", mockFile, "<?php echo $this->params->webroot.'files/gallery/'.$folder['Folder']['id'].'/'.$f['name']?>");
+    myDropzone.emit("thumbnail", mockFile, "<?php echo $this->params->webroot.'files/gallery/'.$folder['Gallery']['id'].'/'.$f['name']?>");
     <?php } ?>
 
     $('.panel-heading, .close-config').bind('click', function () {

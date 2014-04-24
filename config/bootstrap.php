@@ -14,7 +14,7 @@ $config = array(
     'styles' => array(
       'small' => array('50','50', true), # 50x50 Cropped
       'medium' => array('200', '200', true), # 200x200 Cropped
-      'large' => array(null, 533, false) # 300 pixels height (and unlimited width)
+      'large' => array(null, 533, false) # 533 pixels height (and unlimited width)
       )
     )
 );

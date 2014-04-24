@@ -1,4 +1,4 @@
-CREATE TABLE `gallery_folders` (
+CREATE TABLE `gallery_galleries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `default_name` varchar(255) NOT NULL,
@@ -16,15 +16,15 @@ CREATE TABLE `gallery_folders` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE `gallery_records` (
+CREATE TABLE `gallery_pictures` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `path` varchar(255) NOT NULL,
   `thumbnail_path` varchar(255) NOT NULL,
   `size` bigint(20) NOT NULL,
-  `folder_id` int(11) NOT NULL,
+  `album_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `folder_id` (`folder_id`)
+  KEY `album_id` (`album_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

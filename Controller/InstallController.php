@@ -5,7 +5,7 @@ App::uses('ConnectionManager', 'Model');
 class InstallController extends GalleryAppController {
 
 	/**
-	 * Configure folders and create mysql tables
+	 * Configure galleries and create mysql tables
 	 */
 	public function configure() {
 		$files_path = WWW_ROOT . 'files/';
@@ -56,7 +56,7 @@ class InstallController extends GalleryAppController {
 	 * @return bool
 	 */
 	private function _checkTables($tables) {
-		return !!array_intersect(array('gallery_folders', 'gallery_records'), $tables);
+		return !!array_intersect(array('gallery_galleries', 'gallery_Pictures'), $tables);
 	}
 
 	/**

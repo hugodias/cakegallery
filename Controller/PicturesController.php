@@ -1,19 +1,19 @@
 <?php
 
-class RecordsController extends GalleryAppController {
+class PicturesController extends GalleryAppController {
 	public $components = array('Gallery.Util');
-	public $uses = array('Gallery.Folder', 'Gallery.Record');
+	public $uses = array('Gallery.Album', 'Gallery.Picture');
 
 	public function add() {
-		$folder_id = $_POST['folder_id'];
-		$folder_info = $this->Folder->findById($folder_id);
+		$album_id = $_POST['album_id'];
+		$folder_info = $this->Gallery->findById($album_id);
 
-		$default_name = $folder_info['Folder']['default_name'];
-		$width = $folder_info['Folder']['width'];
-		$height = $folder_info['Folder']['height'];
-		$th_width = $folder_info['Folder']['th_width'];
-		$th_height = $folder_info['Folder']['th_height'];
-		$action = $folder_info['Folder']['action'];
+		$default_name = $folder_info['Album']['default_name'];
+		$width = $folder_info['Album']['width'];
+		$height = $folder_info['Album']['height'];
+		$th_width = $folder_info['Album']['th_width'];
+		$th_height = $folder_info['Album']['th_height'];
+		$action = $folder_info['Album']['action'];
 
 
 		if ($_FILES) {
@@ -26,21 +26,21 @@ class RecordsController extends GalleryAppController {
 				if (empty($default_name)) {
 					$title = $file['name'];
 				} else {
-					$title = $default_name . '-' . $this->Record->getNextNumber($folder_id) . '.' . $ext;
+					$title = $default_name . '-' . $this->Picture->getNextNumber($album_id) . '.' . $ext;
 				}
 
 				# Create the path where the file will be stored
-				$path = WWW_ROOT . 'files/gallery/' . $folder_id . '/' . $title;
+				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $title;
 
 				# Generate a thumbnail
 				if (!empty($th_width) && !empty($th_height)) {
-					$thumbnail_path = $this->_generate_thumbnail($th_width,$th_height, $folder_id, $title, $file);
+					$thumbnail_path = $this->_generate_thumbnail($th_width,$th_height, $album_id, $title, $file);
 				}
 
 				# Upload file
 				$this->_upload_file(
 					$path,
-					$folder_id,
+					$album_id,
 					$title,
 					$file['size'],
 					$file['tmp_name'],
@@ -60,13 +60,13 @@ class RecordsController extends GalleryAppController {
 	 * Generate a thumbnail for the picture
 	 * @param $th_width
 	 * @param $th_height
-	 * @param $folder_id
+	 * @param $album_id
 	 * @param $title
 	 * @param $file
 	 * @return string
 	 */
-	private function _generate_thumbnail($th_width, $th_height, $folder_id, $title, $file){
-		$th_folder_path = WWW_ROOT . 'files/gallery/' . $folder_id . '/TH/';
+	private function _generate_thumbnail($th_width, $th_height, $album_id, $title, $file){
+		$th_folder_path = WWW_ROOT . 'files/gallery/' . $album_id . '/TH/';
 
 		if (!file_exists($th_folder_path)) {
 			mkdir($th_folder_path, 0755);
@@ -81,7 +81,7 @@ class RecordsController extends GalleryAppController {
 		# Upload thumbnail
 		$this->_upload_file(
 			$path_th,
-			$folder_id,
+			$album_id,
 			$title,
 			$file['size'],
 			$file['tmp_name'],
@@ -92,21 +92,21 @@ class RecordsController extends GalleryAppController {
 		return $thumbnail_path;
 	}
 
-	private function _upload_file($path, $folder_id, $filename, $filesize, $tmp_name, $width, $height, $action, $thumbnail_path = null, $save = false) {
+	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width, $height, $action, $thumbnail_path = null, $save = false) {
 		# Copy the file to the folder
 		if (copy($tmp_name, $path)) {
 
 			if ($save) {
 				# Save the file in database
 				$aux = array(
-					'Record' => array(
-						'folder_id' => $folder_id,
+					'Picture' => array(
+						'album_id' => $album_id,
 						'name' => $filename,
 						'size' => $filesize,
 						'path' => $path,
 						'thumbnail_path' => $thumbnail_path
 					));
-				$this->Record->save($aux);
+				$this->Picture->save($aux);
 			}
 
 			# Resize e crop para as dimensoes da pasta
@@ -130,9 +130,9 @@ class RecordsController extends GalleryAppController {
 	}
 
 	public function delete($id) {
-		if ($file = $this->Record->find('first', array('conditions' => array('Record.user_id' => $this->Auth->user('id'), 'Record.id' => $id)))) {
-			if (unlink($file['Record']['path'])) {
-				$this->Record->delete($file['Record']['id']);
+		if ($file = $this->Picture->find('first', array('conditions' => array('Picture.user_id' => $this->Auth->user('id'), 'Picture.id' => $id)))) {
+			if (unlink($file['Picture']['path'])) {
+				$this->Picture->delete($file['Picture']['id']);
 				$this->redirect($this->referer());
 			}
 		}

@@ -54,7 +54,7 @@
 		public $actsAs = 'Gallery.Gallery';
 		}</code></pre>
 
-			<p>And its <strong>done!</strong> To list all categories attached to a record, you can do something like this: </p>
+			<p>And its <strong>done!</strong> To list all categories attached to a Picture, you can do something like this: </p>
 <pre><code>$this->Product->id = 10;
 		/** List of all pictures in this product **/
 		$this->Product->getGallery();</code></pre>
@@ -65,7 +65,7 @@
 
 		<div id="how-to-create-a-new-gallery">
 			<h3>How to create a new gallery?</h3>
-			<p>Every record that have Gallery attached at it already have 1 gallery to start uploading files. To link to a record gallery is quite simple:</p>
+			<p>Every Picture that have Gallery attached at it already have 1 gallery to start uploading files. To link to a Picture gallery is quite simple:</p>
 			<p>Using the CakePHP Html helper:</p>
 			<pre><code>echo $this->Html->link('New gallery', array(
 					'controller' => 'gallery',
