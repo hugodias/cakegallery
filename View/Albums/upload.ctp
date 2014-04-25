@@ -5,8 +5,10 @@
 		</div>
 	</div>
 </div>
+<?php debug()?>
 <div class="row">
 	<div class="col-lg-3">
+
 
 
 

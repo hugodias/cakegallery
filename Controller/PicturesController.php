@@ -6,15 +6,13 @@ class PicturesController extends GalleryAppController {
 
 	public function add() {
 		$album_id = $_POST['album_id'];
-		$folder_info = $this->Gallery->findById($album_id);
+		$folder_info = $this->Album->findById($album_id);
+
 
 		$default_name = $folder_info['Album']['default_name'];
-		$width = $folder_info['Album']['width'];
-		$height = $folder_info['Album']['height'];
-		$th_width = $folder_info['Album']['th_width'];
-		$th_height = $folder_info['Album']['th_height'];
-		$action = $folder_info['Album']['action'];
-
+		$width = Configure::read('GalleryOptions.Pictures.size[0]');
+		$height = Configure::read('GalleryOptions.Pictures.size[1]');
+		$crop = Configure::read('GalleryOptions.Pictures.size[2]');
 
 		if ($_FILES) {
 			$file = $_FILES['file'];
@@ -56,6 +54,42 @@ class PicturesController extends GalleryAppController {
 		$this->render(false, false);
 	}
 
+
+
+	public function upload(){
+		$album_id = $_POST['album_id'];
+		$folder_info = $this->Album->findById($album_id);
+
+		$width = Configure::read('GalleryOptions.Pictures.size[0]');
+		$height = Configure::read('GalleryOptions.Pictures.size[1]');
+		$crop = Configure::read('GalleryOptions.Pictures.size[2]');
+
+		$action = $crop ? "crop" : "";
+
+		if ($_FILES) {
+			$file = $_FILES['file'];
+			if ($file['error'] == 0) {
+				# Get file extention
+				$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+				$filename = $this->Util->getToken();
+
+				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $filename . '.' . $ext;
+
+				$this->_upload_file(
+					$path,
+					$album_id,
+					$file['name'],
+					$file['size'],
+					$file['tmp_name'],
+					$width,
+					$height,
+					$action,
+					true);
+			}
+		}
+	}
+
+
 	/**
 	 * Generate a thumbnail for the picture
 	 * @param $th_width
@@ -92,7 +126,7 @@ class PicturesController extends GalleryAppController {
 		return $thumbnail_path;
 	}
 
-	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width, $height, $action, $thumbnail_path = null, $save = false) {
+	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width, $height, $action, $save = false) {
 		# Copy the file to the folder
 		if (copy($tmp_name, $path)) {
 
@@ -103,8 +137,7 @@ class PicturesController extends GalleryAppController {
 						'album_id' => $album_id,
 						'name' => $filename,
 						'size' => $filesize,
-						'path' => $path,
-						'thumbnail_path' => $thumbnail_path
+						'path' => $path
 					));
 				$this->Picture->save($aux);
 			}
