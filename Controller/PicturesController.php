@@ -4,65 +4,12 @@ class PicturesController extends GalleryAppController {
 	public $components = array('Gallery.Util');
 	public $uses = array('Gallery.Album', 'Gallery.Picture');
 
-	public function add() {
-		$album_id = $_POST['album_id'];
-		$folder_info = $this->Album->findById($album_id);
-
-
-		$default_name = $folder_info['Album']['default_name'];
-		$width = Configure::read('GalleryOptions.Pictures.size[0]');
-		$height = Configure::read('GalleryOptions.Pictures.size[1]');
-		$crop = Configure::read('GalleryOptions.Pictures.size[2]');
-
-		if ($_FILES) {
-			$file = $_FILES['file'];
-			if ($file['error'] == 0) {
-				# Get file extention
-				$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-				$thumbnail_path = null;
-
-				if (empty($default_name)) {
-					$title = $file['name'];
-				} else {
-					$title = $default_name . '-' . $this->Picture->getNextNumber($album_id) . '.' . $ext;
-				}
-
-				# Create the path where the file will be stored
-				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $title;
-
-				# Generate a thumbnail
-				if (!empty($th_width) && !empty($th_height)) {
-					$thumbnail_path = $this->_generate_thumbnail($th_width,$th_height, $album_id, $title, $file);
-				}
-
-				# Upload file
-				$this->_upload_file(
-					$path,
-					$album_id,
-					$title,
-					$file['size'],
-					$file['tmp_name'],
-					$width,
-					$height,
-					$action,
-					$thumbnail_path,
-					true);
-
-			}
-		}
-
-		$this->render(false, false);
-	}
-
-
-
 	public function upload(){
 		$album_id = $_POST['album_id'];
-		$folder_info = $this->Album->findById($album_id);
 
-		$width = Configure::read('GalleryOptions.Pictures.size[0]');
-		$height = Configure::read('GalleryOptions.Pictures.size[1]');
-		$crop = Configure::read('GalleryOptions.Pictures.size[2]');
+		$width = Configure::read('GalleryOptions.Pictures.resize_to.0');
+		$height = Configure::read('GalleryOptions.Pictures.resize_to.1');
+		$crop = Configure::read('GalleryOptions.Pictures.resize_to.2');
 
 		$action = $crop ? "crop" : "";
 
@@ -75,7 +22,7 @@ class PicturesController extends GalleryAppController {
 
 				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $filename . '.' . $ext;
 
-				$this->_upload_file(
+				$main_id = $this->_upload_file(
 					$path,
 					$album_id,
 					$file['name'],
@@ -85,67 +32,110 @@ class PicturesController extends GalleryAppController {
 					$height,
 					$action,
 					true);
+
+
+				# Create extra pictures from the original one
+				$this->_createExtraImages( Configure::read('GalleryOptions.Pictures.styles'), $file['name'], $file['size'], $file['tmp_name'], $album_id, $main_id );
+			}
+		}
+
+		$this->render(false,false);
+	}
+
+
+	/**
+	 * @param $styles
+	 * @param $filename
+	 * @param $filesize
+	 * @param $tmp_name
+	 * @param $album_id
+	 * @param $main_id
+	 */
+	public function _createExtraImages($styles, $filename, $filesize, $tmp_name, $album_id, $main_id){
+		$ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+		if(count($styles)){
+			foreach($styles as $name => $style){
+				$width = $style[0];
+				$height = $style[1];
+				$crop = $style[2] ? "crop" : "";
+
+				$custom_filename = $name . '-' . $this->Util->getToken();
+
+				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $custom_filename . '.' . $ext;
+
+				$this->_upload_file(
+					$path,
+					$album_id,
+					$name . '-' . $filename,
+					$filesize,
+					$tmp_name,
+					$width,
+					$height,
+					$crop,
+					true,
+					$main_id
+				);
 			}
 		}
 	}
 
 
 	/**
-	 * Generate a thumbnail for the picture
-	 * @param $th_width
-	 * @param $th_height
+	 * Upload the image to WWW_ROOT/files/gallery/{album_id}/picture.jpg
+	 * Optionaly save it to database
+	 * @param $path
 	 * @param $album_id
-	 * @param $title
-	 * @param $file
-	 * @return string
+	 * @param $filename
+	 * @param $filesize
+	 * @param $tmp_name
+	 * @param $width
+	 * @param $height
+	 * @param $action
+	 * @param bool $save
+	 * @param null $main_id
+	 * @return mixed
 	 */
-	private function _generate_thumbnail($th_width, $th_height, $album_id, $title, $file){
-		$th_folder_path = WWW_ROOT . 'files/gallery/' . $album_id . '/TH/';
-
-		if (!file_exists($th_folder_path)) {
-			mkdir($th_folder_path, 0755);
-		}
-
-		# TH path for upload
-		$path_th = $th_folder_path . $title;
-
-		# Save the thumbnail_path
-		$thumbnail_path = $path_th;
-
-		# Upload thumbnail
-		$this->_upload_file(
-			$path_th,
-			$album_id,
-			$title,
-			$file['size'],
-			$file['tmp_name'],
-			$th_width,
-			$th_height,
-			'crop');
-
-		return $thumbnail_path;
-	}
-
-	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width, $height, $action, $save = false) {
+	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width, $height, $action, $save = false, $main_id = null) {
 		# Copy the file to the folder
 		if (copy($tmp_name, $path)) {
 
-			if ($save) {
-				# Save the file in database
-				$aux = array(
-					'Picture' => array(
-						'album_id' => $album_id,
-						'name' => $filename,
-						'size' => $filesize,
-						'path' => $path
-					));
-				$this->Picture->save($aux);
-			}
-
-			# Resize e crop para as dimensoes da pasta
+			# Image transformation / Manipulation
 			$this->resizeCrop($path, $width, $height, $action);
+
+			if ($save) {
+				return $this->_savePicture($album_id, $filename, $filesize, $path, $main_id);
+			}
 		}
 	}
+
+	/**
+	 * Save picture information in database
+	 * @param $album_id
+	 * @param $filename
+	 * @param $filesize
+	 * @param $path
+	 * @param null $main_id
+	 * @return mixed
+	 */
+	private function _savePicture($album_id, $filename, $filesize, $path, $main_id = null){
+		$this->Picture->create();
+
+		# Save the file in database
+		$aux = array(
+			'Picture' => array(
+				'album_id' => $album_id,
+				'name' => $filename,
+				'size' => $filesize,
+				'path' => $path,
+				'main_id' => $main_id
+			));
+
+		$this->Picture->save($aux);
+
+		return $this->Picture->id;
+	}
+
 
 	public function resizeCrop($path, $width = 0, $height = 0, $action = '') {
 		ini_set("memory_limit", "10000M");

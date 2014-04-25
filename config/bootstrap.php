@@ -10,12 +10,12 @@ $config = array(
   'Pictures' => array(
     'keep_original' => true, // Set FALSE if you want to delete the original file to keep your storage low
     'jpg_quality' => '80', // 80% quality
-	  'size' => array(null, 533, false),
+	  'resize_to' => array(0, 533, false),
     // List of additional files generated after upload, like thumbnails, banners, etc
     'styles' => array(
-      'small' => array('50','50', true), # 50x50 Cropped
-      'medium' => array('200', '200', true), # 200x200 Cropped
-      'large' => array(null, 533, false) # 533 pixels height (and unlimited width)
+      'small' => array(50, 50, true), # 50x50 Cropped
+      'medium' => array(200, 200, true), # 200x200 Cropped
+      'large' => array(0, 533, false) # 533 pixels height (and unlimited width)
       )
     )
 );

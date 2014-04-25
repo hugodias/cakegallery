@@ -5,7 +5,6 @@
 		</div>
 	</div>
 </div>
-<?php debug()?>
 <div class="row">
 	<div class="col-lg-3">
 
@@ -104,7 +103,7 @@
 			'url' => array(
 				'plugin' => 'gallery',
 				'controller' => 'pictures',
-				'action' => 'add'),
+				'action' => 'upload'),
 			'class' => 'dropzone',
 			'id' => 'drop'
 		))?>
