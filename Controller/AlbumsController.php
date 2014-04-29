@@ -28,9 +28,24 @@ class AlbumsController extends GalleryAppController {
 		$this->render(false, false);
 	}
 
-	public function upload($model = null, $model_id = null, $gallery_id = null) {
+	public function upload($model = null, $model_id = null) {
 		ini_set("memory_limit", "10000M");
 
+		if(isset($this->params['gallery_id']) && !empty($this->params['gallery_id'])) {
+			$album = $this->Album->findById($this->params['gallery_id']);
+		} else {
+			# If the gallery doesnt exists, create a new one and redirect back to this page with the
+			# gallery_id
+			$this->_createAlbumAndRedirect($model, $model_id);
+		}
+
+		$files = $album['Picture'];
+
+		$this->set(compact('model', 'model_id', 'album', 'files'));
+	}
+
+
+	private function _createAlbumAndRedirect($model, $model_id){
 		# If there is a Model and ModelID on parameters, get or create a folder for it
 		if ($model && $model_id) {
 			# Searching for folder that belongs to this particular $model and $model_id
@@ -38,16 +53,15 @@ class AlbumsController extends GalleryAppController {
 				# If there is no Album , lets create one for it
 				$album = $this->_createAlbum($model, $model_id);
 			}
-		} else if(isset($this->params['gallery_id']) && !empty($this->params['gallery_id'])) {
-			$album = $this->Album->findById($this->params['gallery_id']);
-		} else {
+		}  else {
 			# If there is no model on parameters, lets create a generic folder
 			$album = $this->_createAlbum(null, null);
 		}
 
-		$files = $album['Picture'];
-
-		$this->set(compact('model', 'model_id', 'album', 'files'));
+		$this->redirect(array(
+			'action' => 'upload',
+			'gallery_id' => $album['Album']['id']
+		));
 	}
 
 	private function _getModelAlbum($model = null, $model_id = null) {

@@ -4,7 +4,7 @@ App::uses('FormHelper', 'View/Helper');
 class GalleryHelper extends Helper{
   public function button($model = null, $model_id = null){
     return $this->_View->Html->link('Upload pictures', array(
-      'controller' => 'galleries',
+      'controller' => 'albums',
       'action' => 'upload',
       'plugin' => 'gallery',
       $model,
