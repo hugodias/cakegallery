@@ -1,10 +1,14 @@
 <?php
-
 class Album extends GalleryAppModel {
 	public $name = 'Album';
 	public $tablePrefix = 'gallery_';
 	public $order = 'Album.id DESC';
-	public $hasMany = array('Gallery.Picture');
+	public $hasMany = array(
+		'Picture' => array(
+			'className' => 'Gallery.Picture',
+			'conditions' => array('Picture.main_id' => null)
+		)
+	);
 
 	public $validate = array(
 		'title' => array(
@@ -28,6 +32,20 @@ class Album extends GalleryAppModel {
 				mkdir($folder_path, 0755);
 			}
 		}
+	}
+
+
+	/**
+	 * Get all published albums
+	 * @return mixed
+	 */
+	public function find_all_published(){
+		return $this->find('all', array(
+			'conditions' => array(
+				'Album.status' => 'published'
+			),
+			'recursive' => 2
+		));
 	}
 }
 
