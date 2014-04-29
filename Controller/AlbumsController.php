@@ -28,7 +28,7 @@ class AlbumsController extends GalleryAppController {
 		$this->render(false, false);
 	}
 
-	public function upload($model = null, $model_id = null) {
+	public function upload($model = null, $model_id = null, $gallery_id = null) {
 		ini_set("memory_limit", "10000M");
 
 		# If there is a Model and ModelID on parameters, get or create a folder for it
@@ -38,6 +38,8 @@ class AlbumsController extends GalleryAppController {
 				# If there is no Album , lets create one for it
 				$album = $this->_createAlbum($model, $model_id);
 			}
+		} else if(isset($this->params['gallery_id']) && !empty($this->params['gallery_id'])) {
+			$album = $this->Album->findById($this->params['gallery_id']);
 		} else {
 			# If there is no model on parameters, lets create a generic folder
 			$album = $this->_createAlbum(null, null);

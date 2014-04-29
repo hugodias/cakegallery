@@ -74,7 +74,8 @@ class PicturesController extends GalleryAppController {
 					$height,
 					$crop,
 					true,
-					$main_id
+					$main_id,
+					$name
 				);
 			}
 		}
@@ -96,7 +97,7 @@ class PicturesController extends GalleryAppController {
 	 * @param null $main_id
 	 * @return mixed
 	 */
-	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width, $height, $action, $save = false, $main_id = null) {
+	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width, $height, $action, $save = false, $main_id = null, $style = 'full') {
 		# Copy the file to the folder
 		if (copy($tmp_name, $path)) {
 
@@ -104,7 +105,7 @@ class PicturesController extends GalleryAppController {
 			$this->resizeCrop($path, $width, $height, $action);
 
 			if ($save) {
-				return $this->_savePicture($album_id, $filename, $filesize, $path, $main_id);
+				return $this->_savePicture($album_id, $filename, $filesize, $path, $main_id, $style);
 			}
 		}
 	}
@@ -118,7 +119,7 @@ class PicturesController extends GalleryAppController {
 	 * @param null $main_id
 	 * @return mixed
 	 */
-	private function _savePicture($album_id, $filename, $filesize, $path, $main_id = null){
+	private function _savePicture($album_id, $filename, $filesize, $path, $main_id = null, $style = 'full'){
 		$this->Picture->create();
 
 		# Save the file in database
@@ -128,7 +129,8 @@ class PicturesController extends GalleryAppController {
 				'name' => $filename,
 				'size' => $filesize,
 				'path' => $path,
-				'main_id' => $main_id
+				'main_id' => $main_id,
+				'style' => $style
 			));
 
 		$this->Picture->save($aux);

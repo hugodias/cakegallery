@@ -25,6 +25,20 @@ Router::connect('/gallery/upload',
 		'plugin' => 'gallery'
 	));
 
+Router::connect('/gallery/upload/:gallery_id',
+	array(
+		'controller' => 'albums',
+		'action' => 'upload',
+		'plugin' => 'gallery'
+	),
+	array(
+		'named' => array(
+			'gallery_id' => array('gallery_id')
+		),
+		'pass' => array('gallery_id')
+	)
+);
+
 # Model attached Gallery
 Router::connect(
 	'/gallery/upload/:model/:model_id',

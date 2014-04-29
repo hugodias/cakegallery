@@ -130,7 +130,7 @@
 		<?php foreach($files as $f){ ?>
 		var mockFile = { name: "<?php echo $f['name']?>", size: <?php echo $f['size']?> };
 		myDropzone.emit("addedfile", mockFile);
-		myDropzone.emit("thumbnail", mockFile, "<?php echo $this->params->webroot.'files/gallery/'.$album['Album']['id'].'/'.$f['name']?>");
+		myDropzone.emit("thumbnail", mockFile, "<?php echo $f['link']?>");
 		<?php } ?>
 
 		$('.panel-heading, .close-config').bind('click', function () {

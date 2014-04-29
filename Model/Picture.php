@@ -42,12 +42,12 @@ class Picture extends GalleryAppModel {
 				'conditions' => array(
 					'main_id' => $picture_id
 				),
-				'fields' => array('Picture.path', 'Picture.id')
+				'fields' => array('Picture.path', 'Picture.id', 'Picture.style')
 			));
 
 		$childs = array();
 		foreach($childrens as $child){
-				$childs[] = $child['Picture']['link'];
+				$childs[$child['Picture']['style']] = $child['Picture']['link'];
 		}
 
 		return $childs;
