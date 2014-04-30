@@ -4,14 +4,12 @@ class PicturesController extends GalleryAppController {
 	public $components = array('Gallery.Util');
 	public $uses = array('Gallery.Album', 'Gallery.Picture');
 
-	public function upload(){
+	public function upload() {
 		$album_id = $_POST['album_id'];
 
-		$width = Configure::read('GalleryOptions.Pictures.resize_to.0');
-		$height = Configure::read('GalleryOptions.Pictures.resize_to.1');
-		$crop = Configure::read('GalleryOptions.Pictures.resize_to.2');
+		# Resize attributes configured in bootstrap.php
+		$resize_attrs = $this->_getResizeSize();
 
-		$action = $crop ? "crop" : "";
 
 		if ($_FILES) {
 			$file = $_FILES['file'];
@@ -28,18 +26,18 @@ class PicturesController extends GalleryAppController {
 					$file['name'],
 					$file['size'],
 					$file['tmp_name'],
-					$width,
-					$height,
-					$action,
+					$resize_attrs['width'],
+					$resize_attrs['height'],
+					$resize_attrs['action'],
 					true);
 
 
 				# Create extra pictures from the original one
-				$this->_createExtraImages( Configure::read('GalleryOptions.Pictures.styles'), $file['name'], $file['size'], $file['tmp_name'], $album_id, $main_id );
+				$this->_createExtraImages(Configure::read('GalleryOptions.Pictures.styles'), $file['name'], $file['size'], $file['tmp_name'], $album_id, $main_id);
 			}
 		}
 
-		$this->render(false,false);
+		$this->render(false, false);
 	}
 
 
@@ -51,11 +49,11 @@ class PicturesController extends GalleryAppController {
 	 * @param $album_id
 	 * @param $main_id
 	 */
-	public function _createExtraImages($styles, $filename, $filesize, $tmp_name, $album_id, $main_id){
+	public function _createExtraImages($styles, $filename, $filesize, $tmp_name, $album_id, $main_id) {
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-		if(count($styles)){
-			foreach($styles as $name => $style){
+		if (count($styles)) {
+			foreach ($styles as $name => $style) {
 				$width = $style[0];
 				$height = $style[1];
 				$crop = $style[2] ? "crop" : "";
@@ -97,16 +95,21 @@ class PicturesController extends GalleryAppController {
 	 * @param null $main_id
 	 * @return mixed
 	 */
-	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width, $height, $action, $save = false, $main_id = null, $style = 'full') {
+	private function _upload_file($path, $album_id, $filename, $filesize, $tmp_name, $width = 0, $height = 0, $action, $save = false, $main_id = null, $style = 'full') {
 		# Copy the file to the folder
 		if (copy($tmp_name, $path)) {
 
-			# Image transformation / Manipulation
-			$this->resizeCrop($path, $width, $height, $action);
+			# Resize only if the width or the height has benn informed
+			if (!!$width || !!$height) {
+				# Image transformation / Manipulation
+				$path = $this->resizeCrop($path, $width, $height, $action);
+			}
 
 			if ($save) {
 				return $this->_savePicture($album_id, $filename, $filesize, $path, $main_id, $style);
 			}
+
+			return null;
 		}
 	}
 
@@ -119,7 +122,7 @@ class PicturesController extends GalleryAppController {
 	 * @param null $main_id
 	 * @return mixed
 	 */
-	private function _savePicture($album_id, $filename, $filesize, $path, $main_id = null, $style = 'full'){
+	private function _savePicture($album_id, $filename, $filesize, $path, $main_id = null, $style = 'full') {
 		$this->Picture->create();
 
 		# Save the file in database
@@ -148,10 +151,14 @@ class PicturesController extends GalleryAppController {
 		);
 		$imgClass = new Img();
 
+		# Load image
 		$imgClass->carrega($path);
+
+		# Resize
 		$imgClass->redimensiona($width, $height, $action);
-		$imgClass->png2jpg();
-		$imgClass->grava($path, 85);
+
+		# Save it
+		return $imgClass->grava($path, Configure::read('GalleryOptions.Pictures.jpg_quality'), Configure::read('GalleryOptions.Pictures.png2jpg'));
 	}
 
 	public function delete($id) {
@@ -163,6 +170,32 @@ class PicturesController extends GalleryAppController {
 		}
 
 		$this->render(false, false);
+	}
+
+	/**
+	 * Return configured main image resize attributes
+	 * @return array
+	 */
+	private function _getResizeSize() {
+		$width = $height = 0;
+		$crop = "";
+
+		if (Configure::check('GalleryOptions.Pictures.resize_to.0')) {
+			$width = Configure::read('GalleryOptions.Pictures.resize_to.0');
+		}
+
+		if (Configure::check('GalleryOptions.Pictures.resize_to.1')) {
+			$height = Configure::read('GalleryOptions.Pictures.resize_to.1');
+		}
+
+		$crop = Configure::read('GalleryOptions.Pictures.resize_to.2');
+		$action = $crop ? "crop" : "";
+
+		return array(
+			'width' => $width,
+			'height' => $height,
+			'action' => $action
+		);
 	}
 }
 
