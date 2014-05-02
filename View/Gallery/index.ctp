@@ -9,7 +9,7 @@
 			<?php foreach($galleries as $gallery){?>
 				<div class="col-sm-6 col-md-3">
 					<div class="thumbnail">
-						<img src="<?php echo $gallery['Picture'][0]['styles']['large']?>" alt="...">
+						<img src="<?php echo $gallery['Picture'][0]['styles']['medium']?>" alt="...">
 						<div class="caption">
 							<h3><?php echo $gallery['Album']['title']?></h3>
 						</div>
