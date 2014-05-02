@@ -128,7 +128,7 @@
 		});
 
 		<?php foreach($files as $f){ ?>
-		var mockFile = { name: "<?php echo $f['name']?>", size: <?php echo $f['size']?> };
+		var mockFile = { id: <?php echo $f['id']?>, name: "<?php echo $f['name']?>", size: <?php echo $f['size']?>, cover: "<?php echo $f['cover']?>" };
 		myDropzone.emit("addedfile", mockFile);
 		myDropzone.emit("thumbnail", mockFile, "<?php echo $f['link']?>");
 		<?php } ?>
