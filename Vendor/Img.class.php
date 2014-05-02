@@ -1,34 +1,15 @@
 <?php
 
-/**
- * m2brimagem.class.php
- *
- * Classe para manipula��o de imagens
- *
- * @package    m2brnet admin v2
- * @author     Davi Ferreira <davi.ferreira@m2br.net>
- * @version    0.6a $ 2008-11-14 12:07:13 $
- */
 class Img {
 
-	// arquivos
+
 	private $origem, $img;
-	// dimens�es
 	private $largura, $altura, $nova_largura, $nova_altura, $tamanho_html;
-	// dados do arquivo
 	private $formato, $extensao, $tamanho, $arquivo, $diretorio;
-	// extens�es v�lidas
 	private $extensoes_validas;
-	// cor de fundo para preenchimento
 	private $rgb;
-	// mensagem de erro
 	private $erro;
 
-	/**
-	 * Construtor
-	 * @param $string caminho da imagem a ser carregada
-	 * @return void
-	 */
 	public function __construct($origem = '', $extensoes_validas = array('jpg', 'jpeg', 'jpe', 'gif', 'bmp', 'png')) {
 
 		$this->origem = $origem;
@@ -50,38 +31,25 @@ class Img {
 			$this->dados();
 		}
 
-	} // fim construtor
+	}
 
-	/**
-	 * Retorna dados da imagem
-	 * @param
-	 * @return void
-	 */
 	private function dados() {
-
-		// mensagem padr�o, sem erro
 		$this->erro = 'OK';
 
-		// verifica se imagem existe
 		if (!is_file($this->origem)) {
-			$this->erro = 'Erro: Arquivo de imagem n�o encontrado!';
+			$this->erro = 'Erro: Arquivo de imagem não encontrado!';
 		} else {
-			// dados do arquivo
 			$this->dadosArquivo();
 
-			// verifica se � imagem
 			if (!$this->eImagem()) {
-				$this->erro = 'Erro: Arquivo ' . $this->origem . ' n�o � uma imagem!';
+				$this->erro = 'Erro: Arquivo ' . $this->origem . ' não é uma imagem!';
 			} else {
-				// pega dimens�es
 				$this->dimensoes();
-
-				// cria imagem para php
 				$this->criaImagem();
 			}
 		}
 
-	} // fim dadosImagem
+	}
 
 	/**
 	 * Retorna valida��o da imagem
@@ -505,7 +473,6 @@ class Img {
 	 * @return void
 	 */
 	public function grava($destino = '', $qualidade = 100, $convertpng2jpg = false) {
-		//$qualidade = 100;
 		// dados do arquivo de destino	
 		if ($destino) {
 			$pathinfo = pathinfo($destino);
