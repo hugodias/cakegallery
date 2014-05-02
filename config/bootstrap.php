@@ -16,8 +16,8 @@ $config = array(
 	  'png2jpg' => true,
 
 	  # Set the JPG quality on each resize.
-	  # The recommended value is 80 (80% quality)
-    'jpg_quality' => '80',
+	  # The recommended value is 85 (85% quality)
+    'jpg_quality' => 85,
 
 
     # List of additional files generated after upload, like thumbnails, banners, etc
