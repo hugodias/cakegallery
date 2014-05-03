@@ -60,13 +60,13 @@ class PicturesController extends GalleryAppController {
 
 	private function _checkFileErrors($file) {
 		if (!$file['error'] == 0) {
-			throw new ForbiddenException("Upload failed. Check your file.", 400);
+			throw new ForbiddenException("Upload failed. Check your file.");
 		}
 	}
 
 	private function _validateExtentions($ext) {
 		if (!in_array($ext, Configure::read('GalleryOptions.File.allowed_extensions'))) {
-			throw new ForbiddenException("You cant upload this kind of file.", 400);
+			throw new ForbiddenException("You cant upload this kind of file.");
 		}
 	}
 
@@ -140,7 +140,7 @@ class PicturesController extends GalleryAppController {
 
 			return null;
 		} else {
-			throw new ForbiddenException("Upload failed. Check your folders permissions.", 400);
+			throw new ForbiddenException("Upload failed. Check your folders permissions.");
 		}
 	}
 
