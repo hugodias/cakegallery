@@ -31,7 +31,7 @@ class AlbumsController extends GalleryAppController {
 	public function upload($model = null, $model_id = null) {
 		ini_set("memory_limit", "10000M");
 
-		if(isset($this->params['gallery_id']) && !empty($this->params['gallery_id'])) {
+		if (isset($this->params['gallery_id']) && !empty($this->params['gallery_id'])) {
 			$album = $this->Album->findById($this->params['gallery_id']);
 		} else {
 			# If the gallery doesnt exists, create a new one and redirect back to this page with the
@@ -45,7 +45,24 @@ class AlbumsController extends GalleryAppController {
 	}
 
 
-	private function _createAlbumAndRedirect($model, $model_id){
+	public function delete($id) {
+		$this->Album->id = $id;
+
+		$album = $this->Album->read(null);
+
+		if (count($album['Picture'])) {
+			foreach ($album['Picture'] as $pic) {
+				# Original
+				if ($pic['style'] = 'full') {
+					# Remove from database and all files
+					$this->Picture->_deletePicture($pic['id']);
+				}
+			}
+		}
+	}
+
+
+	private function _createAlbumAndRedirect($model, $model_id) {
 		# If there is a Model and ModelID on parameters, get or create a folder for it
 		if ($model && $model_id) {
 			# Searching for folder that belongs to this particular $model and $model_id
@@ -53,7 +70,7 @@ class AlbumsController extends GalleryAppController {
 				# If there is no Album , lets create one for it
 				$album = $this->_createAlbum($model, $model_id);
 			}
-		}  else {
+		} else {
 			# If there is no model on parameters, lets create a generic folder
 			$album = $this->_createAlbum(null, null);
 		}
@@ -98,10 +115,10 @@ class AlbumsController extends GalleryAppController {
 	 * @param null $model_id
 	 * @return string
 	 */
-	private function _generateAlbumName($model = null, $model_id = null){
-		$name = 'Album - ' . rand(111,999);
+	private function _generateAlbumName($model = null, $model_id = null) {
+		$name = 'Album - ' . rand(111, 999);
 
-		if($model && $model_id){
+		if ($model && $model_id) {
 			$name = Inflector::humanize('Album ' . $model . ' - ' . $model_id);
 		}
 

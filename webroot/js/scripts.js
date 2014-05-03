@@ -2,6 +2,8 @@ Dropzone.options.drop = {
     init: function () {
         this.on("addedfile", function (file) {
 
+
+
             // Create the remove button
             var removeButton = Dropzone.createElement('<button class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>');
             var viewButton = Dropzone.createElement('<button class="btn btn-sm btn-info pull-right"><i class="fa fa-search"></i></button>');
@@ -51,8 +53,10 @@ Dropzone.options.drop = {
 
             });
 
-            // Add the button to the file preview element.
-            file.previewElement.appendChild(removeButton);
+            if(file.id){
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(removeButton);
+            }
         });
     }
 };

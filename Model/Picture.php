@@ -32,7 +32,7 @@ class Picture extends GalleryAppModel {
 	}
 
 
-	public function _getChildrens($picture_id = null){
+	public function _getChildrens($picture_id = null) {
 		$this->unbindModel(
 			array('belongsTo' => array('Gallery.Album'))
 		);
@@ -46,8 +46,8 @@ class Picture extends GalleryAppModel {
 			));
 
 		$childs = array();
-		foreach($childrens as $child){
-				$childs[$child['Picture']['style']] = $child['Picture']['link'];
+		foreach ($childrens as $child) {
+			$childs[$child['Picture']['style']] = $child['Picture']['link'];
 		}
 
 		return $childs;
@@ -86,6 +86,32 @@ class Picture extends GalleryAppModel {
 		return $links;
 	}
 
+	/**
+	 * Remove a picture from database and all his versions and
+	 * delete all pictures from the server
+	 */
+	public function _deletePicture($id) {
+		# Remove all versions of the picture
+		$pictures = $this->find('all', array(
+				'conditions' => array(
+					'OR' => array(
+						'Picture.id' => $id,
+						'Picture.main_id' => $id
+					)
+				)
+			)
+		);
+
+		if (count($pictures)) {
+			foreach ($pictures as $pic) {
+				# Remove file
+				if (unlink($pic['Picture']['path'])) {
+					# Remove from database
+					$this->delete($pic['Picture']['id']);
+				}
+			}
+		}
+	}
 }
 
 ?>

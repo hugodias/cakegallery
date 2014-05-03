@@ -193,26 +193,8 @@ class PicturesController extends GalleryAppController {
 	}
 
 	public function delete($id) {
-		# Remove all versions of the picture
-		$pictures = $this->Picture->find('all', array(
-				'conditions' => array(
-					'OR' => array(
-						'Picture.id' => $id,
-						'Picture.main_id' => $id
-					)
-				)
-			)
-		);
-
-		if (count($pictures)) {
-			foreach ($pictures as $pic) {
-				# Remove file
-				if (unlink($pic['Picture']['path'])) {
-					# Remove from database
-					$this->Picture->delete($pic['Picture']['id']);
-				}
-			}
-		}
+		# Delete the picture and all its versions
+		$this->Picture->_deletePicture($id);
 
 		$this->render(false, false);
 	}
