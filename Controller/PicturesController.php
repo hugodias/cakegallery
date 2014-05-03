@@ -65,7 +65,7 @@ class PicturesController extends GalleryAppController {
 	}
 
 	private function _validateExtentions($ext) {
-		if (!in_array($ext, Configure::read('GalleryOptions.File.allowed_extensions'))) {
+		if (!in_array(strtolower($ext), Configure::read('GalleryOptions.File.allowed_extensions'))) {
 			throw new ForbiddenException("You cant upload this kind of file.");
 		}
 	}

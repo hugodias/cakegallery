@@ -4,6 +4,10 @@ class AlbumsController extends GalleryAppController {
 
 	public $helpers = array('Form' => array('className' => 'Gallery.CakePHPFTPForm'));
 
+	public $uses = array('Gallery.Album', 'Gallery.Picture');
+
+
+
 	public function add() {
 	}
 
@@ -59,7 +63,21 @@ class AlbumsController extends GalleryAppController {
 				}
 			}
 		}
+
+		if ($this->Album->delete($id)) {
+			# Delete album folders
+			$album_dir = WWW_ROOT . 'files' . DS . 'gallery' . DS . $id . DS;
+			$this->Util->deleteDir($album_dir);
+
+			$this->Session->setFlash("Album deleted.");
+
+			$this->redirect(array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery'));
+		}
+
+
 	}
+
+
 
 
 	private function _createAlbumAndRedirect($model, $model_id) {

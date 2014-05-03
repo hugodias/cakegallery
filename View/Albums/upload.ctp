@@ -88,11 +88,31 @@
 		<?php echo $this->Js->writeBuffer(); ?>
 		<hr/>
 	</div>
-	<div class="col-lg-9">
-		<h3>
-			<i class="fa fa-picture-o"></i>
-			Album images
-		</h3>
+	<div class="col-md-9">
+		<div class="row">
+			<div class="col-md-9">
+				<h3>
+					<i class="fa fa-picture-o"></i>
+					Album images
+				</h3>
+			</div>
+			<div class="col-md-3">
+				<?php echo $this->Html->link(
+							'<i class="fa fa-trash-o"></i> Delete album',
+							array(
+								'controller' => 'albums',
+								'action' => 'delete',
+								'plugin' => 'gallery',
+								$album['Album']['id']
+							),
+							array(
+								'escape' => false,
+								'class' => 'btn btn-danger pull-right confirm-delete'
+							)
+						); ?>
+			</div>
+		</div>
+
 
 		<hr/>
 

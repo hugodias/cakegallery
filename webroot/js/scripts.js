@@ -61,3 +61,18 @@ Dropzone.options.drop = {
     }
 };
 Dropzone.autoDiscover = false;
+
+
+$(function(){
+    $('.confirm-delete').on('click', function(e){
+        var link = this;
+
+        e.preventDefault();
+
+        var resp = confirm("Are you sure?");
+
+        if(resp){
+            window.location = link.href;
+        }
+    })
+})
