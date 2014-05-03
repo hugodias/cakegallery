@@ -1,6 +1,13 @@
 <?php
 
-
+if(!file_exists(App::pluginPath('Gallery') . 'Config' . DS . 'config.php')){
+	Router::connect('/gallery',
+		array(
+			'controller' => 'install',
+			'action' => 'configuration_form',
+			'plugin' => 'gallery'
+		));
+}
 
 # Documentation
 Router::connect('/gallery/docs',

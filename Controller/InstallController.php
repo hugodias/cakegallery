@@ -4,6 +4,11 @@ App::uses('ConnectionManager', 'Model');
 
 class InstallController extends GalleryAppController {
 
+
+	public function configuration_form(){
+		$this->render('Gallery.Install/config');
+	}
+
 	/**
 	 * Configure galleries and create mysql tables
 	 */
@@ -18,6 +23,8 @@ class InstallController extends GalleryAppController {
 		}
 
 		$this->_configureDatabase();
+
+		sleep(10);
 
 		$this->Session->setFlash('Success! Gallery is now installed in your app.', 'flash_success');
 
@@ -56,7 +63,7 @@ class InstallController extends GalleryAppController {
 	 * @return bool
 	 */
 	private function _checkTables($tables) {
-		return !!array_intersect(array('gallery_galleries', 'gallery_Pictures'), $tables);
+		return !!in_array('gallery_albums', $tables) && !!in_array('gallery_pictures', $tables);
 	}
 
 	/**
@@ -78,6 +85,6 @@ class InstallController extends GalleryAppController {
 	 * Create the config file copying the config.php.install file
 	 */
 	private function _createConfigFile() {
-		copy(App::pluginPath('Gallery') . 'Config' . DS . 'config.php.install', App::pluginPath('Gallery') . 'Config' . DS . 'config.php');
+		copy(App::pluginPath('Gallery') . 'config' . DS . 'config.php.install', App::pluginPath('Gallery') . 'config' . DS . 'config.php');
 	}
 } 
