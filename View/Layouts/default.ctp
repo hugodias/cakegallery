@@ -23,7 +23,7 @@
 	<?php echo $this->Html->script('Gallery.lib/modernizr') ?>
 </head>
 <body class="<?php echo $this->params->params['controller'] . '_' . $this->params->params['action'] ?>"
-      data-base-url="<?php echo $this->params->webroot ?>">
+      data-base-url="<?php echo $this->params->webroot ?>" data-plugin-base-url="<?php echo $this->Html->url(array('plugin' => 'gallery', 'controller' => 'gallery', 'action' => 'index'))?>">
 <!--[if lt IE 7]>
 <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
 	today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
@@ -54,11 +54,6 @@
 					</li>
 					<li>
 						<?php echo $this->Html->link('Documentation', array('controller' => 'gallery', 'action' => 'docs', 'plugin' => 'gallery'))?>
-					</li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li>
-						<?php echo $this->Html->link('<i class="fa fa-plus"></i> New Gallery (standalone)', array('controller' => 'galleries', 'action' => 'upload', 'plugin' => 'gallery'), array('escape' => false))?>
 					</li>
 				</ul>
 			</div>

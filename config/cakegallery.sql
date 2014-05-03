@@ -6,7 +6,6 @@ CREATE TABLE `gallery_pictures` (
   `album_id` int(11) NOT NULL,
   `main_id` int(11) DEFAULT NULL,
   `style` varchar(255) NOT NULL DEFAULT 'full',
-  `cover` enum('Y','N') NOT NULL DEFAULT 'N',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),

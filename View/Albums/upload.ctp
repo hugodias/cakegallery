@@ -8,9 +8,6 @@
 <div class="row">
 	<div class="col-lg-3">
 
-
-
-
 		<?php
 		$data = $this->Js->get('#AlbumUpdateForm')->serializeForm(array('isForm' => true, 'inline' => true));
 		$this->Js->get('#AlbumUpdateForm')->event(
@@ -58,7 +55,7 @@
 							'status',
 							array(
 								'type' => 'radio',
-								'value' => !empty($album) ? $album['Album']['status'] : 'draft',
+								'value' => !empty($album) ? $album['Album']['status'] : 'published',
 								'legend' => false,
 								'separator' => '<div class="clearfix"></div>',
 								'options' => array(
@@ -128,7 +125,7 @@
 		});
 
 		<?php foreach($files as $f){ ?>
-		var mockFile = { id: <?php echo $f['id']?>, name: "<?php echo $f['name']?>", size: <?php echo $f['size']?>, cover: "<?php echo $f['cover']?>" };
+		var mockFile = { id: <?php echo $f['id']?>, name: "<?php echo $f['name']?>", size: <?php echo $f['size']?> };
 		myDropzone.emit("addedfile", mockFile);
 		myDropzone.emit("thumbnail", mockFile, "<?php echo $f['link']?>");
 		<?php } ?>

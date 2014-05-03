@@ -1,10 +1,16 @@
 <?php
 $config = array(
 	'App' => array(
-		'theme' => 'superhero'
+		# Choose what theme you want to use:
+		# You can find all themes at Gallery/webroot/css/themes
+		# Use the first name in the file as a parameter, eg: cosmo.min.css -> cosmo
+		'theme' => 'cosmo'
 	),
 	'File' => array(
-		'max_file_size' => '20', // In MegaBytes (mb)
+		# Max size of a file (in megabytes (MB))
+		'max_file_size' => '20',
+
+		# What king pictures the user is allowed to upload?
 		'allowed_extensions' => array('jpg','png','jpeg','gif')
 	),
   'Pictures' => array(

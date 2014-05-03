@@ -72,12 +72,18 @@ class AlbumsController extends GalleryAppController {
 			)));
 	}
 
+	/**
+	 * Create a empty album
+	 * @param null $model
+	 * @param null $model_id
+	 * @return mixed
+	 */
 	private function _createAlbum($model = null, $model_id = null) {
 		$this->Album->save(array(
 			'Album' => array(
 				'model' => $model,
 				'model_id' => $model_id,
-				'status' => 'draft',
+				'status' => 'published',
 				'tags' => '',
 				'title' => $this->_generateAlbumName($model, $model_id)
 			)
@@ -86,6 +92,12 @@ class AlbumsController extends GalleryAppController {
 	}
 
 
+	/**
+	 * Generate a random album name
+	 * @param null $model
+	 * @param null $model_id
+	 * @return string
+	 */
 	private function _generateAlbumName($model = null, $model_id = null){
 		$name = 'Album - ' . rand(111,999);
 

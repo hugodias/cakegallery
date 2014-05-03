@@ -10,12 +10,20 @@ class PicturesController extends GalleryAppController {
 		# Resize attributes configured in bootstrap.php
 		$resize_attrs = $this->_getResizeSize();
 
-
 		if ($_FILES) {
 			$file = $_FILES['file'];
-			if ($file['error'] == 0) {
+
+			try {
+				# Check if the file have any errors
+				$this->_checkFileErrors($file);
+
 				# Get file extention
 				$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+				# Validate if the file extention is allowed
+				$this->_validateExtentions($ext);
+
+				# Generate a random filename
 				$filename = $this->Util->getToken();
 
 				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $filename . '.' . $ext;
@@ -34,12 +42,33 @@ class PicturesController extends GalleryAppController {
 
 				# Create extra pictures from the original one
 				$this->_createExtraImages(Configure::read('GalleryOptions.Pictures.styles'), $file['name'], $file['size'], $file['tmp_name'], $album_id, $main_id);
+
+			} catch (ForbiddenException $e) {
+				$response = $e->getMessage();
+				return new CakeResponse(
+					array(
+						'status' => 401,
+						'body' => json_encode($response)
+					)
+				);
 			}
 		}
 
 		$this->render(false, false);
 	}
 
+
+	private function _checkFileErrors($file) {
+		if (!$file['error'] == 0) {
+			throw new ForbiddenException("Upload failed. Check your file.", 400);
+		}
+	}
+
+	private function _validateExtentions($ext) {
+		if (!in_array($ext, Configure::read('GalleryOptions.File.allowed_extensions'))) {
+			throw new ForbiddenException("You cant upload this kind of file.", 400);
+		}
+	}
 
 	/**
 	 * @param $styles
@@ -65,7 +94,7 @@ class PicturesController extends GalleryAppController {
 				$this->_upload_file(
 					$path,
 					$album_id,
-					$name . '-' . $filename,
+						$name . '-' . $filename,
 					$filesize,
 					$tmp_name,
 					$width,
@@ -110,6 +139,8 @@ class PicturesController extends GalleryAppController {
 			}
 
 			return null;
+		} else {
+			throw new ForbiddenException("Upload failed. Check your folders permissions.", 400);
 		}
 	}
 
@@ -162,10 +193,24 @@ class PicturesController extends GalleryAppController {
 	}
 
 	public function delete($id) {
-		if ($file = $this->Picture->find('first', array('conditions' => array('Picture.user_id' => $this->Auth->user('id'), 'Picture.id' => $id)))) {
-			if (unlink($file['Picture']['path'])) {
-				$this->Picture->delete($file['Picture']['id']);
-				$this->redirect($this->referer());
+		# Remove all versions of the picture
+		$pictures = $this->Picture->find('all', array(
+				'conditions' => array(
+					'OR' => array(
+						'Picture.id' => $id,
+						'Picture.main_id' => $id
+					)
+				)
+			)
+		);
+
+		if (count($pictures)) {
+			foreach ($pictures as $pic) {
+				# Remove file
+				if (unlink($pic['Picture']['path'])) {
+					# Remove from database
+					$this->Picture->delete($pic['Picture']['id']);
+				}
 			}
 		}
 
