@@ -94,7 +94,7 @@ table tr[data-href] {
     cursor: pointer;
 }
 .dropzone{
-    min-height: 750px;
+    min-height: 350px;
 }
 
 .manipulation label{
@@ -104,4 +104,26 @@ table tr[data-href] {
 .manipulation input[type=checkbox]{
     float: left;
     width: 20px;
+}
+
+.container-empty{
+    text-align: center;
+}
+
+.container-empty .img{
+    padding-top: 50px;
+    font-size: 100px;
+    line-height: 20px;
+}
+
+.icons-manage-image{
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    position: absolute;
+    top: 0;
+    text-align: center;
+    width: 97%;
+    height: 96%;
+    padding-top: 20%;
+    margin-top: 3px;
 }

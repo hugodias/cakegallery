@@ -62,7 +62,6 @@ Dropzone.options.drop = {
 };
 Dropzone.autoDiscover = false;
 
-
 $(function(){
     $('.confirm-delete').on('click', function(e){
         var link = this;
@@ -73,6 +72,47 @@ $(function(){
 
         if(resp){
             window.location = link.href;
+        }
+    })
+
+    $('.modal-upload').on('hidden.bs.modal', function(e){
+        window.location.reload();
+    })
+
+
+    $('.th-pictures-container')
+        .mouseover(function(e) {
+            $(this).children('.icons-manage-image').show();
+            e.stopPropagation();
+        })
+        .mouseout(function(e){
+            $(this).children('.icons-manage-image').hide();
+        })
+
+
+
+    $('.remove-picture').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        var _this = $(this);
+
+        var $box = _this.parent().parent().parent();
+
+        var file_id = $(this).data('file-id');
+
+        var resp = confirm("Are you sure?");
+
+        if (resp) {
+            var baseuri = jQuery("body").data("plugin-base-url");
+
+            $.ajax({
+                url: baseuri + "/pictures/delete/" + file_id,
+                context: document.body
+            }).done(function () {
+                    // Remove the file preview.
+                    $box.hide(300);
+                });
         }
     })
 })

@@ -51,19 +51,19 @@
 						<h4>Status</h4>
 
 						<div class="manipulation">
-						<?php echo $this->Form->input(
-							'status',
-							array(
-								'type' => 'radio',
-								'value' => !empty($album) ? $album['Album']['status'] : 'published',
-								'legend' => false,
-								'separator' => '<div class="clearfix"></div>',
-								'options' => array(
-									'draft' => 'Draft',
-									'published' => 'Published'
-								)
+							<?php echo $this->Form->input(
+								'status',
+								array(
+									'type' => 'radio',
+									'value' => !empty($album) ? $album['Album']['status'] : 'published',
+									'legend' => false,
+									'separator' => '<div class="clearfix"></div>',
+									'options' => array(
+										'draft' => 'Draft',
+										'published' => 'Published'
+									)
 
-							))?>
+								))?>
 						</div>
 
 						<hr/>
@@ -90,41 +90,80 @@
 	</div>
 	<div class="col-md-9">
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-7">
 				<h3>
 					<i class="fa fa-picture-o"></i>
 					Album images
 				</h3>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-5" style="padding-top: 20px">
 				<?php echo $this->Html->link(
-							'<i class="fa fa-trash-o"></i> Delete album',
-							array(
-								'controller' => 'albums',
-								'action' => 'delete',
-								'plugin' => 'gallery',
-								$album['Album']['id']
-							),
-							array(
-								'escape' => false,
-								'class' => 'btn btn-danger pull-right confirm-delete'
-							)
-						); ?>
+					'<i class="fa fa-trash-o"></i> Delete album',
+					array(
+						'controller' => 'albums',
+						'action' => 'delete',
+						'plugin' => 'gallery',
+						$album['Album']['id']
+					),
+					array(
+						'escape' => false,
+						'class' => 'btn btn-danger btn-sm pull-right confirm-delete',
+						'style' => 'margin-left: 10px'
+					)
+				); ?>
+				<?php echo $this->Html->link(
+					'<i class="fa fa-cloud-upload"></i> Upload pictures',
+					'#modalUpload',
+					array(
+						'data-toggle' => 'modal',
+						'escape' => false,
+						'class' => 'btn btn-success btn-sm pull-right'
+					)
+				); ?>
 			</div>
 		</div>
 
 
 		<hr/>
 
-		<?php echo $this->Form->create(null, array(
-			'url' => array(
-				'plugin' => 'gallery',
-				'controller' => 'pictures',
-				'action' => 'upload'),
-			'class' => 'dropzone',
-			'id' => 'drop'
-		))?>
-		</form>
+		<div id="container-pictures">
+			<?php if (!count($album['Picture'])) { ?>
+				<div class="container-empty">
+					<div class="img"><i class="fa fa-picture-o"></i></div>
+					<h2>This album don't have any picture yet.</h2>
+					<br/>
+					<a href="#modalUpload" data-toggle="modal" class="btn btn-success">
+						<i class="fa fa-cloud-upload"></i>
+						Upload images
+					</a>
+				</div>
+			<?php } else { ?>
+				<?php foreach ($files as $f) { ?>
+
+				<?php } ?>
+				<div class="row list-unstyled">
+
+
+					<?php foreach ($files as $picture) { ?>
+						<div class="col-xs-3">
+							<div class="thumbnail th-pictures-container" style="position: relative">
+								<?php $picture_url = !empty($picture['link']) ? $picture['link'] : "http://placehold.it/255x170"; ?>
+								<img src="<?php echo $picture_url ?>" alt="">
+
+								<div class="icons-manage-image">
+									<a href="javascript:void(0)" class="remove-picture btn btn-lg btn-danger"
+									   data-file-id="<?php echo $picture['id'] ?>">
+										<i class="fa fa-trash-o"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					<?php } ?>
+
+
+				</div>
+			<?php } ?>
+		</div>
 
 	</div>
 </div>
@@ -145,9 +184,13 @@
 		});
 
 		<?php foreach($files as $f){ ?>
-		var mockFile = { id: <?php echo $f['id']?>, name: "<?php echo $f['name']?>", size: <?php echo $f['size']?> };
-		myDropzone.emit("addedfile", mockFile);
-		myDropzone.emit("thumbnail", mockFile, "<?php echo $f['link']?>");
+		<!--		var mockFile = { id: -->
+		<?php //echo $f['id']?><!--, name: "-->
+		<?php //echo $f['name']?><!--", size: -->
+		<?php //echo $f['size']?><!-- };-->
+		<!--		myDropzone.emit("addedfile", mockFile);-->
+		<!--		myDropzone.emit("thumbnail", mockFile, "-->
+		<?php //echo $f['link']?><!--");-->
 		<?php } ?>
 
 		$('.panel-heading, .close-config').bind('click', function () {
@@ -170,6 +213,40 @@
 			</div>
 			<div class="modal-footer">
 
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade modal-upload" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="pictureName">
+					<i class="fa fa-picture-o"></i>
+					Upload pictures
+				</h4>
+			</div>
+			<div class="modal-body">
+				<?php echo $this->Form->create(null, array(
+					'url' => array(
+						'plugin' => 'gallery',
+						'controller' => 'pictures',
+						'action' => 'upload'),
+					'class' => 'dropzone',
+					'id' => 'drop'
+				))?>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">
+					<i class="fa fa-check"></i>
+					Done
+				</button>
 			</div>
 			</form>
 		</div>

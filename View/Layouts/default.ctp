@@ -16,6 +16,7 @@
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<?php echo $this->Html->css(
 		array(
+			'Gallery.animate',
 			'Gallery.themes/' . Configure::read('GalleryOptions.App.theme') . '.min',
 			'Gallery.dropzone',
 			'Gallery.style')
