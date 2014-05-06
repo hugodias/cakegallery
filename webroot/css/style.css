@@ -122,8 +122,34 @@ table tr[data-href] {
     position: absolute;
     top: 0;
     text-align: center;
-    width: 97%;
-    height: 96%;
+    width: 96%;
+    height: 95%;
     padding-top: 20%;
     margin-top: 3px;
+}
+
+#sortable > li > .thumbnail.selected{
+    background: #5D96E5 !important;
+}
+
+#sortable > li{
+    cursor:pointer;
+}
+
+#sortable {
+    list-style-type: none;
+    margin: 0; padding: 0;
+}
+#sortable li {
+    margin: 5px 12px 20px 0px;
+    padding: 0;
+    float: left;
+    width: 208px;
+    font-size: 4em;
+    text-align: center;
+}
+.ui-state-default{
+    border: 0;
+    background: none;
+    cursor: move;
 }

@@ -1,5 +1,8 @@
 <?php echo $this->Gallery->new_gallery_button(array('class' => 'btn btn-primary pull-left')); ?>
 
+<?php echo $this->Gallery->button('product', 20, array('class' => 'btn btn-primary pull-left'))?>
+
+
 <div class="row">
 	<div class="col-md-12">
 		<h3>Galleries</h3>

@@ -6,7 +6,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-lg-3">
+	<div class="col-md-3">
 
 		<?php
 		$data = $this->Js->get('#AlbumUpdateForm')->serializeForm(array('isForm' => true, 'inline' => true));
@@ -97,6 +97,7 @@
 				</h3>
 			</div>
 			<div class="col-md-5" style="padding-top: 20px">
+
 				<?php echo $this->Html->link(
 					'<i class="fa fa-trash-o"></i> Delete album',
 					array(
@@ -120,6 +121,13 @@
 						'class' => 'btn btn-success btn-sm pull-right'
 					)
 				); ?>
+				<button type="button" class="btn btn-info btn-sm pull-right popovertrigger" style="margin-right: 10px" data-container="body" data-toggle="popover" data-placement="bottom" data-content="<ul>
+				<li>Use the left form to update your gallery information, such as name, tags or publish status.</li>
+				<li>Use green </li>
+				<li>Drag the pictures to reorder your gallery. (Dont worry, this changes are saved automatically)</li>
+				</ul>">
+					<i class="fa fa-info-circle"></i> Help
+				</button>
 			</div>
 		</div>
 
@@ -130,7 +138,7 @@
 			<?php if (!count($album['Picture'])) { ?>
 				<div class="container-empty">
 					<div class="img"><i class="fa fa-picture-o"></i></div>
-					<h2>This album don't have any picture yet.</h2>
+					<h2>This album don't have any pictures yet.</h2>
 					<br/>
 					<a href="#modalUpload" data-toggle="modal" class="btn btn-success">
 						<i class="fa fa-cloud-upload"></i>
@@ -138,16 +146,15 @@
 					</a>
 				</div>
 			<?php } else { ?>
-				<?php foreach ($files as $f) { ?>
 
-				<?php } ?>
-				<div class="row list-unstyled">
+
+				<div class="row" id="sortable">
 
 
 					<?php foreach ($files as $picture) { ?>
-						<div class="col-xs-3">
+						<div class="col-xs-6 col-md-3 ui-state-default" alt="<?php echo $picture['id']?>" id="<?php echo $picture['id']?>">
 							<div class="thumbnail th-pictures-container" style="position: relative">
-								<?php $picture_url = !empty($picture['link']) ? $picture['link'] : "http://placehold.it/255x170"; ?>
+								<?php $picture_url = !empty($picture['styles']['medium']) ? $picture['styles']['medium'] : "http://placehold.it/255x170"; ?>
 								<img src="<?php echo $picture_url ?>" alt="">
 
 								<div class="icons-manage-image">
@@ -162,6 +169,10 @@
 
 
 				</div>
+
+
+
+
 			<?php } ?>
 		</div>
 
@@ -248,7 +259,6 @@
 					Done
 				</button>
 			</div>
-			</form>
 		</div>
 	</div>
 </div>

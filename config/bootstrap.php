@@ -4,7 +4,7 @@ $config = array(
 		# Choose what theme you want to use:
 		# You can find all themes at Gallery/webroot/css/themes
 		# Use the first name in the file as a parameter, eg: cosmo.min.css -> cosmo
-		'theme' => 'superhero'
+		'theme' => 'darkly'
 	),
 	'File' => array(
 		# Max size of a file (in megabytes (MB))

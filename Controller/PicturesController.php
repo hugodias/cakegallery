@@ -199,6 +199,23 @@ class PicturesController extends GalleryAppController {
 		$this->render(false, false);
 	}
 
+	# Sort photos
+	public function sort() {
+		if ($this->request->is('post'))
+		{
+			$order = explode(",",$_POST['order']);
+			$i = 1;
+			foreach ($order as $photo) {
+				$this->Picture->read(null,$photo);
+				$this->Picture->set('order',$i);
+				$this->Picture->save();
+				$i++;
+			}
+		}
+
+		$this->render(false, false);
+	}
+
 	/**
 	 * Return configured main image resize attributes
 	 * @return array

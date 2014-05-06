@@ -62,6 +62,16 @@ Dropzone.options.drop = {
 };
 Dropzone.autoDiscover = false;
 
+function saveOrder() {
+    var baseuri = jQuery("body").data("plugin-base-url");
+    var sorted = $( "#sortable" ).sortable( "toArray" ).join(",");
+    $.post(baseuri + '/pictures/sort',{
+        order: sorted
+    },function(response){
+        $(".alert-success").removeClass("hide").html('Order Saved!'); window.setTimeout(function(){$(".alert-success").addClass("hide")}, 2000);
+    });
+}
+
 $(function(){
     $('.confirm-delete').on('click', function(e){
         var link = this;
@@ -115,4 +125,16 @@ $(function(){
                 });
         }
     })
+
+    $( "#sortable" ).sortable({
+        opacity: 0.5,
+        update: function(event,ui) {
+            saveOrder();
+        }
+    });
+    $( "#sortable" ).disableSelection();
+
+    $('.popovertrigger').popover({
+        html: true
+    });
 })

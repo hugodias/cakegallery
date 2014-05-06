@@ -6,7 +6,8 @@ class Album extends GalleryAppModel {
 	public $hasMany = array(
 		'Picture' => array(
 			'className' => 'Gallery.Picture',
-			'conditions' => array('Picture.main_id' => null)
+			'conditions' => array('Picture.main_id' => null),
+			'order' => array('Picture.order' => 'ASC')
 		)
 	);
 
