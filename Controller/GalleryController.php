@@ -7,7 +7,18 @@ class GalleryController extends GalleryAppController{
 	}
 
 	public function index(){
-		$this->set('galleries', $this->Album->find_all_published());
+		$search_status = "published";
+		$page_title = "Published albums";
+
+		if(isset($_GET['status']) && $_GET['status'] == 'draft') {
+			$search_status = $_GET['status'];
+			$page_title = "Drafts";
+			$is_draft = true;
+		}
+
+		$galleries = $this->Album->findAllByStatus($search_status);
+
+		$this->set(compact('galleries', 'page_title', 'search_status'));
 	}
 
 	public function docs(){}

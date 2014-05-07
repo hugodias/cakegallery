@@ -123,8 +123,9 @@
 				); ?>
 				<button type="button" class="btn btn-info btn-sm pull-right popovertrigger" style="margin-right: 10px" data-container="body" data-toggle="popover" data-placement="bottom" data-content="<ul>
 				<li>Use the left form to update your gallery information, such as name, tags or publish status.</li>
-				<li>Use green </li>
+				<li>To upload new images to this album, press the upload button.</li>
 				<li>Drag the pictures to reorder your gallery. (Dont worry, this changes are saved automatically)</li>
+				<li>If you delete this album, all its images will be deleted as well.</li>
 				</ul>">
 					<i class="fa fa-info-circle"></i> Help
 				</button>

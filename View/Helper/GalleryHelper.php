@@ -13,7 +13,10 @@ class GalleryHelper extends Helper{
   }
 
   public function new_gallery_button($html_options = array()) {
-    return $this->_View->Html->link('New Gallery', array(
+	  # Icons on link
+	  $html_options['escape'] = false;
+
+    return $this->_View->Html->link('<i class="fa fa-plus"></i> New Album', array(
       'controller' => 'albums',
       'action' => 'upload',
       'plugin' => 'gallery'

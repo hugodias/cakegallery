@@ -121,11 +121,12 @@ table tr[data-href] {
     display: none;
     position: absolute;
     top: 0;
+    left: 0;
     text-align: center;
-    width: 96%;
-    height: 95%;
+    width: 100%;
+    height: 100%;
     padding-top: 20%;
-    margin-top: 3px;
+    border-radius: 5px;
 }
 
 #sortable > li > .thumbnail.selected{
@@ -152,4 +153,12 @@ table tr[data-href] {
     border: 0;
     background: none;
     cursor: move;
+}
+
+.thumbnail.draft{
+    opacity: 0.3;
+}
+
+.thumbnail.draft:hover{
+    opacity: 1;
 }
