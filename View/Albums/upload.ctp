@@ -30,7 +30,7 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<i class="fa fa-cogs"></i>
-					Customize gallery options
+					Customize album options
 				</h3>
 			</div>
 			<div class="panel-body">
@@ -126,6 +126,7 @@
 				<li>To upload new images to this album, press the upload button.</li>
 				<li>Drag the pictures to reorder your gallery. (Dont worry, this changes are saved automatically)</li>
 				<li>If you delete this album, all its images will be deleted as well.</li>
+				<li>The first image of the album will be considered as the cover. To change the cover just drag the image you want to mark as a cover at the first position of the grid</li>
 				</ul>">
 					<i class="fa fa-info-circle"></i> Help
 				</button>
