@@ -1,5 +1,6 @@
 <?php
 class UtilComponent extends Component {
+
 	public function crypto_rand_secure($min, $max) {
 		$range = $max - $min;
 		if ($range < 0)

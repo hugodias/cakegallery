@@ -1,13 +1,4 @@
 <div class="row">
-	<div class="col-md-12">
-
-	</div>
-</div>
-
-
-
-
-<div class="row">
 	<div class="col-md-10">
 		<h2><?php echo $page_title ?></h2>
 	</div>
@@ -53,7 +44,5 @@
 		<?php } else { ?>
 			<?php echo $this->Html->link('<i class="fa fa-pagelines"></i> Drafts', '?status=draft', array('class' => 'btn', 'escape' => false))?>
 		<?php } ?>
-
-
 	</div>
 </div>
