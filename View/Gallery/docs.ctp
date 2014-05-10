@@ -26,7 +26,7 @@
 
 		<p>To use CakeGallery you need the following requirements<br/>
 			- CakePHP 2.x application<br/>
-			- PHP 5.3+<br/>
+			- PHP 5.3+ (bundled GD 2.0.28+ for image manipulation)<br/>
 			- MySQL<br/>
 			- Apache</p>
 		<hr>
@@ -67,18 +67,18 @@
 			<li>Copy the <code>Gallery</code> folder to your app plugins folder: <code>app/Plugin/</code></li>
 			<li>Rename the <code>app/Plugin/Gallery/Config/config.php.install</code> file to <strong>config.php</strong></li>
 			<li>Import the SQL file <code>app/Plugin/Gallery/Config/cakegallery.sql</code> to your database</li>
-			<li>* Open your <code>app/Config/bootstrap.php</code> file and add the following code<br/><br/></li>
+			<li>Open your <code>app/Config/bootstrap.php</code> file and add the following code<br/><br/></li>
 			<li><pre><code class="lang-php">CakePlugin::load(array(
 	&#39;Gallery&#39; =&gt; array(
 	&#39;bootstrap&#39; =&gt; true,
 	&#39;routes&#39; =&gt; true
 )));</code></pre>
 			</li>
+			<li>Create a <strong>gallery</strong> folder inside <code>app/webroot/files</code> and give it writable permissions. (<code>app/webroot/files/gallery</code>)</li>
 		</ul>
 
 		<ul>
-			<li>To finish the installation go to your browser and type <code>http://your-app-url/gallery</code> and follow the
-				wizzard
+			<li>Check at <code>http://your-app-url/gallery</code> to see your plugin working.
 			</li>
 		</ul>
 		<hr>
@@ -133,5 +133,48 @@
 		&#39;model_id&#39; =&gt; null
 		));</code></pre>
 
+		<hr/>
+
+		<h3>How to change image resize dimensions?</h3>
+		<p>All configuration related to images you can find at <code>app/Plugin/Gallery/Config/bootstrap.php</code></p>
+<pre><code class="lang-php">$config = array(
+	'App' => array(
+		# Choose what theme you want to use:
+		# You can find all themes at Gallery/webroot/css/themes
+		# Use the first name in the file as a parameter, eg: cosmo.min.css -> cosmo
+		'theme' => 'cosmo'
+	),
+	'File' => array(
+		# Max size of a file (in megabytes (MB))
+		'max_file_size' => '20',
+
+		# What king pictures the user is allowed to upload?
+		'allowed_extensions' => array('jpg','png','jpeg','gif')
+	),
+	'Pictures' => array(
+		# Resize original image. If you dont want to resize it, you should set a empty array, E.G: 'resize_to' => array()
+		# Default configuration will resize the image to 1024 pixels height (and unlimited width)
+		'resize_to' => array(0, 1024, false),
+
+		# Set to TRUE if you want to convert all png files to JPG (reduce significantly image size)
+		'png2jpg' => true,
+
+		# Set the JPG quality on each resize.
+		# The recommended value is 85 (85% quality)
+		'jpg_quality' => 85,
+
+
+		# List of additional files generated after upload, like thumbnails, banners, etc
+		'styles' => array(
+			'small' => array(50, 50, true), # 50x50 Cropped
+			'medium' => array(255, 170, true), # 255#170 Cropped
+			'large' => array(0, 533, false) # 533 pixels height (and unlimited width)
+			)
+		)
+	);
+	Configure::write('GalleryOptions', $config);	</code></pre>
+
+		<p>You can create more styles on <code>styles</code> array of modify the default size of the defaults</p>
+		<p><i><strong>PS:</strong> don't modify the default <u>names</u> as <i>medium</i> or <i>small</i>. This files are used by the plugin.</i></p>
 	</div>
 </div>

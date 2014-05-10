@@ -204,7 +204,7 @@ class PicturesController extends GalleryAppController {
 
 		# Convert PNG files to JPG if configured on bootstrap.php
 		if(Configure::read('GalleryOptions.Pictures.png2jpg') && $ext == "png" ){
-			# Flag to check must delete the jpg file
+			# Flag to check must delete the png file
 			define("DELETE_PNG", 0x1);
 
 			# Store JPG file location
@@ -219,6 +219,11 @@ class PicturesController extends GalleryAppController {
 
 		# JPG quality
 		$image->jpeg_quality = Configure::read('GalleryOptions.Pictures.jpg_quality');
+
+
+		$image->preserve_aspect_ratio = true;
+		$image->enlarge_smaller_images = true;
+		$image->preserve_time = true;
 
 		if($action == "crop")
 			$action = ZEBRA_IMAGE_CROP_CENTER;
