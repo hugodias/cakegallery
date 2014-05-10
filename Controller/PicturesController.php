@@ -91,19 +91,23 @@ class PicturesController extends GalleryAppController {
 
 				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $custom_filename . '.' . $ext;
 
-				$this->_upload_file(
-					$path,
-					$album_id,
-						$name . '-' . $filename,
-					$filesize,
-					$tmp_name,
-					$width,
-					$height,
-					$crop,
-					true,
-					$main_id,
-					$name
-				);
+				try{
+					$this->_upload_file(
+						$path,
+						$album_id,
+							$name . '-' . $filename,
+						$filesize,
+						$tmp_name,
+						$width,
+						$height,
+						$crop,
+						true,
+						$main_id,
+						$name
+					);
+				} catch (ForbiddenException $e){
+					throw new ForbiddenException($e->getMessage());
+				}
 			}
 		}
 	}
@@ -131,7 +135,12 @@ class PicturesController extends GalleryAppController {
 			# Resize only if the width or the height has benn informed
 			if (!!$width || !!$height) {
 				# Image transformation / Manipulation
-				$path = $this->resizeCrop($path, $width, $height, $action);
+
+				try{
+					$path = $this->resizeCrop($path, $width, $height, $action);
+				} catch (InternalErrorException $e){
+					throw new ForbiddenException($e->getMessage());
+				}
 			}
 
 			if ($save) {
@@ -173,23 +182,85 @@ class PicturesController extends GalleryAppController {
 	}
 
 
-	public function resizeCrop($path, $width = 0, $height = 0, $action = '') {
+	public function resizeCrop($path, $width = 0, $height = 0, $action = null) {
 		ini_set("memory_limit", "10000M");
+
 		App::import(
 			'Vendor',
-			'Gallery.Img',
-			array('file' => 'Img.class.php')
+			'Gallery.Zebra_Image',
+			array('file' => 'ZebraImage.class.php')
 		);
-		$imgClass = new Img();
+
+		$image = new Zebra_Image();
 
 		# Load image
-		$imgClass->carrega($path);
+		$image->source_path = $path;
 
-		# Resize
-		$imgClass->redimensiona($width, $height, $action);
+		# The target will be the same image
+		$target = $path;
 
-		# Save it
-		return $imgClass->grava($path, Configure::read('GalleryOptions.Pictures.jpg_quality'), Configure::read('GalleryOptions.Pictures.png2jpg'));
+		# File Extension
+		$ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+		# Convert PNG files to JPG if configured on bootstrap.php
+		if(Configure::read('GalleryOptions.Pictures.png2jpg') && $ext == "png" ){
+			# Flag to check must delete the jpg file
+			define("DELETE_PNG", 0x1);
+
+			# Store JPG file location
+			$jpg_file = $target;
+
+			# Update target path with JPG extension
+			$target = str_replace(array('.png','.PNG'), '.jpg', $path);
+		}
+
+		# The target will be the same image
+		$image->target_path = $target;
+
+		# JPG quality
+		$image->jpeg_quality = Configure::read('GalleryOptions.Pictures.jpg_quality');
+
+		if($action == "crop")
+			$action = ZEBRA_IMAGE_CROP_CENTER;
+
+		if(!$image->resize($width, $height, $action)){
+			// if there was an error, let's see what the error is about
+			switch ($image->error) {
+
+				case 1:
+					throw new InternalErrorException('Source file could not be found!');
+					break;
+				case 2:
+					throw new InternalErrorException('Source file is not readable!');
+					break;
+				case 3:
+					throw new InternalErrorException('Could not write target file!');
+					break;
+				case 4:
+					throw new InternalErrorException('Unsupported source file format!');
+					break;
+				case 5:
+					throw new InternalErrorException('Unsupported target file format!');
+					break;
+				case 6:
+					throw new InternalErrorException('GD library version does not support target file format!');
+					break;
+				case 7:
+					throw new InternalErrorException('GD library is not installed!');
+					break;
+				case 8:
+					throw new InternalErrorException('"chmod" command is disabled via configuration!');
+					break;
+
+			}
+		} else{
+			# Delete PNG file if needed
+			if(DELETE_PNG){
+				unlink($jpg_file);
+			}
+
+			return $target;
+		}
 	}
 
 	public function delete($id) {
