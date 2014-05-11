@@ -33,13 +33,4 @@ class GalleryBehavior extends ModelBehavior {
 		));
 	}
 
-	/**
-	 * Append gallery to model
-	 * @param Model $Model
-	 * @param $results
-	 * @param bool $primary
-	 */
-	public function afterFind(Model $Model, $results, $primary = false) {
-		debug($results);
-	}
 }
