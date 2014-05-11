@@ -24,8 +24,13 @@
 								<h4>
 									<?php if($gallery['Album']['status'] == 'draft'){ ?>
 										<i class="fa fa-pagelines"></i>
-									<?php }?>
-									<?php echo $gallery['Album']['title'] ?></h4>
+									<?php } else {?>
+									<?php } ?>
+									<?php echo $gallery['Album']['title'] ?>
+								</h4>
+								<h5><i class="fa fa-calendar"></i> <?php echo $this->Time->format($gallery['Album']['created'], '%B %e, %Y %H:%M %p') ?></h5>
+								<h5><i class="fa fa-camera-retro"></i> <?php echo count($gallery['Picture'])?></h5>
+
 							</div>
 						</div>
 					</div>

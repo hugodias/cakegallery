@@ -93,7 +93,7 @@
 			<div class="col-md-7">
 				<h3>
 					<i class="fa fa-picture-o"></i>
-					Album images
+					<?php echo $album['Album']['title'] ?>
 				</h3>
 			</div>
 			<div class="col-md-5" style="padding-top: 20px">

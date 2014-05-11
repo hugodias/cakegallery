@@ -53,7 +53,7 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li>
-						<?php echo $this->Html->link('Galeries', array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery'))?>
+						<?php echo $this->Html->link('Albums', array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery'))?>
 					</li>
 					<li>
 						<?php echo $this->Html->link('Documentation', array('controller' => 'gallery', 'action' => 'docs', 'plugin' => 'gallery'))?>
