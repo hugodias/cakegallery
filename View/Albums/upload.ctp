@@ -121,7 +121,8 @@
 						'class' => 'btn btn-success btn-sm pull-right'
 					)
 				); ?>
-				<button type="button" class="btn btn-info btn-sm pull-right popovertrigger" style="margin-right: 10px" data-container="body" data-toggle="popover" data-placement="bottom" data-content="<ul>
+				<button type="button" class="btn btn-info btn-sm pull-right popovertrigger" style="margin-right: 10px"
+				        data-container="body" data-toggle="popover" data-placement="bottom" data-content="<ul>
 				<li>Use the left form to update your gallery information, such as name, tags or publish status.</li>
 				<li>To upload new images to this album, press the upload button.</li>
 				<li>Drag the pictures to reorder your gallery. (Dont worry, this changes are saved automatically)</li>
@@ -154,7 +155,8 @@
 
 
 					<?php foreach ($files as $picture) { ?>
-						<div class="col-xs-6 col-md-3 ui-state-default" alt="<?php echo $picture['id']?>" id="<?php echo $picture['id']?>">
+						<div class="col-xs-6 col-md-3 ui-state-default" alt="<?php echo $picture['id'] ?>"
+						     id="<?php echo $picture['id'] ?>">
 							<div class="thumbnail th-pictures-container" style="position: relative">
 								<?php $picture_url = !empty($picture['styles']['medium']) ? $picture['styles']['medium'] : "http://placehold.it/255x170"; ?>
 								<img src="<?php echo $picture_url ?>" alt="">
@@ -195,16 +197,6 @@
 			var album_id = $('#AlbumId').val();
 			formData.append("album_id", album_id);
 		});
-
-		<?php foreach($files as $f){ ?>
-		<!--		var mockFile = { id: -->
-		<?php //echo $f['id']?><!--, name: "-->
-		<?php //echo $f['name']?><!--", size: -->
-		<?php //echo $f['size']?><!-- };-->
-		<!--		myDropzone.emit("addedfile", mockFile);-->
-		<!--		myDropzone.emit("thumbnail", mockFile, "-->
-		<?php //echo $f['link']?><!--");-->
-		<?php } ?>
 
 		$('.panel-heading, .close-config').bind('click', function () {
 			$('.panel-body, .panel-footer').slideToggle(300);

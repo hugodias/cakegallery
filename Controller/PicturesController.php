@@ -91,7 +91,7 @@ class PicturesController extends GalleryAppController {
 
 				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $custom_filename . '.' . $ext;
 
-				try{
+				try {
 					$this->_upload_file(
 						$path,
 						$album_id,
@@ -105,7 +105,7 @@ class PicturesController extends GalleryAppController {
 						$main_id,
 						$name
 					);
-				} catch (ForbiddenException $e){
+				} catch (ForbiddenException $e) {
 					throw new ForbiddenException($e->getMessage());
 				}
 			}
@@ -136,9 +136,9 @@ class PicturesController extends GalleryAppController {
 			if (!!$width || !!$height) {
 				# Image transformation / Manipulation
 
-				try{
+				try {
 					$path = $this->resizeCrop($path, $width, $height, $action);
-				} catch (InternalErrorException $e){
+				} catch (InternalErrorException $e) {
 					throw new ForbiddenException($e->getMessage());
 				}
 			}
@@ -203,7 +203,7 @@ class PicturesController extends GalleryAppController {
 		$ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
 		# Convert PNG files to JPG if configured on bootstrap.php
-		if(Configure::read('GalleryOptions.Pictures.png2jpg') && $ext == "png" ){
+		if (Configure::read('GalleryOptions.Pictures.png2jpg') && $ext == "png") {
 			# Flag to check must delete the png file
 			define("DELETE_PNG", 0x1);
 
@@ -211,7 +211,7 @@ class PicturesController extends GalleryAppController {
 			$jpg_file = $target;
 
 			# Update target path with JPG extension
-			$target = str_replace(array('.png','.PNG'), '.jpg', $path);
+			$target = str_replace(array('.png', '.PNG'), '.jpg', $path);
 		}
 
 		# The target will be the same image
@@ -225,10 +225,10 @@ class PicturesController extends GalleryAppController {
 		$image->enlarge_smaller_images = true;
 		$image->preserve_time = true;
 
-		if($action == "crop")
+		if ($action == "crop")
 			$action = ZEBRA_IMAGE_CROP_CENTER;
 
-		if(!$image->resize($width, $height, $action)){
+		if (!$image->resize($width, $height, $action)) {
 			// if there was an error, let's see what the error is about
 			switch ($image->error) {
 
@@ -258,9 +258,9 @@ class PicturesController extends GalleryAppController {
 					break;
 
 			}
-		} else{
+		} else {
 			# Delete PNG file if needed
-			if(DELETE_PNG){
+			if (DELETE_PNG) {
 				unlink($jpg_file);
 			}
 
@@ -277,13 +277,12 @@ class PicturesController extends GalleryAppController {
 
 	# Sort photos
 	public function sort() {
-		if ($this->request->is('post'))
-		{
-			$order = explode(",",$_POST['order']);
+		if ($this->request->is('post')) {
+			$order = explode(",", $_POST['order']);
 			$i = 1;
 			foreach ($order as $photo) {
-				$this->Picture->read(null,$photo);
-				$this->Picture->set('order',$i);
+				$this->Picture->read(null, $photo);
+				$this->Picture->set('order', $i);
 				$this->Picture->save();
 				$i++;
 			}

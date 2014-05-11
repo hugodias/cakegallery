@@ -23,7 +23,7 @@ class GalleryBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @return mixed
 	 */
-	public function getGallery(Model $Model){
+	public function getGallery(Model $Model) {
 		$Album = new Album();
 		return $Album->find('first', array(
 			'conditions' => array(
@@ -39,7 +39,7 @@ class GalleryBehavior extends ModelBehavior {
 	 * @param $results
 	 * @param bool $primary
 	 */
-	public function afterFind(Model $Model, $results, $primary = false){
+	public function afterFind(Model $Model, $results, $primary = false) {
 		debug($results);
 	}
 }

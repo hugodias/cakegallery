@@ -16,7 +16,7 @@
 						<i class="fa fa-times"></i>
 						Your app/webroot/files folder isn't writable
 					</div>
-					<?php $errors++;?>
+					<?php $errors++; ?>
 				<?php
 				} else {
 					?>
@@ -38,7 +38,7 @@
 						<i class="fa fa-times"></i>
 						Your app/Plugin/Gallery/Config folder isn't writable
 					</div>
-					<?php $errors++;?>
+					<?php $errors++; ?>
 				<?php
 				} else {
 					?>
@@ -55,13 +55,14 @@
 
 				<?php $db = ConnectionManager::getDataSource('default');
 
-				if (!$db->isConnected()) {?>
+				if (!$db->isConnected()) {
+					?>
 					<div class="alert alert-danger">
 						<i class="fa fa-times"></i>
 						You need to connect a database before continue.
 					</div>
-					<?php $errors++;?>
-				<?php } else {?>
+					<?php $errors++; ?>
+				<?php } else { ?>
 					<div class="alert alert-success">
 						<a href=""><i class="fa fa-check"></i>
 							Your database is connected.
@@ -71,17 +72,17 @@
 
 
 				<div class="clearfix"></div>
-				<?php if(!$errors){?>
-				<?php echo $this->Html->link('<i class="fa fa-arrow-circle-right"></i> Configure my workflow now!',
-					array(
-						'controller' => 'install',
-						'action' => 'configure',
-						'plugin' => 'gallery'
-					),
-					array(
-						'class' => 'btn btn-success btn-lg',
-						'escape' => false
-					))?>
+				<?php if (!$errors) { ?>
+					<?php echo $this->Html->link('<i class="fa fa-arrow-circle-right"></i> Configure my workflow now!',
+						array(
+							'controller' => 'install',
+							'action' => 'configure',
+							'plugin' => 'gallery'
+						),
+						array(
+							'class' => 'btn btn-success btn-lg',
+							'escape' => false
+						))?>
 
 				<?php } else { ?>
 					<div class="alert alert-warning">

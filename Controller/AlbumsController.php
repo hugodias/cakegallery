@@ -5,7 +5,7 @@ class AlbumsController extends GalleryAppController {
 
 	public $uses = array('Gallery.Album', 'Gallery.Picture');
 
-	public function add() {}
+	public function add() { }
 
 	public function update() {
 		if ($this->request->is('post')) {

@@ -1,17 +1,13 @@
 <?php
 # Component to handle errros
-class ErrorComponent extends Component
-{
+class ErrorComponent extends Component {
 	public $components = array('Session');
 
-	public function set( $erros)
-	{
-		if ( !empty($erros) )
-		{	
+	public function set($erros) {
+		if (!empty($erros)) {
 			$html = '<ul>';
-			foreach ( $erros as $e )
-			{
-				$html .= '<li>'.$e[0].'</li>';
+			foreach ($erros as $e) {
+				$html .= '<li>' . $e[0] . '</li>';
 			}
 			$html .= '</ul>';
 
@@ -19,4 +15,5 @@ class ErrorComponent extends Component
 		}
 	}
 }
+
 ?>

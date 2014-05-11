@@ -2,8 +2,6 @@ Dropzone.options.drop = {
     init: function () {
         this.on("addedfile", function (file) {
 
-
-
             // Create the remove button
             var removeButton = Dropzone.createElement('<button class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>');
             var viewButton = Dropzone.createElement('<button class="btn btn-sm btn-info pull-right"><i class="fa fa-search"></i></button>');
@@ -53,7 +51,7 @@ Dropzone.options.drop = {
 
             });
 
-            if(file.id){
+            if (file.id) {
                 // Add the button to the file preview element.
                 file.previewElement.appendChild(removeButton);
             }
@@ -64,44 +62,46 @@ Dropzone.autoDiscover = false;
 
 function saveOrder() {
     var baseuri = jQuery("body").data("plugin-base-url");
-    var sorted = $( "#sortable" ).sortable( "toArray" ).join(",");
-    $.post(baseuri + '/pictures/sort',{
+    var sorted = $("#sortable").sortable("toArray").join(",");
+    $.post(baseuri + '/pictures/sort', {
         order: sorted
-    },function(response){
-        $(".alert-success").removeClass("hide").html('Order Saved!'); window.setTimeout(function(){$(".alert-success").addClass("hide")}, 2000);
+    }, function (response) {
+        $(".alert-success").removeClass("hide").html('Order Saved!');
+        window.setTimeout(function () {
+            $(".alert-success").addClass("hide")
+        }, 2000);
     });
 }
 
-$(function(){
-    $('.confirm-delete').on('click', function(e){
+$(function () {
+    $('.confirm-delete').on('click', function (e) {
         var link = this;
 
         e.preventDefault();
 
         var resp = confirm("Are you sure?");
 
-        if(resp){
+        if (resp) {
             window.location = link.href;
         }
     })
 
-    $('.modal-upload').on('hidden.bs.modal', function(e){
+    $('.modal-upload').on('hidden.bs.modal', function (e) {
         window.location.reload();
     })
 
 
     $('.th-pictures-container')
-        .mouseover(function(e) {
+        .mouseover(function (e) {
             $(this).children('.icons-manage-image').show();
             e.stopPropagation();
         })
-        .mouseout(function(e){
+        .mouseout(function (e) {
             $(this).children('.icons-manage-image').hide();
         })
 
 
-
-    $('.remove-picture').on('click', function(e){
+    $('.remove-picture').on('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -126,13 +126,13 @@ $(function(){
         }
     })
 
-    $( "#sortable" ).sortable({
+    $("#sortable").sortable({
         opacity: 0.5,
-        update: function(event,ui) {
+        update: function (event, ui) {
             saveOrder();
         }
     });
-    $( "#sortable" ).disableSelection();
+    $("#sortable").disableSelection();
 
     $('.popovertrigger').popover({
         html: true

@@ -3,6 +3,6 @@
  * @var $this View
  */
 
-class GalleryAppModel extends AppModel{
+class GalleryAppModel extends AppModel {
 
 } 

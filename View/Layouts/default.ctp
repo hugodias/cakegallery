@@ -14,10 +14,9 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
 	<?php echo $this->Html->css(
 		array(
-			'Gallery.animate',
 			'Gallery.themes/' . Configure::read('GalleryOptions.App.theme') . '.min',
 			'Gallery.dropzone',
 			'Gallery.style')
@@ -25,7 +24,8 @@
 	<?php echo $this->Html->script('Gallery.lib/modernizr') ?>
 </head>
 <body class="<?php echo $this->params->params['controller'] . '_' . $this->params->params['action'] ?>"
-      data-base-url="<?php echo $this->params->webroot ?>" data-plugin-base-url="<?php echo $this->Html->url(array('plugin' => 'gallery', 'controller' => 'gallery', 'action' => 'index'))?>">
+      data-base-url="<?php echo $this->params->webroot ?>"
+      data-plugin-base-url="<?php echo $this->Html->url(array('plugin' => 'gallery', 'controller' => 'gallery', 'action' => 'index')) ?>">
 <!--[if lt IE 7]>
 <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
 	today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
@@ -48,15 +48,16 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="<?php echo $this->Html->url(array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery'))?>">CakeGallery</a>
+				<a class="navbar-brand"
+				   href="<?php echo $this->Html->url(array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery')) ?>">CakeGallery</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li>
-						<?php echo $this->Html->link('Albums', array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery'))?>
+						<?php echo $this->Html->link('Albums', array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery')) ?>
 					</li>
 					<li>
-						<?php echo $this->Html->link('Documentation', array('controller' => 'gallery', 'action' => 'docs', 'plugin' => 'gallery'))?>
+						<?php echo $this->Html->link('Documentation', array('controller' => 'gallery', 'action' => 'docs', 'plugin' => 'gallery')) ?>
 					</li>
 				</ul>
 			</div>
@@ -67,17 +68,5 @@
 	<?php echo $this->fetch('content'); ?>
 </div>
 
-
-<script>
-	var _gaq = [
-		['_setAccount', 'UA-XXXXX-X'],
-		['_trackPageview']
-	];
-	(function (d, t) {
-		var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-		g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
-		s.parentNode.insertBefore(g, s)
-	}(document, 'script'));
-</script>
 </body>
 </html>
