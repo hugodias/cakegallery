@@ -16,7 +16,7 @@
 			<?php if (empty($galleries)) { ?>
 				<div class="container-empty">
 					<div class="img"><i class="fa fa-picture-o"></i></div>
-					<h2>This don't have any albums yet.</h2>
+					<h2>You don't have albums yet.</h2>
 					<br/>
 					<?php echo $this->Gallery->new_gallery_button(array('class' => 'btn btn-primary', 'style' => 'margin-top: 10px')); ?>
 				</div>

@@ -141,7 +141,7 @@
 			<?php if (!count($album['Picture'])) { ?>
 				<div class="container-empty">
 					<div class="img"><i class="fa fa-picture-o"></i></div>
-					<h2>This album don't have any pictures yet.</h2>
+					<h2>This album doesn't have pictures yet.</h2>
 					<br/>
 					<a href="#modalUpload" data-toggle="modal" class="btn btn-success">
 						<i class="fa fa-cloud-upload"></i>
