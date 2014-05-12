@@ -7,7 +7,6 @@
 </div>
 <div class="row">
 	<div class="col-md-3">
-
 		<?php
 		$data = $this->Js->get('#AlbumUpdateForm')->serializeForm(array('isForm' => true, 'inline' => true));
 		$this->Js->get('#AlbumUpdateForm')->event(
@@ -72,8 +71,6 @@
 							'value' => !empty($album) ? $album['Album']['tags'] : '',
 							'label' => 'Tags (comma separated)',
 							'placeholder' => 'Ex: city, sun, chicago')) ?>
-
-
 					</div>
 				</div>
 			</div>
@@ -134,7 +131,6 @@
 			</div>
 		</div>
 
-
 		<hr/>
 
 		<div id="container-pictures">
@@ -149,11 +145,7 @@
 					</a>
 				</div>
 			<?php } else { ?>
-
-
 				<div class="row" id="sortable">
-
-
 					<?php foreach ($files as $picture) { ?>
 						<div class="col-xs-6 col-md-3 ui-state-default" alt="<?php echo $picture['id'] ?>"
 						     id="<?php echo $picture['id'] ?>">
@@ -170,13 +162,7 @@
 							</div>
 						</div>
 					<?php } ?>
-
-
 				</div>
-
-
-
-
 			<?php } ?>
 		</div>
 
@@ -188,7 +174,6 @@
      data-public-folder-path="<?php echo $this->params->webroot . "files/gallery/" . $album['Album']['id'] . "/" ?>"></div>
 
 <script>
-
 	$(function () {
 
 		var myDropzone = new Dropzone("#drop");
