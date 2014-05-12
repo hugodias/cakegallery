@@ -26,7 +26,7 @@ class Album extends GalleryAppModel {
 	 * @param $created
 	 * @param array $options
 	 */
-	public function afterSave($created, $options = array()) {
+	public function afterSave($created) {
 		if ($created) {
 			$this->_createGalleryFolder($this->data['Album']['id']);
 		}
@@ -69,6 +69,10 @@ class Album extends GalleryAppModel {
 	}
 
 	/**
+	 *
+	 * @param null $model
+	 * @param null $model_id
+	 * @return mixed
 	 */
 	private function _getModelAlbum($model = null, $model_id = null) {
 		return $this->find('first', array(
@@ -115,6 +119,8 @@ class Album extends GalleryAppModel {
 	}
 
 	/**
+	 * Create an folder at webroot/files/gallery to store album pictures
+	 * @param $folder_name
 	 */
 	private function _createGalleryFolder($folder_name) {
 		# Folder to store galleries folders
