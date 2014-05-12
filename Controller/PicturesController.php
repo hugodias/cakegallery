@@ -170,7 +170,7 @@ class PicturesController extends GalleryAppController {
 	private function _savePicture($album_id, $filename, $filesize, $path, $main_id = null, $style = 'full') {
 		$this->Picture->create();
 
-		# Save the file in database
+		# Save the record in database
 		$aux = array(
 			'Picture' => array(
 				'album_id' => $album_id,
@@ -213,7 +213,7 @@ class PicturesController extends GalleryAppController {
 		# The target will be the same image
 		$target = $path;
 
-		# File Extension
+		# Get File Extension
 		$ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
 		# Convert PNG files to JPG if configured on bootstrap.php
@@ -234,7 +234,7 @@ class PicturesController extends GalleryAppController {
 		# JPG quality
 		$image->jpeg_quality = Configure::read('GalleryOptions.Pictures.jpg_quality');
 
-
+		# Extra configs
 		$image->preserve_aspect_ratio = true;
 		$image->enlarge_smaller_images = true;
 		$image->preserve_time = true;
@@ -317,7 +317,6 @@ class PicturesController extends GalleryAppController {
 	 */
 	private function _getResizeSize() {
 		$width = $height = 0;
-		$crop = "";
 
 		if (Configure::check('GalleryOptions.Pictures.resize_to.0')) {
 			$width = Configure::read('GalleryOptions.Pictures.resize_to.0');
