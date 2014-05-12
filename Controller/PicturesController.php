@@ -21,7 +21,7 @@ class PicturesController extends GalleryAppController {
 				$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
 				# Validate if the file extention is allowed
-				$this->_validateExtentions($ext);
+				$this->_validateExtensions($ext);
 
 				# Generate a random filename
 				$filename = $this->Util->getToken();
@@ -64,7 +64,12 @@ class PicturesController extends GalleryAppController {
 		}
 	}
 
-	private function _validateExtentions($ext) {
+	/**
+	 * Validate file extension
+	 * @param $ext
+	 * @throws ForbiddenException
+	 */
+	private function _validateExtensions($ext) {
 		if (!in_array(strtolower($ext), Configure::read('GalleryOptions.File.allowed_extensions'))) {
 			throw new ForbiddenException("You cant upload this kind of file.");
 		}
@@ -87,6 +92,7 @@ class PicturesController extends GalleryAppController {
 				$height = $style[1];
 				$crop = $style[2] ? "crop" : "";
 
+				# eg: medium-1982318927313.jpg
 				$custom_filename = $name . '-' . $this->Util->getToken();
 
 				$path = WWW_ROOT . 'files/gallery/' . $album_id . '/' . $custom_filename . '.' . $ext;
@@ -95,7 +101,7 @@ class PicturesController extends GalleryAppController {
 					$this->_upload_file(
 						$path,
 						$album_id,
-							$name . '-' . $filename,
+						$name . '-' . $filename,
 						$filesize,
 						$tmp_name,
 						$width,
@@ -111,7 +117,6 @@ class PicturesController extends GalleryAppController {
 			}
 		}
 	}
-
 
 	/**
 	 * Upload the image to WWW_ROOT/files/gallery/{album_id}/picture.jpg
@@ -182,6 +187,15 @@ class PicturesController extends GalleryAppController {
 	}
 
 
+	/**
+	 * Resize and/or crop an image
+	 * @param $path
+	 * @param int $width
+	 * @param int $height
+	 * @param null $action
+	 * @return mixed
+	 * @throws InternalErrorException
+	 */
 	public function resizeCrop($path, $width = 0, $height = 0, $action = null) {
 		ini_set("memory_limit", "10000M");
 
@@ -268,6 +282,10 @@ class PicturesController extends GalleryAppController {
 		}
 	}
 
+	/**
+	 * Delete an image and all its versions from database
+	 * @param $id
+	 */
 	public function delete($id) {
 		# Delete the picture and all its versions
 		$this->Picture->_deletePicture($id);
@@ -275,7 +293,9 @@ class PicturesController extends GalleryAppController {
 		$this->render(false, false);
 	}
 
-	# Sort photos
+	/**
+	 * Sort pictures from an album
+	 */
 	public function sort() {
 		if ($this->request->is('post')) {
 			$order = explode(",", $_POST['order']);
