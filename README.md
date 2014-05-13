@@ -4,6 +4,7 @@ Cake Gallery
 CakeGallery is a cakephp plugin to manage galleries, albums and pictures
 
 With CakeGallery you can:
+
 * Create Albums
 * Add tags, title and status (published or drafts) to albums
 * Upload multiple pictures at the same time
