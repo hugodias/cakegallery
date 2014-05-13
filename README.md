@@ -15,6 +15,7 @@ With CakeGallery you can:
 
 ## Requirements
 To use CakeGallery you need the following requirements
+
 * CakePHP 2.x application
 * PHP 5.3+ (bundled GD 2.0.28+ for image manipulation)
 * MySQL
