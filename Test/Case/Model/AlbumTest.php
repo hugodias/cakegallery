@@ -2,11 +2,12 @@
 App::uses('Album', 'Gallery.Model');
 
 class AlbumTest extends CakeTestCase {
-    public $fixtures = array('plugin.gallery.albums');
+    public $fixtures = array('plugin.gallery.album');
+    public $Album;
 
     public function setUp() {
         parent::setUp();
-        $this->Album = ClassRegistry::init('Album');
+        $this->Album = ClassRegistry::init('Gallery.Album');
     }
 
     public function testPublished() {
