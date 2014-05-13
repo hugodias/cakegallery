@@ -17,7 +17,7 @@ class AlbumFixture extends CakeTestFixture {
         $this->records = array(
             array(
                 'id' => 1,
-                'title' => 'First Article',
+                'title' => 'First Album',
                 'default_name' => 'First Article Body',
                 'path' => '/1/',
                 'model' => null,

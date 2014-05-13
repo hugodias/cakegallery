@@ -46,6 +46,22 @@ class Album extends GalleryAppModel {
 			'fields' => $fields
 		));
 	}
+	
+	
+	
+	/**
+	 * Get all draft albums
+	 * @return array
+	 */
+	public function draft($fields = null) {
+		return $this->find('all', array(
+			'conditions' => array(
+				'Album.status' => 'draft'
+			),
+			'recursive' => 2,
+			'fields' => $fields
+		));	    
+	}
 
 
 	/**
