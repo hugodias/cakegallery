@@ -221,7 +221,7 @@ class PicturesController extends GalleryAppController {
 			# Flag to check must delete the png file
 			define("DELETE_PNG", 0x1);
 
-			# Store JPG file location
+			# Store PNG file path to delete later
 			$png_file = $target;
 
 			# Update target path with JPG extension
