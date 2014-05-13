@@ -37,12 +37,13 @@ class Album extends GalleryAppModel {
 	 * Get all published albums
 	 * @return mixed
 	 */
-	public function find_all_published() {
+	public function published($fields = null) {
 		return $this->find('all', array(
 			'conditions' => array(
 				'Album.status' => 'published'
 			),
-			'recursive' => 2
+			'recursive' => 2,
+			'fields' => $fields
 		));
 	}
 
