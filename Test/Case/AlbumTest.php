@@ -2,7 +2,7 @@
 App::uses('Album', 'Gallery.Model');
 
 class AlbumTest extends CakeTestCase {
-    public $fixtures = array('app.albums');
+    public $fixtures = array('plugin.gallery.albums');
 
     public function setUp() {
         parent::setUp();
