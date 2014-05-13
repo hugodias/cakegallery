@@ -4,20 +4,20 @@ Cake Gallery
 CakeGallery is a cakephp plugin to manage galleries, albums and pictures
 
 With CakeGallery you can:
-  - Create Albums
-  - Add tags, title and status (published or drafts) to albums
-  - Upload multiple pictures at the same time
-  - Create multiple versions for your pictures (thumbnails, crop, rezise, etc)
-  - Integrate any album with any other Model in your application
+* Create Albums
+* Add tags, title and status (published or drafts) to albums
+* Upload multiple pictures at the same time
+* Create multiple versions for your pictures (thumbnails, crop, rezise, etc)
+* Integrate any album with any other Model in your application
 
 ---
 
 ## Requirements
 To use CakeGallery you need the following requirements
-- CakePHP 2.x application
-- PHP 5.3+ (bundled GD 2.0.28+ for image manipulation)
-- MySQL
-- Apache
+* CakePHP 2.x application
+* PHP 5.3+ (bundled GD 2.0.28+ for image manipulation)
+* MySQL
+* Apache
 
 ---
 
