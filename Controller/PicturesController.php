@@ -222,7 +222,7 @@ class PicturesController extends GalleryAppController {
 			define("DELETE_PNG", 0x1);
 
 			# Store JPG file location
-			$jpg_file = $target;
+			$png_file = $target;
 
 			# Update target path with JPG extension
 			$target = str_replace(array('.png', '.PNG'), '.jpg', $path);
@@ -275,7 +275,7 @@ class PicturesController extends GalleryAppController {
 		} else {
 			# Delete PNG file if needed
 			if (DELETE_PNG) {
-				unlink($jpg_file);
+				unlink($png_file);
 			}
 
 			return $target;
