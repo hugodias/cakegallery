@@ -41,7 +41,7 @@
 		<hr>
 		<h3>Wizzard Installation (recommended)</h3>
 		<ul>
-			<li>Download and unzip the files you downloaded from CodeCanyon</li>
+			<li>Clone or Download the Zip file from Github</li>
 			<li>Copy the <code>Gallery</code> folder to your app plugins folder: <code>app/Plugin/</code></li>
 			<li>Make sure that your <code>app/Plugin/Gallery/Config</code> folder is writtable (For installation only)</li>
 			<li>Open your <code>app/Config/bootstrap.php</code> file and add the following code</li>
@@ -63,7 +63,7 @@
 
 
 		<ul>
-			<li>Download and unzip the files you downloaded from CodeCanyon</li>
+			<li>Clone or Download the Zip file from Github</li>
 			<li>Copy the <code>Gallery</code> folder to your app plugins folder: <code>app/Plugin/</code></li>
 			<li>Rename the <code>app/Plugin/Gallery/Config/config.php.install</code> file to <strong>config.php</strong></li>
 			<li>Import the SQL file <code>app/Plugin/Gallery/Config/cakegallery.sql</code> to your database</li>
