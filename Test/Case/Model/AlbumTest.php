@@ -32,7 +32,7 @@ class AlbumTest extends CakeTestCase {
 	public function testCreateStandAloneAlbum() {
 		$result = $this->Album->createAlbumAndRedirect();
 
-		$this->assertTrue(is_array($result));
+		$this->assertTrue(isset($result['Album']));
 	}
 
 	public function testCreateAttachedAlbum() {
