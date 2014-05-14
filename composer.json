@@ -1,0 +1,27 @@
+{
+  "name": "hugodias/cakegallery",
+  "version": "0.0.1",
+  "description": "No description",
+  "type": "cakephp-plugin",
+  "keywords": [
+    "cakephp"
+  ],
+  "homepage": "http://github.com/hugodias/cakegallery",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Hugo Dias",
+      "role": "Maintainer"
+    }
+  ],
+  "require": {
+    "composer/installers": "*"
+  },
+  "support": {
+    "issues": "https://github.com/hugodias/cakegallery/issues",
+    "source": "https://github.com/hugodias/cakegallery"
+  },
+  "extra": {
+    "installer-name": "Gallery"
+  }
+}

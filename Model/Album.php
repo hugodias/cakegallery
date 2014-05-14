@@ -26,7 +26,7 @@ class Album extends GalleryAppModel {
 	 * @param $created
 	 * @param array $options
 	 */
-	public function afterSave($created) {
+	public function afterSave($created, $options = array()) {
 		if ($created) {
 			$this->_createGalleryFolder($this->data['Album']['id']);
 		}
@@ -37,13 +37,30 @@ class Album extends GalleryAppModel {
 	 * Get all published albums
 	 * @return mixed
 	 */
-	public function find_all_published() {
+	public function published($fields = null) {
 		return $this->find('all', array(
 			'conditions' => array(
 				'Album.status' => 'published'
 			),
-			'recursive' => 2
+			'recursive' => 2,
+			'fields' => $fields
 		));
+	}
+	
+	
+	
+	/**
+	 * Get all draft albums
+	 * @return array
+	 */
+	public function draft($fields = null) {
+		return $this->find('all', array(
+			'conditions' => array(
+				'Album.status' => 'draft'
+			),
+			'recursive' => 2,
+			'fields' => $fields
+		));	    
 	}
 
 
@@ -52,7 +69,7 @@ class Album extends GalleryAppModel {
 	 * @param $model
 	 * @param $model_id
 	 */
-	public function createAlbumAndRedirect($model, $model_id) {
+	public function createAlbumAndRedirect($model = null, $model_id = null) {
 		# If there is a Model and ModelID on parameters, get or create a folder for it
 		if ($model && $model_id) {
 			# Searching for folder that belongs to this particular $model and $model_id
