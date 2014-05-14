@@ -26,7 +26,7 @@ class Album extends GalleryAppModel {
 	 * @param $created
 	 * @param array $options
 	 */
-	public function afterSave($created) {
+	public function afterSave($created, $options = array()) {
 		if ($created) {
 			$this->_createGalleryFolder($this->data['Album']['id']);
 		}
@@ -69,7 +69,7 @@ class Album extends GalleryAppModel {
 	 * @param $model
 	 * @param $model_id
 	 */
-	public function createAlbumAndRedirect($model, $model_id) {
+	public function createAlbumAndRedirect($model = null, $model_id = null) {
 		# If there is a Model and ModelID on parameters, get or create a folder for it
 		if ($model && $model_id) {
 			# Searching for folder that belongs to this particular $model and $model_id
