@@ -3,7 +3,7 @@ Cake Gallery
 
 CakeGallery is a cakephp plugin to manage galleries, albums and pictures
 
-![Album page](http://drive.google.com/uc?export=view&id=0B_Jfjn30EDVzUDRmNHpWUU5xWlk)
+![Album page](http://drive.google.com/uc?export=view&id=0B_Jfjn30EDVzaW14UllSZXZQeWs)
 
 DEMO: [http://galleryopenshift-cakeupload.rhcloud.com/gallery](http://galleryopenshift-cakeupload.rhcloud.com/gallery)
 
@@ -30,7 +30,7 @@ To use CakeGallery you need the following requirements
 ---
 
 ## Version
-1.0
+1.1
 
 ---
 
