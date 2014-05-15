@@ -66,9 +66,9 @@ function saveOrder() {
     $.post(baseuri + '/pictures/sort', {
         order: sorted
     }, function (response) {
-        $(".alert-success").removeClass("hide").html('Order Saved!');
+        $(".alert-success").fadeIn(600).html('Order Saved!');
         window.setTimeout(function () {
-            $(".alert-success").addClass("hide")
+            $(".alert-success").fadeOut(600)
         }, 2000);
     });
 }
@@ -137,4 +137,8 @@ $(function () {
     $('.popovertrigger').popover({
         html: true
     });
+
+    $('.panel-heading.options, .close-config, .open-config').bind('click', function () {
+        $('.panel.options').slideToggle(300);
+    })
 })

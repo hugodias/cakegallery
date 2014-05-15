@@ -97,8 +97,12 @@ table tr[data-href] {
     min-height: 350px;
 }
 
+.manipulation .form-group{
+    float: left;
+}
 .manipulation label{
     margin-top: 13px;
+    float: left;
 }
 .manipulation input[type=radio],
 .manipulation input[type=checkbox]{
@@ -161,4 +165,15 @@ table tr[data-href] {
 
 .thumbnail.draft:hover{
     opacity: 1;
+}
+.panel-container-album > .panel-heading > .panel-title{
+    font-size: 20px;
+    margin-top: 6px;
+}
+#container-pictures{
+    min-height: 365px;
+}
+
+#folderStatus, .panel.options{
+    display: none;
 }

@@ -23,7 +23,7 @@
 			<?php } else { ?>
 				<?php foreach ($galleries as $gallery) { ?>
 					<a
-							href="<?php echo $this->Html->url(array('controller' => 'albums', 'action' => 'upload', 'plugin' => 'gallery', 'gallery_id' => $gallery['Album']['id'])) ?>">
+							href="<?php echo $this->Html->url(array('controller' => 'albums', 'action' => 'view', 'plugin' => 'gallery', $gallery['Album']['id'])) ?>">
 						<div class="col-sm-6 col-md-3">
 							<div class="thumbnail <?php echo $search_status ?>">
 								<?php $picture_url = !empty($gallery['Picture'][0]['styles']['medium']) ? $gallery['Picture'][0]['styles']['medium'] : "http://placehold.it/255x170"; ?>
