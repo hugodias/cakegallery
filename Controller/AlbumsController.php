@@ -7,6 +7,16 @@ class AlbumsController extends GalleryAppController {
 
 	public function add() { }
 
+	public function view($id = null){
+		$this->Album->id = $id;
+
+		if(!$this->Album->exists()){
+			throw new NotFoundException("This album does not exist");
+		}
+
+		$this->set('album', $this->Album->read(null));
+	}
+
 	public function update() {
 		if ($this->request->is('post')) {
 			if ($this->Album->save($this->request->data)) {
