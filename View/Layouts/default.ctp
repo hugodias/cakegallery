@@ -10,7 +10,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title><?php echo $title_for_layout; ?> - <?php echo Configure::read('Application.name') ?></title>
+	<title><?php echo $title_for_layout; ?></title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
