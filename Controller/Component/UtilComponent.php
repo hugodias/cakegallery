@@ -49,6 +49,25 @@ class UtilComponent extends Component
         }
         rmdir($dirPath);
     }
+
+    public function checkFileErrors($file)
+    {
+        if (!$file['error'] == 0) {
+            throw new ForbiddenException("Upload failed. Check your file.");
+        }
+    }
+
+    /**
+     * Validate file extension
+     * @param $ext
+     * @throws ForbiddenException
+     */
+    public function validateExtensions($ext)
+    {
+        if (!in_array(strtolower($ext), Configure::read('GalleryOptions.File.allowed_extensions'))) {
+            throw new ForbiddenException("You cant upload this kind of file.");
+        }
+    }
 }
 
 ?>
