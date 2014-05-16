@@ -1,5 +1,7 @@
 <?php
 App::uses('Album', 'Gallery.Model');
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
 
 class AlbumTest extends CakeTestCase
 {
@@ -33,20 +35,34 @@ class AlbumTest extends CakeTestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testAlbumNameNotEmpty()
+    {
+        $album = $this->Album->init();
+
+        $this->assertTrue(!empty($album['Album']['title']));
+    }
+
     public function testCreateStandAloneAlbum()
     {
-        $result = $this->Album->createAlbumAndRedirect();
+        $result = $this->Album->init();
 
         $this->assertTrue(isset($result['Album']));
     }
 
     public function testCreateAttachedAlbum()
     {
-        $result = $this->Album->createAlbumAndRedirect('product', 1);
+        $result = $this->Album->init('product', 1);
 
         $this->assertTrue($result['Album']['model'] == "product");
 
         $this->assertTrue($result['Album']['model_id'] == 1);
+    }
+
+    public function testCreateAlbumFolder()
+    {
+        $album = $this->Album->init();
+
+        $this->assertTrue(is_dir(WWW_ROOT . 'files' . DS . 'gallery' . DS . $album['Album']['id']));
     }
 
 }
