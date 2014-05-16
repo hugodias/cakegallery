@@ -7,6 +7,10 @@ class Picture extends GalleryAppModel
     public $belongsTo = array('Gallery.Album');
     public $order = 'Picture.order ASC';
 
+    /**
+     * @param $album_id
+     * @return int
+     */
     public function getNextNumber($album_id)
     {
         return (int)$this->find('count', array('conditions' => array('Picture.album_id' => $album_id))) + 1;
@@ -35,6 +39,10 @@ class Picture extends GalleryAppModel
     }
 
 
+    /**
+     * @param null $picture_id
+     * @return array
+     */
     public function getChild($picture_id = null)
     {
         $this->unbindModel(
@@ -62,6 +70,7 @@ class Picture extends GalleryAppModel
 
     /**
      * Add image styles configured in bootstrap.php
+     *
      * @param $path
      * @param array $sizes
      * @return array
@@ -96,6 +105,8 @@ class Picture extends GalleryAppModel
     /**
      * Remove a picture from database and all his versions and
      * delete all pictures from the server
+     *
+     * @param $id
      */
     public function deletePictures($id)
     {
@@ -121,10 +132,13 @@ class Picture extends GalleryAppModel
                 }
             }
         }
+
+        return true;
     }
 
     /**
      * Save picture information in database
+     *
      * @param $album_id
      * @param $filename
      * @param $filesize
@@ -156,6 +170,7 @@ class Picture extends GalleryAppModel
 
     /**
      * Resize and/or crop an image
+     *
      * @param $path
      * @param int $width
      * @param int $height
@@ -280,17 +295,20 @@ class Picture extends GalleryAppModel
     /**
      * Upload the image to WWW_ROOT/files/gallery/{album_id}/picture.jpg
      * Optionaly save it to database
+     *
      * @param $path
      * @param $album_id
      * @param $filename
      * @param $filesize
      * @param $tmp_name
-     * @param $width
-     * @param $height
+     * @param int $width
+     * @param int $height
      * @param $action
      * @param bool $save
      * @param null $main_id
-     * @return mixed
+     * @param string $style
+     * @return mixed|null
+     * @throws ForbiddenException
      */
     public function uploadFile(
         $path,
@@ -330,12 +348,17 @@ class Picture extends GalleryAppModel
     }
 
     /**
+     * Create extra images from a original one bases on
+     * styles defined on bootstrap.php
+     *
      * @param $styles
      * @param $filename
      * @param $filesize
      * @param $tmp_name
      * @param $album_id
      * @param $main_id
+     * @param $image_name
+     * @throws ForbiddenException
      */
     public function createExtraImages($styles, $filename, $filesize, $tmp_name, $album_id, $main_id, $image_name)
     {
