@@ -43,7 +43,7 @@ class AlbumsController extends GalleryAppController
         } else {
             # If the gallery doesnt exists, create a new one and redirect back to this page with the
             # gallery_id
-            $album = $this->Album->createAlbumAndRedirect($model, $model_id);
+            $album = $this->Album->init($model, $model_id);
 
             # Redirect back to this page with an album ID
             $this->redirect(
@@ -71,7 +71,7 @@ class AlbumsController extends GalleryAppController
                 # Original
                 if ($pic['style'] = 'full') {
                     # Remove from database and all files
-                    $this->Picture->_deletePicture($pic['id']);
+                    $this->Picture->deletePictures($pic['id']);
                 }
             }
         }
