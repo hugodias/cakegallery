@@ -1,4 +1,6 @@
 <?php
+App::uses('Folder', 'Utility');
+
 class Album extends GalleryAppModel
 {
     public $name = 'Album';
@@ -30,7 +32,7 @@ class Album extends GalleryAppModel
     public function afterSave($created, $options = array())
     {
         if ($created) {
-            $this->_createGalleryFolder($this->data['Album']['id']);
+            $this->createFolder($this->data['Album']['id']);
         }
     }
 
@@ -78,30 +80,52 @@ class Album extends GalleryAppModel
      * @param $model
      * @param $model_id
      */
-    public function createAlbumAndRedirect($model = null, $model_id = null)
+    public function init($model = null, $model_id = null)
     {
         # If there is a Model and ModelID on parameters, get or create a folder for it
         if ($model && $model_id) {
             # Searching for folder that belongs to this particular $model and $model_id
-            if (!$album = $this->_getModelAlbum($model, $model_id)) {
+            if (!$album = $this->getAttachedAlbum($model, $model_id)) {
                 # If there is no Album , lets create one for it
-                $album = $this->_createAlbum($model, $model_id);
+                $album = $this->createInitAlbum($model, $model_id);
             }
         } else {
             # If there is no model on parameters, lets create a generic folder
-            $album = $this->_createAlbum(null, null);
+            $album = $this->createInitAlbum(null, null);
         }
 
         return $album;
     }
 
     /**
-     *
+     * Save album with a random name in database
      * @param null $model
      * @param null $model_id
      * @return mixed
      */
-    private function _getModelAlbum($model = null, $model_id = null)
+    private function createInitAlbum($model = null, $model_id = null)
+    {
+        $this->save(
+            array(
+                'Album' => array(
+                    'model' => $model,
+                    'model_id' => $model_id,
+                    'status' => 'published',
+                    'tags' => '',
+                    'title' => $this->generateAlbumName($model, $model_id)
+                )
+            )
+        );
+        return $this->read(null);
+    }
+
+    /**
+     * Get an attached album
+     * @param null $model
+     * @param null $model_id
+     * @return mixed
+     */
+    private function getAttachedAlbum($model = null, $model_id = null)
     {
         return $this->find(
             'first',
@@ -115,35 +139,12 @@ class Album extends GalleryAppModel
     }
 
     /**
-     * Create a empty album
-     * @param null $model
-     * @param null $model_id
-     * @return mixed
-     */
-    private function _createAlbum($model = null, $model_id = null)
-    {
-        $this->save(
-            array(
-                'Album' => array(
-                    'model' => $model,
-                    'model_id' => $model_id,
-                    'status' => 'published',
-                    'tags' => '',
-                    'title' => $this->_generateAlbumName($model, $model_id)
-                )
-            )
-        );
-        return $this->read(null);
-    }
-
-
-    /**
      * Generate a random album name
      * @param null $model
      * @param null $model_id
      * @return string
      */
-    private function _generateAlbumName($model = null, $model_id = null)
+    private function generateAlbumName($model = null, $model_id = null)
     {
         $name = 'Album - ' . rand(111, 999);
 
@@ -158,7 +159,7 @@ class Album extends GalleryAppModel
      * Create an folder at webroot/files/gallery to store album pictures
      * @param $folder_name
      */
-    private function _createGalleryFolder($folder_name)
+    private function createFolder($folder_name)
     {
         # Folder to store galleries folders
         $galleries_path = WWW_ROOT . 'files' . DS . 'gallery';
@@ -170,14 +171,14 @@ class Album extends GalleryAppModel
         if (!is_dir($galleries_path)) {
             if (!is_dir(WWW_ROOT . 'files')) {
                 # Create webroot/files folder if dont exists
-                mkdir(WWW_ROOT . 'files', 755);
+                new Folder(WWW_ROOT . 'files', true, 0755);
             }
             # Create webroot/files/gallery folder if dont exists
-            mkdir($galleries_path, 755);
+            new Folder($galleries_path, true, 0755);
         }
         if (!is_dir($folder_path)) {
             # Create gallery folder if dont exists
-            mkdir($folder_path, 755);
+            new Folder($folder_path, true, 0755);
         }
     }
 }
