@@ -144,6 +144,7 @@ class Picture extends GalleryAppModel
      * @param $filesize
      * @param $path
      * @param null $main_id
+     * @param string $style
      * @return mixed
      */
     public function savePicture($album_id, $filename, $filesize, $path, $main_id = null, $style = 'full')
