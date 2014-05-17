@@ -81,7 +81,7 @@ class PictureTest extends CakeTestCase
         # Generate custom image to test upload
         $im = imagecreatetruecolor(120, 20);
         $text_color = imagecolorallocate($im, 233, 14, 91);
-        imagestring($im, 1, 5, 5,  'A Simple Text String', $text_color);
+        imagestring($im, 1, 5, 5, 'A Simple Text String', $text_color);
         imagejpeg($im, $tmp_file);
 
         # Generate path to save file
@@ -112,7 +112,7 @@ class PictureTest extends CakeTestCase
 
 
         # Should rise exception
-        try{
+        try {
             $this->Picture->uploadFile(
                 $file_path,
                 null,
@@ -123,7 +123,7 @@ class PictureTest extends CakeTestCase
                 $resize_attrs['action'],
                 true
             );
-        } catch(ForbiddenException $e){
+        } catch (ForbiddenException $e) {
             $this->assertEqual($e->getMessage(), "The album ID is required");
         }
 
