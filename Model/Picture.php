@@ -1,4 +1,5 @@
 <?php
+App::uses('File', 'Utility');
 
 class Picture extends GalleryAppModel
 {
@@ -6,6 +7,23 @@ class Picture extends GalleryAppModel
     public $tablePrefix = 'gallery_';
     public $belongsTo = array('Gallery.Album');
     public $order = 'Picture.order ASC';
+    public $validate = array(
+        'album_id' => array(
+            'rule' => 'numeric',
+            'required' => true,
+            'message' => 'The album ID is required'
+        ),
+        'size' => array(
+            'rule' => 'numeric',
+            'required' => true,
+            'message' => 'The SIZE is required'
+        ),
+        'path' => array(
+            'rule' => 'notEmpty',
+            'required' => true,
+            'message' => 'The PATH is required'
+        )
+    );
 
     /**
      * @param $album_id
@@ -14,6 +32,17 @@ class Picture extends GalleryAppModel
     public function getNextNumber($album_id)
     {
         return (int)$this->find('count', array('conditions' => array('Picture.album_id' => $album_id))) + 1;
+    }
+
+
+    public function beforeValidate($options = array())
+    {
+        if (empty($this->data['Picture']['size'])) {
+            $file = new File($this->data['Picture']['path']);
+            $this->data['Picture']['size'] = $file->size();
+        }
+
+        return true;
     }
 
     /**
@@ -38,35 +67,31 @@ class Picture extends GalleryAppModel
         return $results;
     }
 
-
     /**
-     * @param null $picture_id
+     * Return configured main image resize attributes
      * @return array
      */
-    public function getChild($picture_id = null)
+    public function getResizeToSize()
     {
-        $this->unbindModel(
-            array('belongsTo' => array('Gallery.Album'))
-        );
+        $width = $height = 0;
 
-        $childrens = $this->find(
-            'all',
-            array(
-                'conditions' => array(
-                    'main_id' => $picture_id
-                ),
-                'fields' => array('Picture.path', 'Picture.id', 'Picture.style')
-            )
-        );
-
-        $childs = array();
-        foreach ($childrens as $child) {
-            $childs[$child['Picture']['style']] = $child['Picture']['link'];
+        if (Configure::check('GalleryOptions.Pictures.resize_to.0')) {
+            $width = Configure::read('GalleryOptions.Pictures.resize_to.0');
         }
 
-        return $childs;
-    }
+        if (Configure::check('GalleryOptions.Pictures.resize_to.1')) {
+            $height = Configure::read('GalleryOptions.Pictures.resize_to.1');
+        }
 
+        $crop = Configure::read('GalleryOptions.Pictures.resize_to.2');
+        $action = $crop ? "crop" : "";
+
+        return array(
+            'width' => $width,
+            'height' => $height,
+            'action' => $action
+        );
+    }
 
     /**
      * Add image styles configured in bootstrap.php
@@ -147,7 +172,7 @@ class Picture extends GalleryAppModel
      * @param string $style
      * @return mixed
      */
-    public function savePicture($album_id, $filename, $filesize, $path, $main_id = null, $style = 'full')
+    public function savePicture($album_id, $filename, $path, $main_id = null, $style = 'full')
     {
         $this->create();
 
@@ -156,7 +181,6 @@ class Picture extends GalleryAppModel
             'Picture' => array(
                 'album_id' => $album_id,
                 'name' => $filename,
-                'size' => $filesize,
                 'path' => $path,
                 'main_id' => $main_id,
                 'style' => $style
@@ -189,6 +213,9 @@ class Picture extends GalleryAppModel
             array('file' => 'ZebraImage.class.php')
         );
 
+        # Flag
+        $delete_png = false;
+
         $image = new Zebra_Image();
 
         # Load image
@@ -203,7 +230,7 @@ class Picture extends GalleryAppModel
         # Convert PNG files to JPG if configured on bootstrap.php
         if (Configure::read('GalleryOptions.Pictures.png2jpg') && $ext == "png") {
             # Flag to check must delete the png file
-            define("DELETE_PNG", 0x1);
+            $delete_png = true;
 
             # Store PNG file path to delete later
             $png_file = $target;
@@ -259,38 +286,12 @@ class Picture extends GalleryAppModel
             }
         } else {
             # Delete PNG file if needed
-            if (DELETE_PNG) {
+            if ($delete_png) {
                 unlink($png_file);
             }
 
             return $target;
         }
-    }
-
-    /**
-     * Return configured main image resize attributes
-     * @return array
-     */
-    public function getResizeToSize()
-    {
-        $width = $height = 0;
-
-        if (Configure::check('GalleryOptions.Pictures.resize_to.0')) {
-            $width = Configure::read('GalleryOptions.Pictures.resize_to.0');
-        }
-
-        if (Configure::check('GalleryOptions.Pictures.resize_to.1')) {
-            $height = Configure::read('GalleryOptions.Pictures.resize_to.1');
-        }
-
-        $crop = Configure::read('GalleryOptions.Pictures.resize_to.2');
-        $action = $crop ? "crop" : "";
-
-        return array(
-            'width' => $width,
-            'height' => $height,
-            'action' => $action
-        );
     }
 
     /**
@@ -312,11 +313,10 @@ class Picture extends GalleryAppModel
      * @throws ForbiddenException
      */
     public function uploadFile(
-        $path,
-        $album_id,
+        $path = null,
+        $album_id = null,
         $filename,
-        $filesize,
-        $tmp_name,
+        $tmp_name = null,
         $width = 0,
         $height = 0,
         $action,
@@ -324,6 +324,19 @@ class Picture extends GalleryAppModel
         $main_id = null,
         $style = 'full'
     ) {
+
+        if (!$album_id) {
+            throw new ForbiddenException("The album ID is required");
+        }
+
+        if (!$path) {
+            throw new ForbiddenException("The PATH is required");
+        }
+
+        if (!$tmp_name) {
+            throw new ForbiddenException("The TMP_NAME is required");
+        }
+
         # Copy the file to the folder
         if (copy($tmp_name, $path)) {
 
@@ -339,7 +352,7 @@ class Picture extends GalleryAppModel
             }
 
             if ($save) {
-                return $this->savePicture($album_id, $filename, $filesize, $path, $main_id, $style);
+                return $this->savePicture($album_id, $filename, $path, $main_id, $style);
             }
 
             return null;
@@ -361,40 +374,92 @@ class Picture extends GalleryAppModel
      * @param $image_name
      * @throws ForbiddenException
      */
-    public function createExtraImages($styles, $filename, $filesize, $tmp_name, $album_id, $main_id, $image_name)
+    public function createExtraImages($styles, $filename, $tmp_name, $album_id, $main_id, $image_name)
     {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
         if (count($styles)) {
-            foreach ($styles as $name => $style) {
+            foreach ($styles as $style_name => $style) {
                 $width = $style[0];
                 $height = $style[1];
                 $crop = $style[2] ? "crop" : "";
 
                 # eg: medium-1982318927313.jpg
-                $custom_filename = $name . '-' . $image_name;
+                $custom_filename = $style_name . '-' . $image_name . '.' . $ext;
 
-                $path = WWW_ROOT . 'files' . DS . 'gallery' . DS . $album_id . DS . $custom_filename . '.' . $ext;
+                $path = $this->generateFilePath($album_id, $custom_filename);
 
                 try {
                     $this->uploadFile(
                         $path,
                         $album_id,
-                        $name . '-' . $filename,
-                        $filesize,
+                        $style_name . '-' . $filename,
                         $tmp_name,
                         $width,
                         $height,
                         $crop,
                         true,
                         $main_id,
-                        $name
+                        $style_name
                     );
                 } catch (ForbiddenException $e) {
                     throw new ForbiddenException($e->getMessage());
                 }
             }
         }
+    }
+
+    /**
+     * @param null $picture_id
+     * @return array
+     */
+    private function getChild($picture_id = null)
+    {
+        $this->unbindModel(
+            array('belongsTo' => array('Gallery.Album'))
+        );
+
+        $childrens = $this->find(
+            'all',
+            array(
+                'conditions' => array(
+                    'main_id' => $picture_id
+                ),
+                'fields' => array('Picture.path', 'Picture.id', 'Picture.style')
+            )
+        );
+
+        $childs = array();
+        foreach ($childrens as $child) {
+            $childs[$child['Picture']['style']] = $child['Picture']['link'];
+        }
+
+        return $childs;
+    }
+
+    /**
+     * Get file size
+     * @param null $path
+     * @return integer
+     */
+    public function getFileSize($path = null)
+    {
+        $file = new File($path);
+        return $file->size();
+    }
+
+    /**
+     * @param $album_id
+     * @param $filename
+     * @return string
+     */
+    public function generateFilePath($album_id = null, $filename = null)
+    {
+        if (!$album_id || !$filename) {
+            return false;
+        }
+
+        return WWW_ROOT . 'files' . DS . 'gallery' . DS . $album_id . DS . $filename;
     }
 }
 

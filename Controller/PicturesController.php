@@ -28,13 +28,15 @@ class PicturesController extends GalleryAppController
                 # Generate a random filename
                 $filename = $this->Util->getToken();
 
-                $path = WWW_ROOT . 'files' . DS . 'gallery' . DS . $album_id . DS . $filename . '.' . $ext;
+                $full_name = $filename . "." . $ext;
+
+                # Image Path
+                $path = $this->Picture->generateFilePath($album_id, $full_name);
 
                 $main_id = $this->Picture->uploadFile(
                     $path,
                     $album_id,
                     $file['name'],
-                    $file['size'],
                     $file['tmp_name'],
                     $resize_attrs['width'],
                     $resize_attrs['height'],
@@ -47,7 +49,6 @@ class PicturesController extends GalleryAppController
                 $this->Picture->createExtraImages(
                     Configure::read('GalleryOptions.Pictures.styles'),
                     $file['name'],
-                    $file['size'],
                     $file['tmp_name'],
                     $album_id,
                     $main_id,
