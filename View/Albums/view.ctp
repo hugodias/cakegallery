@@ -1,3 +1,8 @@
+<?php $this->Html->css(array(
+    'Gallery.style'
+  ),
+  array('block' => 'css'))?>
+
 <div class="row">
     <div class="col-md-10">
         <h2><?php echo $album['Album']['title'] ?></h2>

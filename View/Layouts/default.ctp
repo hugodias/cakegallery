@@ -17,12 +17,11 @@
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
     <?php echo $this->Html->css(
         array(
-            'Gallery.themes/' . Configure::read('GalleryOptions.App.theme') . '.min',
-            'Gallery.dropzone',
-            'Gallery.style'
+            'Gallery.themes/' . Configure::read('GalleryOptions.App.theme') . '.min'
         )
     ); ?>
     <?php echo $this->Html->script('Gallery.lib/modernizr') ?>
+    <?php echo $this->fetch('css'); ?>
 </head>
 <body class="<?php echo $this->params->params['controller'] . '_' . $this->params->params['action'] ?>"
       data-base-url="<?php echo $this->params->webroot ?>"
@@ -39,7 +38,8 @@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script>window.jQuery || document.write('<script src="<?php echo $this->params->webroot ?>js/lib/jquery.min.js"><\/script>')</script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<?php echo $this->Html->script(array('Gallery.lib/dropzone.min.js', 'Gallery.scripts.js')); ?>
+
+<?php echo $this->fetch('js'); ?>
 
 <div class="container">
     <div class="navbar navbar-default" role="navigation">
@@ -78,6 +78,7 @@
     <?php echo $this->Session->flash(); ?>
     <?php echo $this->fetch('content'); ?>
 </div>
+
 
 </body>
 </html>

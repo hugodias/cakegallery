@@ -1,3 +1,17 @@
+<?php $this->Html->script(
+  array(
+    'Gallery.lib/dropzone.min.js',
+    'Gallery.scripts.js'
+  ),
+  array('block' => 'js')
+); ?>
+
+<?php $this->Html->css(array(
+    'Gallery.dropzone',
+    'Gallery.style'
+  ),
+  array('block' => 'css'))?>
+
 <div class="row">
     <div class="col-md-12">
         <div id="folderStatus" class="alert alert-success">
