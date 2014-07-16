@@ -64,7 +64,7 @@ CakePlugin::loadAll(array(
 * Open your `app/Config/bootstrap.php` file and add the following code
 
 ```php
-CakePlugin::load(array(
+CakePlugin::loadAll(array(
 'Gallery' => array(
     'bootstrap' => true,
     'routes' => true
