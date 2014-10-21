@@ -1,5 +1,6 @@
 Cake Gallery
 =========
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/hugodias/cakegallery?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 CakeGallery is a cakephp plugin to manage galleries, albums and pictures
 
