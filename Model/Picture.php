@@ -216,12 +216,6 @@ class Picture extends GalleryAppModel
     {
         ini_set("memory_limit", "10000M");
 
-        App::import(
-            'Vendor',
-            'Gallery.Zebra_Image',
-            array('file' => 'ZebraImage.class.php')
-        );
-
         # Flag
         $delete_png = false;
 
