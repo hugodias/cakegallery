@@ -31,4 +31,9 @@ $config = array(
 );
 Configure::write('GalleryOptions', $config);
 
+App::import(
+    'Vendor',
+    'Gallery.Zebra_Image',
+    array('file' => 'ZebraImage.class.php')
+);
 
