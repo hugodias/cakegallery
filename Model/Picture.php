@@ -26,6 +26,15 @@ class Picture extends GalleryAppModel
     );
 
     /**
+     * Remove all versions of the picture from the storage after delete the record 
+     * from the database
+     */
+    public function afterDelete()
+    {
+        $this->deletePictures($this->data['Picture']['id']);
+    }
+
+    /**
      * @param $album_id
      * @return int
      */
