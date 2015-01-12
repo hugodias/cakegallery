@@ -39,8 +39,7 @@ Configure::write('GalleryOptions', $config);
  * Configure::write('AmazonS3Credentials', array(
  * 'API_KEY' => '#######',
  * 'SECRET_KEY' => '######',
- * 'BUCKET' => '######',
- * #'PATH' => '########'
+ * 'BUCKET' => '#########' // optional, if no bucket is specified this plugin will create one for you.
  * ));
  *
  */
