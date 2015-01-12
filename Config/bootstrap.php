@@ -31,6 +31,21 @@ $config = array(
 );
 Configure::write('GalleryOptions', $config);
 
+/**
+ * Amazon S3 Credentials
+ * Uncomment those lines bellow if you want yo use Amazon S3 as storage for the pictures
+ *
+ *
+ * Configure::write('AmazonS3Credentials', array(
+ * 'API_KEY' => '#######',
+ * 'SECRET_KEY' => '######',
+ * 'BUCKET' => '######',
+ * #'PATH' => '########'
+ * ));
+ *
+ */
+
+
 App::import(
     'Vendor',
     'Gallery.Zebra_Image',
