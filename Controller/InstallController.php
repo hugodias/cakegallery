@@ -59,6 +59,11 @@ class InstallController extends GalleryAppController
                 $this->_setupDatabase($db);
             }
 
+            # Create config file
+            $this->_createConfigFile();
+
+            return;
+
         } catch (Exception $e) {
             $this->Session->setFlash($e->getMessage());
             $this->redirect('/');
@@ -85,9 +90,6 @@ class InstallController extends GalleryAppController
         $sqlFile = new File(App::pluginPath('Gallery') . 'Config' . DS . 'cakegallery.sql', false);
         $db->rawQuery($sqlFile->read());
         $sqlFile->close();
-
-        # Create config file
-        $this->_createConfigFile();
     }
 
     /**
@@ -95,9 +97,12 @@ class InstallController extends GalleryAppController
      */
     private function _createConfigFile()
     {
-        copy(
-            App::pluginPath('Gallery') . 'config' . DS . 'config.php.install',
-            App::pluginPath('Gallery') . 'config' . DS . 'config.php'
-        );
+        $destinationPath = App::pluginPath('Gallery') . 'config' . DS . 'config.php';
+
+        if (!file_exists($destinationPath)) {
+            $configFile = new File(App::pluginPath('Gallery') . 'config' . DS . 'config.php.install');
+
+            $configFile->copy($destinationPath);
+        }
     }
 } 
