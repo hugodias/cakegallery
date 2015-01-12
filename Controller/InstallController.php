@@ -27,8 +27,6 @@ class InstallController extends GalleryAppController
 
         $this->_configureDatabase();
 
-        sleep(10);
-
         $this->Session->setFlash('Success! Gallery is now installed in your app.');
 
         $this->redirect(
