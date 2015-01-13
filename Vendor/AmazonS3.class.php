@@ -12,10 +12,10 @@ class AmazonS3
 
     private $bucket = null;
 
-    function __construct($key, $secret, $bucket = null)
+    function __construct($credentials = array(), $bucket = null)
     {
         try {
-            $this->_configureCredentials($key, $secret);
+            $this->_configureCredentials($credentials['API_KEY'], $credentials['SECRET_KEY']);
 
             $this->setBucket($bucket);
 

@@ -27,22 +27,16 @@ $config = array(
             'medium' => array(255, 170, true), # 255#170 Cropped
             'large' => array(0, 533, false) # 533 pixels height (and unlimited width)
         )
-    )
+    ),
+//    'AmazonS3' => array(
+//        'credentials' => array(
+//            'API_KEY' => '#######',
+//            'SECRET_KEY' => '######'
+//        ),
+//        'bucket' => '#########' // optional, if no bucket is specified this plugin will create one for you.
+//    )
 );
 Configure::write('GalleryOptions', $config);
-
-/**
- * Amazon S3 Credentials
- * Uncomment those lines bellow if you want yo use Amazon S3 as storage for the pictures
- *
- *
- * Configure::write('AmazonS3Credentials', array(
- * 'API_KEY' => '#######',
- * 'SECRET_KEY' => '######',
- * 'BUCKET' => '#########' // optional, if no bucket is specified this plugin will create one for you.
- * ));
- *
- */
 
 
 App::import(

@@ -4,9 +4,13 @@ App::uses('File', 'Utility');
 class Picture extends GalleryAppModel
 {
     public $name = 'Picture';
+
     public $tablePrefix = 'gallery_';
+
     public $belongsTo = array('Gallery.Album');
+
     public $order = 'Picture.order ASC';
+
     public $validate = array(
         'album_id' => array(
             'rule' => 'numeric',
@@ -26,7 +30,7 @@ class Picture extends GalleryAppModel
     );
 
     /**
-     * Remove all versions of the picture from the storage after delete the record 
+     * Remove all versions of the picture from the storage after delete the record
      * from the database
      */
     public function afterDelete()
@@ -316,7 +320,7 @@ class Picture extends GalleryAppModel
      * @throws ForbiddenException
      */
     public function uploadFile(
-        $path = null,
+        $destination = null,
         $album_id = null,
         $filename,
         $tmp_name = null,
@@ -326,41 +330,111 @@ class Picture extends GalleryAppModel
         $save = false,
         $main_id = null,
         $style = 'full'
-    ) {
+    )
+    {
 
         if (!$album_id) {
             throw new ForbiddenException("The album ID is required");
         }
 
-        if (!$path) {
-            throw new ForbiddenException("The PATH is required");
+        if (!$destination) {
+            throw new ForbiddenException("The Destination is required");
         }
 
         if (!$tmp_name) {
             throw new ForbiddenException("The TMP_NAME is required");
         }
 
-        # Copy the file to the folder
-        if (copy($tmp_name, $path)) {
+        try {
+            # Copy file to destination
+            $this->_copyToDestination($tmp_name, $destination);
 
-            # Resize only if the width or the height has benn informed
-            if (!!$width || !!$height) {
-                # Image transformation / Manipulation
+            # Resize the image if needed
+            $image_path = $this->_manipulateImage($destination, $width, $height, $action);
 
-                try {
-                    $path = $this->resizeCrop($path, $width, $height, $action);
-                } catch (InternalErrorException $e) {
-                    throw new ForbiddenException($e->getMessage());
-                }
+            # Upload to Amazon S3 if enabled
+            if (Configure::read('GalleryOptions.AmazonS3')) {
+                # Store original file for deleting later
+                $source_file = $image_path;
+
+                # Override image_path with the amazon s3 image path
+                $image_path = $this->_uploadToAmazon($image_path, $filename);
+
+                # Delete source file
+                unlink($source_file);
             }
 
             if ($save) {
-                return $this->savePicture($album_id, $filename, $path, $main_id, $style);
+                return $this->savePicture($album_id, $filename, $image_path, $main_id, $style);
             }
 
             return null;
-        } else {
+
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Copy a file to specific folder
+     *
+     * @param $tmp_name
+     * @param $path
+     * @throws ForbiddenException
+     */
+    private function _copyToDestination($tmp_name, $path)
+    {
+        if (!copy($tmp_name, $path)) {
             throw new ForbiddenException("Upload failed. Check your folders permissions.");
+        }
+    }
+
+    /**
+     * Check if a file needs to be resized based on passed configs
+     *
+     * @param $path
+     * @param $width
+     * @param $height
+     * @param $action
+     * @return mixed
+     * @throws ForbiddenException
+     */
+    private function _manipulateImage($path, $width, $height, $action)
+    {
+        # Resize only if the width or the height has benn informed
+        if (!!$width || !!$height) {
+            # Image transformation / Manipulation
+
+            try {
+                $path = $this->resizeCrop($path, $width, $height, $action);
+            } catch (InternalErrorException $e) {
+                throw new ForbiddenException($e->getMessage());
+            }
+        }
+
+        return $path;
+    }
+
+    /**
+     * Upload a file to Amazon S3 using application credentials
+     *
+     * @param $path
+     * @param $filename
+     */
+    private function _uploadToAmazon($path, $filename)
+    {
+        if (!Configure::read('GalleryOptions.AmazonS3.credentials')) {
+            throw new InvalidArgumentException('You need to fill Amazon S3 Credentials');
+        }
+
+        try {
+            $AmazonS3 = new AmazonS3(Configure::read('GalleryOptions.AmazonS3.credentials'), Configure::read('GalleryOptions.AmazonS3.bucket'));
+
+            return $AmazonS3->upload($path, $filename);
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -464,6 +538,8 @@ class Picture extends GalleryAppModel
 
         return WWW_ROOT . 'files' . DS . 'gallery' . DS . $album_id . DS . $filename;
     }
+
+
 }
 
 ?>
