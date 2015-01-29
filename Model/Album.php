@@ -1,5 +1,6 @@
 <?php
 App::uses('Folder', 'Utility');
+App::uses('GalleryAppModel', 'Gallery.Model');
 
 class Album extends GalleryAppModel
 {

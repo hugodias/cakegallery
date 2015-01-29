@@ -90,18 +90,46 @@ Integrating Gallery with a model of your application is very simple and takes on
 Class Product extends AppModel{
     public $name = 'Product';
 }
-```		
+```
 Now you just need to add the $actsAs attribute in your model:
 
 ```php
 Class Product extends AppModel{
 	public $name = 'Product';
-	public $actsAs = 'Gallery.Gallery';
+	public $actsAs = array('Gallery.Gallery');
 }
 ```
-And its done! To list all galleries attached to a Product, you can do something like this:
+And its done! Now, when you search for this object in database, its pictures will be automatically retrieved from the plugin:
 
 ```php
+$product = $this->Product->findById(10);
+
+// array(
+//   'Product' => array(
+//     'id' => '1',
+//     'name' => 'My Product',
+//     'price' => '29.00'
+//   ),
+//   'Gallery' => array(
+//     'Album' => array(
+//       ...
+//     ),
+//     'Picture' => array(
+//       ...
+//     ),
+//     'numPictures' => (int) 2
+//   )
+// )
+```
+If you want to manually call for the pictures you will want to disable the automatic feature and call it yourself:
+```php
+// Product.php
+public $actsAs = array('Gallery.Gallery' => array('automatic' => false));
+...
+
+
+// Anycontroller.php
+
 $this->Product->id = 10;
 $this->Product->getGallery();
 ```
@@ -114,10 +142,10 @@ Every Picture that have Gallery attached at it already have 1 gallery to start u
 
 ```php
 echo $this->Html->link('New gallery', array(
-		'controller' => 'gallery',
-		'action' => 'upload',
-		'plugin' => 'gallery',
-		'model' => 'product',
+    'controller' => 'albums',
+    'action' => 'upload',
+    'plugin' => 'gallery',
+    'model' => 'product',
 		'model_id' => $product_id
 		));
 ```
@@ -131,9 +159,9 @@ You can create a gallery that don't belongs to any model, a standalone gallery. 
 
 ```php
 echo $this->Html->link('New gallery', array(
-		'controller' => 'gallery',
-		'action' => 'upload',
-		'plugin' => 'gallery',
+    'controller' => 'albums',
+    'action' => 'upload',
+    'plugin' => 'gallery',
 		'model' => null,
 		'model_id' => null
 		));
@@ -177,9 +205,8 @@ $config = array(
 			)
 		)
 	);
-	Configure::write('GalleryOptions', $config);	
+	Configure::write('GalleryOptions', $config);
 ```
 You can create more styles on styles array of modify the default size of the defaults
 
 PS: don't modify the default names as **medium** or **small**. This files are used by the plugin.
-
