@@ -6,7 +6,9 @@ CakeGallery is a cakephp plugin to manage galleries, albums and pictures
 
 ![Album page](https://dl.dropboxusercontent.com/u/17997827/Screenshot%202015-01-12%2010.34.55.png)
 
-Video Tutorial: [https://www.youtube.com/watch?v=OEgVQQTaWkE](https://www.youtube.com/watch?v=OEgVQQTaWkE) - Portuguese
+Installing: [https://www.youtube.com/watch?v=OEgVQQTaWkE](https://www.youtube.com/watch?v=OEgVQQTaWkE) - Portuguese
+
+Features: [https://www.youtube.com/watch?v=kxKRSY4Tdjc](https://www.youtube.com/watch?v=kxKRSY4Tdjc) - Portuguese
 
 DEMO: [http://galleryopenshift-cakeupload.rhcloud.com/gallery](http://galleryopenshift-cakeupload.rhcloud.com/gallery)
 
