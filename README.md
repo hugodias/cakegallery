@@ -33,7 +33,7 @@ To use CakeGallery you need the following requirements
 ---
 
 ## Version
-1.1.2
+1.2
 
 ---
 
