@@ -12,8 +12,11 @@ class GalleryBehavior extends ModelBehavior
         if($this->settings[$Model->alias]['automatic']) {
           $gallery = $this->getGallery($Model, $val[$Model->name]['id']);
 
-          $results[$key]['Gallery'] = $gallery;
-          $results[$key]['Gallery']['numPictures'] = count($gallery['Picture']);
+          if($gallery) {
+            $results[$key]['Gallery'] = $gallery;
+            $results[$key]['Gallery']['numPictures'] = count($gallery['Picture']);            
+          }
+
         }
       }
       return $results;
