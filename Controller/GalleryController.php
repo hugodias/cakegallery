@@ -1,4 +1,5 @@
 <?php
+
 class GalleryController extends GalleryAppController
 {
     public $uses = array('Gallery.Album');
@@ -23,7 +24,5 @@ class GalleryController extends GalleryAppController
 
         $this->set(compact('galleries', 'page_title', 'search_status'));
     }
-
-    public function docs() { }
 
 } 
