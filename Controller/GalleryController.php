@@ -17,7 +17,6 @@ class GalleryController extends GalleryAppController
         if (isset($_GET['status']) && $_GET['status'] == 'draft') {
             $search_status = $_GET['status'];
             $page_title = "Drafts";
-            $is_draft = true;
         }
 
         $galleries = $this->Album->findAllByStatus($search_status);

@@ -1,10 +1,20 @@
 <?php
 $config = array(
     'App' => array(
-        # Choose what theme you want to use:
-        # You can find all themes at Gallery/webroot/css/themes
-        # Use the first name in the file as a parameter, eg: cosmo.min.css -> cosmo
-        'theme' => 'flatly'
+        /**
+         * Choose what theme you want to use:
+         * You can find all themes at Gallery/webroot/css/themes
+         * Use the first name in the file as a parameter, eg: cosmo.min.css -> cosmo
+         *
+         */
+        #'theme' => 'flatly',
+        'theme' => 'flatly',
+        /**
+         * Use customized plugin interface
+         *
+         * Set false to disable
+         */
+        'interfaced' => true
     ),
     'File' => array(
         # Max size of a file (in megabytes (MB))
@@ -30,21 +40,6 @@ $config = array(
     )
 );
 Configure::write('GalleryOptions', $config);
-
-/**
- * Amazon S3 Credentials
- * Uncomment those lines bellow if you want yo use Amazon S3 as storage for the pictures
- *
- *
- * Configure::write('AmazonS3Credentials', array(
- * 'API_KEY' => '#######',
- * 'SECRET_KEY' => '######',
- * 'BUCKET' => '######',
- * #'PATH' => '########'
- * ));
- *
- */
-
 
 App::import(
     'Vendor',
