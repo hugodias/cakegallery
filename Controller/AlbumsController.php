@@ -71,7 +71,7 @@ class AlbumsController extends GalleryAppController
                 # Original
                 if ($pic['style'] = 'full') {
                     # Remove from database and all files
-                    $this->Picture->deletePictures($pic['id']);
+                    $this->Picture->delete($pic['id']);
                 }
             }
         }

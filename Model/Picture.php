@@ -4,9 +4,15 @@ App::uses('File', 'Utility');
 class Picture extends GalleryAppModel
 {
     public $name = 'Picture';
+
+    public $pictureToDelete = null;
+
     public $tablePrefix = 'gallery_';
+
     public $belongsTo = array('Gallery.Album');
+
     public $order = 'Picture.order ASC';
+
     public $validate = array(
         'album_id' => array(
             'rule' => 'numeric',
@@ -26,12 +32,27 @@ class Picture extends GalleryAppModel
     );
 
     /**
-     * Remove all versions of the picture from the storage after delete the record 
-     * from the database
+    * Preserve picture ID for deleting versions after remove from database
+    */
+    public function beforeDelete($cascade = true)
+    {
+      $this->pictureToDelete = $this->id;
+
+      return true;
+    }
+
+    /**
+     * Remove all versions of the picture from the storage after delete the
+     * record from the database
      */
     public function afterDelete()
     {
-        $this->deletePictures($this->data['Picture']['id']);
+      if( $this->pictureToDelete ) {
+
+        $this->deleteVersions($this->pictureToDelete);
+
+        $this->pictureToDelete = null;
+      }
     }
 
     /**
@@ -137,22 +158,18 @@ class Picture extends GalleryAppModel
     }
 
     /**
-     * Remove a picture from database and all his versions and
-     * delete all pictures from the server
+     * Remove all versions from a picture from the database and from the server
      *
      * @param $id
      */
-    public function deletePictures($id)
+    public function deleteVersions($id)
     {
         # Remove all versions of the picture
         $pictures = $this->find(
             'all',
             array(
                 'conditions' => array(
-                    'OR' => array(
-                        'Picture.id' => $id,
-                        'Picture.main_id' => $id
-                    )
+                    'Picture.main_id' => $id
                 )
             )
         );
@@ -162,7 +179,7 @@ class Picture extends GalleryAppModel
                 # Remove file
                 if (unlink($pic['Picture']['path'])) {
                     # Remove from database
-                    $this->delete($pic['Picture']['id']);
+                    $this->delete($pic['Picture']['id'], array('callback' => false));
                 }
             }
         }

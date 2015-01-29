@@ -76,7 +76,7 @@ class PicturesController extends GalleryAppController
     public function delete($id)
     {
         # Delete the picture and all its versions
-        $this->Picture->deletePictures($id);
+        $this->Picture->delete($id);
 
         $this->render(false, false);
     }
