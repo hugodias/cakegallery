@@ -1,7 +1,12 @@
 <?php $this->Html->css(array(
     'Gallery.style'
-  ),
-  array('block' => 'css'))?>
+),
+    array('block' => 'css')) ?>
+
+<?php
+if (Configure::read('GalleryOptions.App.interfaced'))
+    $this->Html->script('Gallery.interface', array('block' => 'js'));
+?>
 
 <div class="row">
     <div class="col-md-10">
@@ -40,7 +45,9 @@
                 <?php foreach ($album['Picture'] as $picture) { ?>
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail">
-                            <img src="<?php echo $picture['styles']['medium'] ?>" alt="...">
+                            <a href="<?php echo $picture['link'] ?>" class="swipebox">
+                                <img src="<?php echo $picture['styles']['medium'] ?>" alt="...">
+                            </a>
                         </div>
                     </div>
                 <?php } ?>

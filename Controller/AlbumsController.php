@@ -1,4 +1,5 @@
 <?php
+
 class AlbumsController extends GalleryAppController
 {
 
@@ -6,17 +7,25 @@ class AlbumsController extends GalleryAppController
 
     public $uses = array('Gallery.Album', 'Gallery.Picture');
 
-    public function add() { }
+    public function add()
+    {
+    }
 
     public function view($id = null)
     {
+        $this->layout = 'showroom';
+
         $this->Album->id = $id;
 
         if (!$this->Album->exists()) {
             throw new NotFoundException("This album does not exist");
         }
 
-        $this->set('album', $this->Album->read(null));
+        $album = $this->Album->read(null);
+
+        $this->set('title_for_layout', $album['Album']['title']);
+
+        $this->set(compact('album'));
     }
 
     public function update()
