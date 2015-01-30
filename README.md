@@ -217,6 +217,7 @@ $config = array(
 	Configure::write('GalleryOptions', $config);
 ```
 
-You can create more styles on styles array of modify the default size of the defaults
+You can create as many styles you want, just add in the styles array, and future versions will be created on uploading.
 
-PS: don't modify the default names as **medium** or **small**. This files are used by the plugin.
+PS: DO NOT modify the default names as **medium** or **small**. You can safely modify the width, height and action but the names
+are used by the plugin, so don't change then.
