@@ -46,7 +46,12 @@ class GalleryHelper extends AppHelper
      * @param null $album_id
      * @return string
      */
-    public function showroom($model = null, $model_id = null, $album_id = null, $html_options = array('jquery' => true, 'swipebox' => true))
+    public function showroom(
+        $model = null,
+        $model_id = null,
+        $album_id = null,
+        $style = 'medium',
+        $html_options = array('jquery' => true, 'swipebox' => true))
     {
         $Album = new Album();
 
@@ -61,7 +66,7 @@ class GalleryHelper extends AppHelper
             $this->_loadScripts($html_options);
 
             # Render the showroom
-            $this->showroomTmpl($album);
+            $this->showroomTmpl($album, $style);
         } else {
             # Album doesn't exists
             $this->_noPhotosMessageTmpl();
@@ -76,13 +81,13 @@ class GalleryHelper extends AppHelper
      *
      * @param $album
      */
-    public function showroomTmpl($album)
+    public function showroomTmpl($album, $style = 'medium')
     {
         if (empty($album['Picture'])) {
             $this->_noPhotosMessageTmpl();
         } else {
             foreach ($album['Picture'] as $picture) {
-                $this->_thumbnailTmpl($picture);
+                $this->_thumbnailTmpl($picture, $style);
             }
         }
     }
