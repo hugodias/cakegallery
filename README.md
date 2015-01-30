@@ -89,14 +89,14 @@ CakePlugin::loadAll(array(
 Integrating Gallery with a model of your application is very simple and takes only seconds, and the best is you do not need to change your database. To begin open the model you want to attach a gallery, in this example will be `Product.php`
 
 ```php
-Class Product extends AppModel{
+class Product extends AppModel{
     public $name = 'Product';
 }
 ```
 Now you just need to add the $actsAs attribute in your model:
 
 ```php
-Class Product extends AppModel{
+class Product extends AppModel{
 	public $name = 'Product';
 	public $actsAs = array('Gallery.Gallery');
 }
@@ -105,7 +105,7 @@ And its done! Now, when you search for this object in database, its pictures wil
 
 ```php
 $product = $this->Product->findById(10);
-
+//
 // array(
 //   'Product' => array(
 //     'id' => '1',
@@ -123,15 +123,15 @@ $product = $this->Product->findById(10);
 //   )
 // )
 ```
+
 If you want to manually call for the pictures you will want to disable the automatic feature and call it yourself:
+
 ```php
-// Product.php
 public $actsAs = array('Gallery.Gallery' => array('automatic' => false));
-...
+```
 
-
+```php
 // Anycontroller.php
-
 $this->Product->id = 10;
 $this->Product->getGallery();
 ```
@@ -140,37 +140,37 @@ $this->Product->getGallery();
 
 #### How to create a new gallery attached with a model?
 
-Every Picture that have Gallery attached at it already have 1 gallery to start uploading files. To link to a Picture gallery is quite simple:<br/> Using the CakePHP Html helper:
+You should use the Gallery link helper. It is very easy to use.
+
+1. Specify the Gallery helper in your controller
+2. Use the gallery link helper passing a model and id
 
 ```php
-echo $this->Html->link('New gallery', array(
-    'controller' => 'albums',
-    'action' => 'upload',
-    'plugin' => 'gallery',
-    'model' => 'product',
-		'model_id' => $product_id
-		));
+# ProductsController.php
+class ProductsController extends AppController {
+	public $helpers = array('Gallery.Gallery');
+}
 ```
-If you don't want to use the Html helper you can link to this pattern: `/your_app/gallery/upload/{model}/{model_id}`
+
+```php
+# app/View/Products/view.ctp
+echo $this->Gallery->link('product', 10);
+```
 
 ---
 
 #### How to create a standalone gallery? (Non-related gallery)
 
-You can create a gallery that don't belongs to any model, a standalone gallery. To create one of those you will use the same example as above, but passing the model and the model_id as NULL:
+You can create a gallery that don't belongs to any model, a standalone gallery. To create one of those you will use the same example as above, but no arguments are needed
 
 ```php
-echo $this->Html->link('New gallery', array(
-    'controller' => 'albums',
-    'action' => 'upload',
-    'plugin' => 'gallery',
-		'model' => null,
-		'model_id' => null
-		));
+# anyview.ctp
+echo $this->Gallery->link();
 ```
 
 #### How to change image resize dimensions?
 All configuration related to images you can find at app/Plugin/Gallery/Config/bootstrap.php
+
 ```php
 $config = array(
 	'App' => array(
@@ -209,6 +209,7 @@ $config = array(
 	);
 	Configure::write('GalleryOptions', $config);
 ```
+
 You can create more styles on styles array of modify the default size of the defaults
 
 PS: don't modify the default names as **medium** or **small**. This files are used by the plugin.
