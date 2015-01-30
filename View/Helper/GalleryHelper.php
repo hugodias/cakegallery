@@ -46,7 +46,7 @@ class GalleryHelper extends AppHelper
      * @param null $album_id
      * @return string
      */
-    public function showroom($model = null, $model_id = null, $album_id = null, $html_options = array('jquery' => true, 'bootstrap' => true, 'swipebox' => true))
+    public function showroom($model = null, $model_id = null, $album_id = null, $html_options = array('jquery' => true, 'swipebox' => true))
     {
         $Album = new Album();
 
@@ -92,17 +92,12 @@ class GalleryHelper extends AppHelper
      *
      * @param bool $jquery
      */
-    private function _loadScripts($scripts = array('jquery' => true, 'bootstrap' => true, 'swipebox' => true))
+    private function _loadScripts($scripts = array('jquery' => true, 'swipebox' => true))
     {
         if (!isset($scripts['jquery']) || (isset($scripts['jquery']) && $scripts['jquery'] == true)) {
             echo $this->_View->Html->script(
                 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js',
                 array('block' => 'script'));
-        }
-
-        if (!isset($scripts['bootstrap']) || (isset($scripts['bootstrap']) && $scripts['bootstrap'] == true)) {
-            echo $this->_View->Html->css('http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css',
-                array('block' => 'css'));
         }
 
         if (!isset($scripts['swipebox']) || (isset($scripts['swipebox']) && $scripts['swipebox'] == true)) {
