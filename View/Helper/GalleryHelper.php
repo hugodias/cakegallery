@@ -39,7 +39,31 @@ class GalleryHelper extends AppHelper
     }
 
     /**
+     * Get cover picture from an album (The first picture)
+     *
+     * @example
+     * <?php echo $this->Gallery->cover('product', 10) ?>
+     *
+     * @param null $model
+     * @param null $model_id
+     * @param null $album_id
+     * @param string $style
+     * @return string
+     */
+    public function cover($model = null, $model_id = null, $album_id = null, $style = 'medium')
+    {
+        if ($album = $this->getAlbum($model, $model_id, $album_id)) {
+            if (!empty($album['Picture'][0])) {
+                return '<img src="' . $album['Picture'][0]['styles'][$style] . '" alt="">';
+            }
+        }
+    }
+
+    /**
      * Render a gallery with thumbnails
+     *
+     * @example
+     * <?php $this->Gallery->showroom('product', 10) ?>
      *
      * @param null $model
      * @param null $model_id
@@ -53,13 +77,8 @@ class GalleryHelper extends AppHelper
         $style = 'medium',
         $html_options = array('jquery' => true, 'swipebox' => true))
     {
-        $Album = new Album();
 
-        if ($album_id) {
-            $album = $Album->findById($album_id);
-        } else if ($model && $model_id) {
-            $album = $Album->getAttachedAlbum($model, $model_id);
-        }
+        $album = $this->getAlbum($model, $model_id, $album_id);
 
         if (!empty($album)) {
             # Load scripts for the showroom (jquery, bootstrap, swipebox)
@@ -89,6 +108,25 @@ class GalleryHelper extends AppHelper
             foreach ($album['Picture'] as $picture) {
                 $this->_thumbnailTmpl($picture, $style);
             }
+        }
+    }
+
+
+    /**
+     * Get an album from $model & $model_id or $album_id
+     *
+     * @param null $model
+     * @param null $model_id
+     * @param null $album_id
+     */
+    private function getAlbum($model = null, $model_id = null, $album_id = null)
+    {
+        $Album = new Album();
+
+        if ($album_id) {
+            return $Album->findById($album_id);
+        } else if ($model && $model_id) {
+            return $Album->getAttachedAlbum($model, $model_id);
         }
     }
 
