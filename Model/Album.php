@@ -126,7 +126,7 @@ class Album extends GalleryAppModel
      * @param null $model_id
      * @return mixed
      */
-    private function getAttachedAlbum($model = null, $model_id = null)
+    public function getAttachedAlbum($model = null, $model_id = null)
     {
         return $this->find(
             'first',

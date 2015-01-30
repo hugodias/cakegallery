@@ -1,14 +1,14 @@
 <?php $this->Html->css(array(
     'Gallery.style'
-  ),
-  array('block' => 'css'))?>
+),
+    array('block' => 'css')) ?>
 
 <div class="row">
     <div class="col-md-10">
         <h2><?php echo $page_title ?></h2>
     </div>
     <div class="col-md-2">
-        <?php echo $this->Gallery->new_gallery_button(
+        <?php echo $this->Gallery->link(null, null,
             array('class' => 'btn btn-primary pull-right', 'style' => 'margin-top: 10px')
         ); ?>
     </div>

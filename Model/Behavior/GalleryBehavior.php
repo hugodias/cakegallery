@@ -7,19 +7,19 @@ class GalleryBehavior extends ModelBehavior
 {
     public function afterFind(Model $Model, $results, $primary = false)
     {
-      foreach ($results as $key => $val) {
+        foreach ($results as $key => $val) {
 
-        if($this->settings[$Model->alias]['automatic']) {
-          $gallery = $this->getGallery($Model, $val[$Model->name]['id']);
+            if ($this->settings[$Model->alias]['automatic']) {
+                $gallery = $this->getGallery($Model, $val[$Model->name]['id']);
 
-          if($gallery) {
-            $results[$key]['Gallery'] = $gallery;
-            $results[$key]['Gallery']['numPictures'] = count($gallery['Picture']);            
-          }
+                if ($gallery) {
+                    $results[$key]['Gallery'] = $gallery;
+                    $results[$key]['Gallery']['numPictures'] = count($gallery['Picture']);
+                }
 
+            }
         }
-      }
-      return $results;
+        return $results;
     }
 
     public function setup(Model $Model, $settings = array())
@@ -45,19 +45,10 @@ class GalleryBehavior extends ModelBehavior
     {
         $Album = new Album();
 
-
-        if(!$object_id) {
-          $object_id = $Model->id;
+        if (!$object_id) {
+            $object_id = $Model->id;
         }
 
-        return $Album->find(
-            'first',
-            array(
-                'conditions' => array(
-                    'model' => $Model->alias,
-                    'model_id' => $object_id
-                )
-            )
-        );
+        return $Album->getAttachedAlbum($Model->alias, $object_id);
     }
 }

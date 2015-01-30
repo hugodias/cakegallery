@@ -168,6 +168,8 @@ You can create a gallery that don't belongs to any model, a standalone gallery. 
 echo $this->Gallery->link();
 ```
 
+---
+
 #### How to change image resize dimensions?
 All configuration related to images you can find at app/Plugin/Gallery/Config/bootstrap.php
 

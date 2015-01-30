@@ -35,24 +35,7 @@ if (Configure::read('GalleryOptions.App.interfaced'))
 <div class="row">
     <div class="col-md-12">
         <div class="row">
-
-            <?php if (empty($album['Picture'])) { ?>
-                <div class="container-empty">
-                    <div class="img"><i class="fa fa-picture-o"></i></div>
-                    <h2>This album has no photos yet.</h2>
-                </div>
-            <?php } else { ?>
-                <?php foreach ($album['Picture'] as $picture) { ?>
-                    <div class="col-sm-6 col-md-3">
-                        <div class="thumbnail">
-                            <a href="<?php echo $picture['link'] ?>" class="swipebox">
-                                <img src="<?php echo $picture['styles']['medium'] ?>" alt="...">
-                            </a>
-                        </div>
-                    </div>
-                <?php } ?>
-            <?php } ?>
-
+            <?php echo $this->Gallery->showroomTmpl($album) ?>
         </div>
     </div>
 </div>
