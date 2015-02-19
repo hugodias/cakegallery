@@ -85,9 +85,13 @@ CakePlugin::loadAll(array(
 * Check at `http://your-app-url/gallery` to see your plugin working.
 
 ---
-### Features
+### FAQ
 
 ---
+
+#### The images are not showing up
+
+If you are using windows , have a chance of the images are not being rendered. This will happen because of windows directory separator. To fix it you can use this solution: [http://stackoverflow.com/a/4095765/708385](http://stackoverflow.com/a/4095765/708385)
 
 #### How to attach a gallery to a model?
 
