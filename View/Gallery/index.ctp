@@ -25,7 +25,7 @@
                     <div class="img"><i class="fa fa-picture-o"></i></div>
                     <h2>You don't have <?php echo $search_status ?> albums yet.</h2>
                     <br/>
-                    <?php echo $this->Gallery->new_gallery_button(
+                    <?php echo $this->Gallery->link(null, null,
                         array('class' => 'btn btn-primary', 'style' => 'margin-top: 10px')
                     ); ?>
                 </div>
