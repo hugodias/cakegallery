@@ -26,7 +26,7 @@ class GalleryHelper extends AppHelper
     public function link($model = null, $model_id = null, $html_options = array())
     {
         return $this->_View->Html->link(
-            'Upload pictures',
+            __('Upload pictures'),
             array(
                 'controller' => 'albums',
                 'action' => 'upload',
