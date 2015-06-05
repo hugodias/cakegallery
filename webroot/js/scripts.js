@@ -34,7 +34,7 @@ Dropzone.options.drop = {
                 e.preventDefault();
                 e.stopPropagation();
 
-                var resp = confirm("Are you sure?");
+                var resp = confirm(__("Are you sure?"));
 
                 if (resp) {
                     var baseuri = jQuery("body").data("plugin-base-url");
@@ -66,7 +66,7 @@ function saveOrder() {
     $.post(baseuri + '/pictures/sort', {
         order: sorted
     }, function (response) {
-        $(".alert-success").fadeIn(600).html('Order Saved!');
+        $(".alert-success").fadeIn(600).html(__('Order Saved!'));
         window.setTimeout(function () {
             $(".alert-success").fadeOut(600)
         }, 2000);
@@ -79,7 +79,7 @@ $(function () {
 
         e.preventDefault();
 
-        var resp = confirm("Are you sure?");
+        var resp = confirm(__("Are you sure?"));
 
         if (resp) {
             window.location = link.href;
@@ -111,7 +111,7 @@ $(function () {
 
         var file_id = $(this).data('file-id');
 
-        var resp = confirm("Are you sure?");
+        var resp = confirm(__("Are you sure?"));
 
         if (resp) {
             var baseuri = jQuery("body").data("plugin-base-url");
@@ -142,3 +142,13 @@ $(function () {
         $('.panel.options').slideToggle(300);
     })
 })
+
+/**
+ * A dummy gettext translation function, so this file has no dependency on
+ * a particular js implementation of gettext
+ */
+if (typeof __ == 'undefined') {
+    var __ = function (msg) {
+        return (typeof App.i18n != 'undefined' ? App.i18n.gettext(msg) : msg);
+    };
+}

@@ -14,7 +14,7 @@ if (Configure::read('GalleryOptions.App.interfaced'))
     </div>
     <div class="col-md-2">
         <?php echo $this->Html->link(
-            '<i class="fa fa-edit"></i> Edit album',
+            '<i class="fa fa-edit"></i> ' . __d('gallery', 'Edit album'),
             array(
                 'controller' => 'albums',
                 'action' => 'upload',

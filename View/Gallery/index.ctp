@@ -78,13 +78,13 @@
     <div class="col-md-12">
         <?php if ($search_status == "draft") { ?>
             <?php echo $this->Html->link(
-                '<i class="fa fa-check"></i> Published albums',
+                '<i class="fa fa-check"></i> ' . __d('gallery', 'Published albums'),
                 '?status=published',
                 array('class' => 'btn btn-default', 'escape' => false)
             ) ?>
         <?php } else { ?>
             <?php echo $this->Html->link(
-                '<i class="fa fa-pagelines"></i> Drafts',
+                '<i class="fa fa-pagelines"></i> ' . __d('gallery', 'Drafts'),
                 '?status=draft',
                 array('class' => 'btn btn-default', 'escape' => false)
             ) ?>

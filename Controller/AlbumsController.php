@@ -18,7 +18,7 @@ class AlbumsController extends GalleryAppController
         $this->Album->id = $id;
 
         if (!$this->Album->exists()) {
-            throw new NotFoundException("This album does not exist");
+            throw new NotFoundException(__d('gallery', 'This album does not exist'));
         }
 
         $album = $this->Album->read(null);
@@ -32,7 +32,7 @@ class AlbumsController extends GalleryAppController
     {
         if ($this->request->is('post')) {
             if ($this->Album->save($this->request->data)) {
-                echo "You configurations are saved.";
+                echo __d('gallery', 'You configurations are saved.');
             }
         }
         $this->render(false, false);
@@ -90,7 +90,7 @@ class AlbumsController extends GalleryAppController
             $album_dir = WWW_ROOT . 'files' . DS . 'gallery' . DS . $id . DS;
             $this->Util->deleteDir($album_dir);
 
-            $this->Session->setFlash("Album deleted.");
+            $this->Session->setFlash(__d('gallery', 'Album deleted.'));
 
             $this->redirect(array('controller' => 'gallery', 'action' => 'index', 'plugin' => 'gallery'));
         }
