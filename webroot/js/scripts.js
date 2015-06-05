@@ -43,9 +43,9 @@ Dropzone.options.drop = {
                         url: baseuri + "/pictures/delete/" + file_id,
                         context: document.body
                     }).done(function () {
-                            // Remove the file preview.
-                            _this.removeFile(file);
-                        });
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                    });
                 }
 
 
@@ -60,18 +60,96 @@ Dropzone.options.drop = {
 };
 Dropzone.autoDiscover = false;
 
-function saveOrder() {
-    var baseuri = jQuery("body").data("plugin-base-url");
-    var sorted = $("#sortable").sortable("toArray").join(",");
-    $.post(baseuri + '/pictures/sort', {
-        order: sorted
-    }, function (response) {
-        $(".alert-success").fadeIn(600).html(__('Order Saved!'));
-        window.setTimeout(function () {
-            $(".alert-success").fadeOut(600)
-        }, 2000);
-    });
-}
+
+var Album = {
+    init: function (settings) {
+        Album.config = {
+            items: $("#sortable"),
+            container: $('#container-pictures'),
+            trashIconEl: $('.remove-picture'),
+            baseUrl: $('body').data('plugin-base-url')
+        };
+
+        // Allow overriding the default config
+        $.extend(Album.config, settings);
+
+        Album.setup();
+
+        // Customize toasrt plugin
+        Album.configureToastr();
+    },
+
+    configureToastr: function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-bottom-left",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    },
+
+    setup: function () {
+        Album.config.items
+            .sortable({
+                opacity: 0.5,
+                update: function (event, ui) {
+                    Album.saveOrder();
+                }
+            }).disableSelection();
+
+        Album.config.trashIconEl.on('click', Album.removePicture)
+    },
+
+
+    saveOrder: function () {
+        var sorted = Album.config.items.sortable("toArray").join(",");
+
+        $.post(Album.config.baseUrl + '/pictures/sort', {
+            order: sorted
+        }, function (response) {
+            toastr.success('Order saved!');
+        });
+    },
+
+    removePicture: function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var _this = $(this);
+
+        var $box = _this.parent().parent().parent();
+
+        var file_id = $(this).data('file-id');
+
+        var resp = confirm(__("Are you sure?"));
+
+        if (resp) {
+            $.ajax({
+                url: Album.config.baseUrl + "/pictures/delete/" + file_id,
+                context: document.body
+            }).done(function () {
+                toastr.success('Picture removed!');
+            });
+        }
+
+    }
+
+};
+
+
+$(document).ready(Album.init);
+
 
 $(function () {
     $('.confirm-delete').on('click', function (e) {
@@ -100,39 +178,6 @@ $(function () {
             $(this).children('.icons-manage-image').hide();
         })
 
-
-    $('.remove-picture').on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        var _this = $(this);
-
-        var $box = _this.parent().parent().parent();
-
-        var file_id = $(this).data('file-id');
-
-        var resp = confirm(__("Are you sure?"));
-
-        if (resp) {
-            var baseuri = jQuery("body").data("plugin-base-url");
-
-            $.ajax({
-                url: baseuri + "/pictures/delete/" + file_id,
-                context: document.body
-            }).done(function () {
-                    // Remove the file preview.
-                    $box.hide(300);
-                });
-        }
-    })
-
-    $("#sortable").sortable({
-        opacity: 0.5,
-        update: function (event, ui) {
-            saveOrder();
-        }
-    });
-    $("#sortable").disableSelection();
 
     $('.popovertrigger').popover({
         html: true

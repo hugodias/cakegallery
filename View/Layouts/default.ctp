@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
 
     <?php if (Configure::read('GalleryOptions.App.interfaced')) { ?>
         <?php echo $this->Html->css(
@@ -45,6 +46,7 @@
 
 <?php if (Configure::read('GalleryOptions.App.interfaced')) { ?>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <?php } ?>
 
 <?php echo $this->fetch('js'); ?>
