@@ -5,6 +5,21 @@ class PicturesController extends GalleryAppController
     public $components = array('Gallery.Util');
     public $uses = array('Gallery.Album', 'Gallery.Picture');
 
+    public function index()
+    {
+        $this->Album->id = $this->params['pass'][0];
+
+        return new CakeResponse(
+            array(
+                'type' => 'application/json',
+                'status' => 200,
+                'body' => json_encode($this->Album->read(null), true)
+            )
+        );
+
+        $this->render(false, false);
+    }
+
     public function upload()
     {
         $album_id = $_POST['album_id'];
@@ -55,6 +70,19 @@ class PicturesController extends GalleryAppController
                     $filename
                 );
 
+
+                $this->Picture->id = $main_id;
+
+                return new CakeResponse(
+                    array(
+                        'type' => 'application/json',
+                        'status' => 200,
+                        'body' => json_encode(array(
+                            'picture' => $this->Picture->read(null)
+                        ), true)
+                    )
+                );
+
             } catch (ForbiddenException $e) {
                 $response = $e->getMessage();
                 return new CakeResponse(
@@ -95,6 +123,22 @@ class PicturesController extends GalleryAppController
                 $this->Picture->save();
                 $i++;
             }
+        }
+
+        $this->render(false, false);
+    }
+
+    public function caption()
+    {
+
+        if ($this->request->is('post')) {
+
+            $picture_id = $this->request->data['pk'];
+            $caption = $this->request->data['value'];
+
+            $this->Picture->id = $picture_id;
+
+            $this->Picture->saveField('caption', $caption);
         }
 
         $this->render(false, false);
