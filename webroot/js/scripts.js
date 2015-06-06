@@ -2,23 +2,49 @@ var Album = {
     init: function (settings) {
         Album.config = {
             id: $('#albumInfo').data('album-id'),
+            items: $("#sortable"),
+            container: $('#container-pictures'),
+            pictureTmpl: $('#pictureBoxTemplate'),
+            trashIconEl: '.remove-picture',
+            baseUrl: $('body').data('plugin-base-url'),
             editable: {
                 postUrl: $('body').data('plugin-base-url') + '/pictures/caption'
             },
             dropzone: {
                 uploadContainer: $('#uploadContainer'),
                 canvas: $('#canvasup'),
-                uploadUrl: $('#albumInfo').data('post-url')
-            },
-            items: $("#sortable"),
-            container: $('#container-pictures'),
-            trashIconEl: '.remove-picture',
-            baseUrl: $('body').data('plugin-base-url')
+                uploadUrl: $('#albumInfo').data('post-url'),
+                progressBar: $('.progress-bar.progress-bar-success')
+            }
         };
 
+
+        /**
+         * Plugin routes
+         */
+
+        /**
+         * /pictures/index/$album_id
+         *
+         * @type {string}
+         */
         Album.config.fetchUrl = Album.config.baseUrl + '/pictures/index/' + Album.config.id;
 
-        // Allow overriding the default config
+        /**
+         * /pictures/delete/$picture_id
+         *
+         * @type {string}
+         */
+        Album.config.deleteUrl = Album.config.baseUrl + '/pictures/delete/';
+
+        /**
+         * /pictures/sort
+         *
+         * @type {string}
+         */
+        Album.config.sortUrl = Album.config.baseUrl + '/pictures/sort';
+
+
         $.extend(Album.config, settings);
 
         Album.setup();
@@ -34,13 +60,17 @@ var Album = {
 
         // Configure dropzone for file uploading
         Album.configureDropzone();
+
         // Retrieve all pictures from current album
         Album.fetch();
 
+        // Configure editable plugin for adding captions
         Album.configureEditable();
 
+        // Configure the delete button
         Album.configureDelete();
 
+        // Configure extra effects
         Album.configureEffects();
     },
 
@@ -92,6 +122,7 @@ var Album = {
             }
         });
     },
+
     configureEditable: function () {
         $.fn.editableform.buttons = '<button type="submit" class="editable-submit btn btn-sm btn-primary"><i class="fa fa-check"></i></button>' +
         '<button type="button" class="editable-cancel btn btn-sm btn-danger"><i class="fa fa-times"></i></button>';
@@ -101,10 +132,10 @@ var Album = {
                 type: 'textarea',
                 pk: $(this).data('id'),
                 url: Album.config.editable.postUrl,
-                emptytext: 'No caption',
-                title: 'Image caption',
+                emptytext: __('No caption'),
+                title: __('Image caption'),
                 success: function () {
-                    toastr.success('Caption changed.');
+                    toastr.success(__('Caption changed.'));
                 }
             });
         });
@@ -122,7 +153,7 @@ var Album = {
             var album_id = $('#AlbumId').val();
             formData.append("album_id", album_id);
 
-            document.querySelector(".progress-bar.progress-bar-success").style.opacity = "1";
+            Album.config.dropzone.progressBar.css({'opacity': 1});
 
             Album.config.dropzone.uploadContainer.slideDown(400);
 
@@ -136,7 +167,7 @@ var Album = {
         });
 
         Drop.on("totaluploadprogress", function (progress) {
-            document.querySelector(".progress-bar.progress-bar-success").style.width = progress + "%";
+            Album.config.dropzone.progressBar.css({width: progress + "%"});
         });
 
         Drop.on("success", function (r, response) {
@@ -148,7 +179,7 @@ var Album = {
         });
 
         Drop.on("queuecomplete", function (progress) {
-            document.querySelector(".progress-bar.progress-bar-success").style.opacity = "0";
+            Album.config.dropzone.progressBar.css({'opacity': 0});
 
             toastr.success('Upload complete.');
 
@@ -186,10 +217,10 @@ var Album = {
     saveOrder: function () {
         var sorted = Album.config.items.sortable("toArray").join(",");
 
-        $.post(Album.config.baseUrl + '/pictures/sort', {
+        $.post(Album.config.sortUrl, {
             order: sorted
         }, function (response) {
-            toastr.success('Order saved!');
+            toastr.success(__('Order saved!'));
         });
     },
 
@@ -213,7 +244,7 @@ var Album = {
             closeOnConfirm: false
         }, function () {
             $.ajax({
-                url: Album.config.baseUrl + "/pictures/delete/" + file_id,
+                url: Album.config.deleteUrl + file_id,
                 context: document.body
             }).done(function () {
                 swal(__("Deleted!"), __("Your picture has been deleted."), "success");
@@ -223,11 +254,16 @@ var Album = {
     },
 
     renderPicture: function (id, url, caption, large) {
-        var template = $('#pictureBoxTemplate').html();
+        var template = Album.config.pictureTmpl.html();
         Mustache.parse(template);
-        var rendered = Mustache.render(template, {id: id, url: url, caption: caption, large: large});
-        $('#sortable').append(rendered);
 
+        // Rende the picture using Mustache
+        var rendered = Mustache.render(template, {id: id, url: url, caption: caption, large: large});
+
+        // Append the templated on the pictures list
+        Album.config.items.append(rendered);
+
+        // Re-bind the editable plugin for new itens
         Album.configureEditable();
     },
 
