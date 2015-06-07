@@ -21,12 +21,9 @@ With CakeGallery you can:
 
 Installing: [https://www.youtube.com/watch?v=OEgVQQTaWkE](https://www.youtube.com/watch?v=OEgVQQTaWkE) - Portuguese
 
-Features: [https://www.youtube.com/watch?v=kxKRSY4Tdjc](https://www.youtube.com/watch?v=kxKRSY4Tdjc) - Portuguese
+Features: [https://www.youtube.com/watch?v=3gHRnCI2vHE](https://www.youtube.com/watch?v=3gHRnCI2vHE)
 
-DEMO: [http://galleryopenshift-cakeupload.rhcloud.com/gallery](http://galleryopenshift-cakeupload.rhcloud.com/gallery)
-
-DEMO2 (Video): [https://www.youtube.com/watch?v=AhU16ji_i9g](https://www.youtube.com/watch?v=AhU16ji_i9g)
-
+DEMO (Old version): [http://galleryopenshift-cakeupload.rhcloud.com/gallery](http://galleryopenshift-cakeupload.rhcloud.com/gallery)
 ---
 
 ### Requirements
@@ -40,7 +37,7 @@ To use CakeGallery you need the following requirements
 ---
 
 ### Version
-1.2.1
+2.0.0
 
 ---
 
@@ -56,11 +53,11 @@ To use CakeGallery you need the following requirements
 * Open your `app/Config/bootstrap.php` file and add the following code
 
 ```php
-CakePlugin::loadAll(array(
-'Gallery' => array(
+CakePlugin::load(array(
+	'Gallery' => array(
     'bootstrap' => true,
     'routes' => true
-    )));
+)));
 ```
 * To finish the installation go to your browser and type `http://your-app-url/gallery` and follow the wizzard
 
@@ -74,11 +71,11 @@ CakePlugin::loadAll(array(
 * Open your `app/Config/bootstrap.php` file and add the following code
 
 ```php
-CakePlugin::loadAll(array(
-'Gallery' => array(
-    'bootstrap' => true,
+CakePlugin::load(array(
+	'Gallery' => array(
+   	'bootstrap' => true,
     'routes' => true
-    )));
+)));
 ```
 * Create a **gallery** folder inside `app/webroot/files` and give it writable permissions. (`app/webroot/files/gallery`)
 
