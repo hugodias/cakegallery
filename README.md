@@ -24,6 +24,7 @@ Installing: [https://www.youtube.com/watch?v=OEgVQQTaWkE](https://www.youtube.co
 Features: [https://www.youtube.com/watch?v=3gHRnCI2vHE](https://www.youtube.com/watch?v=3gHRnCI2vHE)
 
 DEMO (Old version): [http://galleryopenshift-cakeupload.rhcloud.com/gallery](http://galleryopenshift-cakeupload.rhcloud.com/gallery)
+
 ---
 
 ### Requirements
