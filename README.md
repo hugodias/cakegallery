@@ -4,7 +4,7 @@ Cake Gallery
 
 CakeGallery is a cakephp plugin to manage galleries, albums and pictures
 
-![Album page](https://dl.dropboxusercontent.com/u/17997827/Screenshot%202015-01-12%2010.34.55.png)
+![Album page](http://i.imgur.com/rRaubYw.png)
 
 
 With CakeGallery you can:
@@ -24,6 +24,7 @@ Installing: [https://www.youtube.com/watch?v=OEgVQQTaWkE](https://www.youtube.co
 Features: [https://www.youtube.com/watch?v=3gHRnCI2vHE](https://www.youtube.com/watch?v=3gHRnCI2vHE)
 
 DEMO (Old version): [http://galleryopenshift-cakeupload.rhcloud.com/gallery](http://galleryopenshift-cakeupload.rhcloud.com/gallery)
+
 ---
 
 ### Requirements
