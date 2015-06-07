@@ -2,7 +2,6 @@
 
 class AlbumsController extends GalleryAppController
 {
-
     public $helpers = array('Form' => array('className' => 'Gallery.CakePHPFTPForm'));
 
     public $uses = array('Gallery.Album', 'Gallery.Picture');

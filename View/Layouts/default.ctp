@@ -13,8 +13,15 @@
     <title><?php echo $title_for_layout; ?></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
+
+    <?php echo $this->Html->css(array(
+        '//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css',
+        '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css',
+        '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css',
+        '//cdnjs.cloudflare.com/ajax/libs/jquery.swipebox/1.3.0.2/css/swipebox.min.css',
+        'Gallery.bootstrap-editable',
+        'Gallery.sweetalert')) ?>
+
 
     <?php if (Configure::read('GalleryOptions.App.interfaced')) { ?>
         <?php echo $this->Html->css(
@@ -32,20 +39,19 @@
       data-plugin-base-url="<?php echo $this->Html->url(
           array('plugin' => 'gallery', 'controller' => 'gallery', 'action' => 'index')
       ) ?>">
-<!--[if lt IE 7]>
-<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
-    today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
-    experience this site.</p>
-<![endif]-->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-<script>window.jQuery || document.write('<script src="<?php echo $this->params->webroot ?>js/lib/jquery.min.js"><\/script>')</script>
+<div id="canvasup"></div>
 
-
-<?php if (Configure::read('GalleryOptions.App.interfaced')) { ?>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<?php } ?>
+<?php echo $this->Html->script(array(
+    '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js',
+    '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js',
+    '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',
+    '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js',
+    '//cdnjs.cloudflare.com/ajax/libs/jquery.swipebox/1.3.0.2/js/jquery.swipebox.min.js',
+    'Gallery.lib/bootstrap-editable.min',
+    'Gallery.lib/mustache.min',
+    'Gallery.lib/sweetalert.min'
+)) ?>
 
 <?php echo $this->fetch('js'); ?>
 
@@ -80,12 +86,10 @@
 
         <?php echo $this->Session->flash(); ?>
         <?php echo $this->fetch('content'); ?>
-
     </div>
 <?php } else { ?>
     <?php echo $this->Session->flash(); ?>
     <?php echo $this->fetch('content'); ?>
 <?php } ?>
-
 </body>
 </html>

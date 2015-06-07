@@ -4,11 +4,9 @@ App::uses('ConnectionManager', 'Model');
 
 class InstallController extends GalleryAppController
 {
-
-
     public function configuration_form()
     {
-        $this->render('Gallery.Install/config');
+        $this->render('Gallery.Install/config', 'Gallery.default');
     }
 
     /**
@@ -16,11 +14,11 @@ class InstallController extends GalleryAppController
      */
     public function configure()
     {
-        $files_path = WWW_ROOT . 'files/';
+        $files_path = WWW_ROOT . 'files' . DS;
         if (!file_exists($files_path)) {
             mkdir($files_path, 0755);
         }
-        $galleries_path = $files_path . 'gallery/';
+        $galleries_path = $files_path . 'gallery' . DS;
         if (!file_exists($galleries_path)) {
             mkdir($galleries_path, 0755);
         }
@@ -103,4 +101,4 @@ class InstallController extends GalleryAppController
             $configFile->copy($destinationPath);
         }
     }
-} 
+}
