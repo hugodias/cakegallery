@@ -8,7 +8,7 @@ class InstallController extends GalleryAppController
 
     public function configuration_form()
     {
-        $this->render('Gallery.Installconfig');
+        $this->render('Gallery.Install/config');
     }
 
     /**
