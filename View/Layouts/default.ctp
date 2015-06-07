@@ -22,6 +22,7 @@
         'Gallery.bootstrap-editable',
         'Gallery.sweetalert')) ?>
 
+
     <?php if (Configure::read('GalleryOptions.App.interfaced')) { ?>
         <?php echo $this->Html->css(
             array(

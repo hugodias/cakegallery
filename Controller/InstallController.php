@@ -4,11 +4,9 @@ App::uses('ConnectionManager', 'Model');
 
 class InstallController extends GalleryAppController
 {
-
-
     public function configuration_form()
     {
-        $this->render('Gallery.Install/config');
+        $this->render('Gallery.Install/config', 'Gallery.default');
     }
 
     /**
