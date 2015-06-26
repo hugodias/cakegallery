@@ -1,24 +1,25 @@
 {
   "name": "hugodias/cakegallery",
-  "version": "0.0.1",
-  "description": "No description",
+  "version": "2.0.0",
+  "description": "Gallery plugin for CakePHP",
   "type": "cakephp-plugin",
-  "keywords": [
-    "cakephp"
-  ],
+  "keywords": ["cakephp", "gallery", "images", "upload", "plugin"],
   "homepage": "http://github.com/hugodias/cakegallery",
   "license": "MIT",
   "authors": [
     {
       "name": "Hugo Dias",
-      "role": "Maintainer"
+      "homepage": "http://github.com/hugodias",
+      "role": "Author"
     }
   ],
   "require": {
+    "php": ">=5.3.0",
     "composer/installers": "*"
   },
   "support": {
     "issues": "https://github.com/hugodias/cakegallery/issues",
+    "forum": "https://gitter.im/hugodias/cakegallery",
     "source": "https://github.com/hugodias/cakegallery"
   },
   "extra": {
