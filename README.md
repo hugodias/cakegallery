@@ -12,7 +12,7 @@ With CakeGallery you can:
 * Create Albums
 * Add tags, title and status (published or drafts) to albums
 * Upload multiple pictures at the same time
-* Create multiple versions for your pictures (thumbnails, crop, rezise, etc)
+* Create multiple versions for your pictures (thumbnails, crop, resize, etc)
 * Integrate any album with any other Model in your application
 
 ---
@@ -43,14 +43,14 @@ To use CakeGallery you need the following requirements
 ---
 
 ### Before start
-* Make sure that your `app/webroot/files` folder is writtable
+* Make sure that your `app/webroot/files` folder is writable
 
 ---
 
-### Wizzard Installation (recommended)
+### Wizard Installation (recommended)
 * Clone or Download the Zip file from Github
 * Copy the `Gallery` folder to your app plugins folder: `app/Plugin/`
-* Make sure that your `app/Plugin/Gallery/Config` folder is writtable (For installation only)
+* Make sure that your `app/Plugin/Gallery/Config` folder is writable (For installation only)
 * Open your `app/Config/bootstrap.php` file and add the following code
 
 ```php
@@ -60,7 +60,7 @@ CakePlugin::load(array(
     'routes' => true
 )));
 ```
-* To finish the installation go to your browser and type `http://your-app-url/gallery` and follow the wizzard
+* To finish the installation go to your browser and type `http://your-app-url/gallery` and follow the wizard
 
 ---
 
@@ -196,7 +196,7 @@ $config = array(
 		'allowed_extensions' => array('jpg','png','jpeg','gif')
 	),
 	'Pictures' => array(
-		# Resize original image. If you dont want to resize it, you should set a empty array, E.G: 'resize_to' => array()
+		# Resize original image. If you don't want to resize it, you should set a empty array, E.G: 'resize_to' => array()
 		# Default configuration will resize the image to 1024 pixels height (and unlimited width)
 		'resize_to' => array(0, 1024, false),
 
