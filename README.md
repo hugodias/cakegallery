@@ -4,7 +4,7 @@ Cake Gallery
 
 CakeGallery is a cakephp plugin to manage galleries, albums and pictures
 
-![Album page](http://i.imgur.com/rRaubYw.png)
+[![Album page](http://i.imgur.com/rRaubYw.png)](https://www.youtube.com/watch?v=3gHRnCI2vHE)
 
 
 With CakeGallery you can:
