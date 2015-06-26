@@ -3,7 +3,6 @@ App::uses('Controller', 'Controller');
 
 class GalleryAppController extends AppController
 {
-
     public $helpers = array('Gallery.Gallery', 'Form' => array('className' => 'Gallery.CakePHPFTPForm'));
 
     public $components = array('Gallery.Util');
@@ -20,7 +19,7 @@ class GalleryAppController extends AppController
             );
             Configure::write('GalleryOptions', $default_options);
 
-            $this->render('Gallery.Install/config');
+            $this->render('Gallery.Install' . DS . 'config');
         }
     }
 
