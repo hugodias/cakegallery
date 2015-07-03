@@ -18,7 +18,6 @@ var Album = {
             }
         };
 
-
         /**
          * Plugin routes
          */
@@ -104,7 +103,6 @@ var Album = {
         $(document).on('mouseout', '.th-pictures-container', function () {
             $(this).children('div .image-actions').hide();
         });
-
     },
 
     fetch: function () {
@@ -139,7 +137,6 @@ var Album = {
                 }
             });
         });
-
     },
 
     configureDropzone: function () {
@@ -159,7 +156,6 @@ var Album = {
 
             Album.config.dropzone.canvas.hide();
         });
-
 
         Drop.on("dragenter", function () {
             // Todo: Fix canvas behavior
@@ -273,13 +269,11 @@ var Album = {
         Album.configureEditable();
     },
 
-
     hideEmptyContainer: function () {
         if ($('.container-empty').length)
             $('.container-empty').remove();
     }
 };
-
 
 $(document).ready(Album.init);
 
