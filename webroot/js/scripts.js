@@ -181,12 +181,18 @@ var Album = {
         Drop.on("queuecomplete", function (progress) {
             Album.config.dropzone.progressBar.css({'opacity': 0});
 
-            toastr.success('Upload complete.');
-
             window.setTimeout(function () {
                 Album.config.dropzone.uploadContainer.slideUp(500);
                 $('.dz-preview').delay(1000).remove();
             }, 2000);
+        });
+
+        Drop.on("successmultiple", function(r) {
+          toastr.success('Upload complete.');
+        });
+
+        Drop.on("error", function(response, errorMessage){
+          toastr.error(errorMessage);
         });
     },
 
@@ -207,7 +213,7 @@ var Album = {
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
-        }
+        };
     },
 
     configureDelete: function () {

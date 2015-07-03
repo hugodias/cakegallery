@@ -357,24 +357,19 @@ class Picture extends GalleryAppModel
             throw new ForbiddenException("The TMP_NAME is required");
         }
 
-        # Copy the file to the folder
         if (copy($tmp_name, $path)) {
-
             # Resize only if the width or the height has benn informed
             if (!!$width || !!$height) {
                 # Image transformation / Manipulation
-
                 try {
                     $path = $this->resizeCrop($path, $width, $height, $action);
                 } catch (InternalErrorException $e) {
                     throw new ForbiddenException($e->getMessage());
                 }
             }
-
             if ($save) {
                 return $this->savePicture($album_id, $filename, $path, $main_id, $style);
             }
-
             return null;
         } else {
             throw new ForbiddenException("Upload failed. Check your folders permissions.");
@@ -479,7 +474,13 @@ class Picture extends GalleryAppModel
             return false;
         }
 
-        return WWW_ROOT . 'files' . DS . 'gallery' . DS . $album_id . DS . $filename;
+        $folder = WWW_ROOT . 'files' . DS . 'gallery' . DS . $album_id . DS;
+
+        if(!is_writable($folder)) {
+          throw new ForbiddenException('Your files/gallery directory is not writtable.');
+        }
+
+        return  $folder . $filename;
     }
 }
 

@@ -88,7 +88,7 @@ class PicturesController extends GalleryAppController
                 return new CakeResponse(
                     array(
                         'status' => 401,
-                        'body' => json_encode($response)
+                        'body' => $response
                     )
                 );
             }
