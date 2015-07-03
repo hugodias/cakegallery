@@ -247,6 +247,7 @@ table tr[data-href] {
 .dz-preview .dz-image img {
     width: 75px;
 }
+.dz-error-message{ display: none; }
 
 /** Editable **/
 .image-caption {
