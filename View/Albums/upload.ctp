@@ -181,7 +181,6 @@
                         </div>
                         </form>
                         <?php echo $this->Js->writeBuffer(); ?>
-
                     </div>
                 </div>
                 <div id="container-pictures">
@@ -203,17 +202,12 @@
     </div>
 </div>
 
-
 <div id="folderinfo"
      data-public-folder-path="<?php echo $this->params->webroot . "files/gallery/" . $album['Album']['id'] . "/" ?>"></div>
 
-
 <div id="uploadContainer">
-    <div id="previews" class="dropzone-previews">
-
-    </div>
+    <div id="previews" class="dropzone-previews"></div>
     <div class="clearfix"></div>
-
     <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"
          aria-valuenow="0">
         <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
@@ -239,5 +233,4 @@
         <div class="clearfix"></div>
     </div>
 </li>
-
 </script>
