@@ -28,6 +28,7 @@ class GalleryHelper extends AppHelper
         return $this->_View->Html->link(
             __('Upload pictures'),
             array(
+                $this->params['prefix'] => false,
                 'controller' => 'albums',
                 'action' => 'upload',
                 'plugin' => 'gallery',
